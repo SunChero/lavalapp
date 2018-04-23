@@ -9,6 +9,7 @@ export default function withStreams(WrappedComponent) {
         super(props);
         this.recordName = this.props.navigation.state.params.stream_id;
         this.list = global.dsc.record.getList('/posts/' + this.recordName);
+        this.list.whenReady( this._setEntries.bind(this))
         this.list.subscribe(this._setEntries.bind(this))
         this.state = {
           posts : []
@@ -20,6 +21,7 @@ export default function withStreams(WrappedComponent) {
         this.list.discard()
       }
       _setEntries(entries){
+        console.log(entries)
         this.setState({
           "posts" : entries
         })

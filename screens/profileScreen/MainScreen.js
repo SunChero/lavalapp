@@ -33,18 +33,20 @@ export default class MainScreen extends React.Component {
       console.log('inside register')
         try {
           const response = await Permissions.getAsync(Permissions.REMOTE_NOTIFICATIONS);
+          console.log(response)
           if (response.status !== 'granted') {
             if (response.status === 'denied' || response.status === 'undetermined') {
               alert('Please enable push notifications from your device settings.');
             } else {
               const { status } = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
+             
               if (status === 'granted') this.setState({ notificationsGranted: true });
             }
           } else this.setState({ notificationsGranted: true });
         } catch (error) {
           alert(error.message);
         }
-        let token = await Notifications.getExponentPushTokenAsync();
+        let token = await Notifications.getExpoPushTokenAsync()
         console.log(token)
         return fetch(PUSH_ENDPOINT, {
           method: 'POST',

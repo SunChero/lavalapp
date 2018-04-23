@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
 import HotEventsView from './HotEventsView'
 import AgendaView from './AgendaView'
-import SheatView from './SheatView'
 import { StackNavigator } from 'react-navigation';
+import ActivitySheet from './ActivitySheet';
+
 const screenStack = StackNavigator({
     hot: {
       screen: HotEventsView
@@ -11,8 +12,8 @@ const screenStack = StackNavigator({
     full: {
       screen: AgendaView
     },
-    event: {
-      screen: SheatView
+    activity: {
+      screen: ActivitySheet
     }
   }, {headerMode: 'none'})
 

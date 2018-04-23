@@ -46,3 +46,4 @@ export {default as withStreams} from "./withStreams";
 export {default as Post} from "./Post";
 export {default as PostHeader} from "./PostHeader";
 export {default as Handle} from "./Handle";
+export {default as SheetView} from "./SheetView";

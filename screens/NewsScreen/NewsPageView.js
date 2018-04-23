@@ -14,6 +14,7 @@ export default class NewsPageView extends React.Component{
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.AddPost = this.AddPost.bind(this)
+        console.log(global.dsc.getConnectionState())
     }
     onPress() {
         this.newPost.toggle();
@@ -34,8 +35,6 @@ export default class NewsPageView extends React.Component{
       this.newPost.toggle();
     }
     renderItem = ({item}) => {
-        //const {stream_id} = this.props.navigation.state.params
-        //his.props.store.getPosts(stream_id)
        const posts = this.props.stream;
        console.log(posts)
         return (

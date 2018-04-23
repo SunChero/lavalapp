@@ -15,6 +15,7 @@ import {Asset , Font, AppLoading} from "expo";
 import { Ionicons } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
 import createDeepstream from 'deepstream.io-client-js';
+import SheetView from './components/SheetView';
 const DS_URL = "ws://45.77.147.98/deepstream";
 
 @observer
@@ -45,7 +46,10 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
   async componentDidMount() {
+    console.disableYellowBox = true;
     global.dsc = createDeepstream(DS_URL).login();
+    global.dsc.on('error' , (error) => console.log(error))
+    global.dsc.on('connectionStateChanged' , (error , event , topic) => console.log(error , event , topic))
     global.user = global.dsc.record.getRecord('/user/1')
     StatusBar.setBarStyle("light-content");
     if (Platform.OS === "android") {          StatusBar.setBackgroundColor("white");      }
@@ -140,7 +144,8 @@ const RootTabNavigator = TabNavigator({
 })
 
 const RootNavigator = StackNavigator({
-  RootTabs : {screen : RootTabNavigator}
+  RootTabs : {screen : RootTabNavigator},
+  sheet : {screen : SheetView}
 },{
   headerMode: 'none'
 })

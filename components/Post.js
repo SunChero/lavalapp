@@ -19,25 +19,20 @@ export default class Message extends React.PureComponent<MessageProps> {
        // this.user.discard()
     }
     setUser(user){
-        console.log(user)
         this.setState({
             "user" : user
         })
     }
     setPost(entry){
-        console.log(entry)
         this.setState({
             "post" :entry
         })
          self = this;
          global.dsc.record.snapshot(entry.user_id , (error, data)=> {
-             console.log(data)
             self.setUser(data)
          })
          
     }
-   
-  
     
     render(){
         const {navigation , stream_id} = this.props;

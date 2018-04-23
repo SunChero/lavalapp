@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
 import {observer, inject} from 'mobx-react/native'
-import {Feed, Card} from '../../components'
+import {Feed, Card, NavigationHelpers} from '../../components'
 import moment from 'moment'
+
 
 @inject('store', 'theme')
 @observer
@@ -27,7 +28,7 @@ export default class HotEventsView extends Component {
     const {navigation} = this.props;
     if (!event.item.type) {
       return <Card
-        onPress={() => navigation.navigate("event", {event})}
+        onPress={() => navigation.navigate('activity' , {"options" : event.item})}
         height={200}
         title={event.item.Title}
         picture={{
@@ -66,9 +67,7 @@ export default class HotEventsView extends Component {
       onPress
     };
     return (
-      <View style={{
-        flex: 1
-      }}>
+      <View style={{ flex: 1 }}>
         <Feed {...{data : arr, renderItem, title, navigation, rightAction}}/>
       </View>
     )

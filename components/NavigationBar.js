@@ -10,7 +10,7 @@ import LeftAction from "./LeftAction";
 import Text from "./Text";
 import IconButton from "./IconButton";
 import {withTheme, StyleGuide} from "./theme";
-
+import {NavigationActions} from 'react-navigation'
 import type {ThemeProps} from "./theme";
 import type {NavigationProps} from "./Navigation";
 import type {Action} from "./Model";
@@ -40,13 +40,16 @@ class NavigationBar extends React.Component<NavigationBarProps> {
 
     @autobind
     goBack() {
-        const {navigation} = this.props;
+        const {navigation , route} = this.props;
+        if(route) {
+           return  navigation.dispatch( NavigationActions.navigate({ routeName: route }) )
+        }
         navigation.goBack();
     }
 
     render(): React.Node {
         const {
-            type, title, subtitle, theme, back, titleStyle, rightAction, withGradient, expanded, largeTitle
+            type, title, subtitle, theme, back, titleStyle, rightAction, withGradient, expanded, largeTitle , route
         } = this.props;
         const block = { flex: largeTitle ? 2 : 1 };
         const containerStyle = {
