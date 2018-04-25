@@ -2,7 +2,9 @@ import * as React from "react";
 import moment from 'moment'
 import {NavigationActions }from 'react-navigation'
 import {StyleSheet, View , Text , ScrollView , Modal} from "react-native";
-import {  NewMessage,  withStreams, Header, NavigationBar, DetailsBar, Content,  Button, ActionSheet, StyleGuide , Container , Avatar , IconButton} from "./index";
+import {inject} from 'mobx-react/native'
+import { Shell, NewMessage,  withStreams, Header, NavigationBar, DetailsBar, Content,  Button, ActionSheet, StyleGuide , Container , Avatar , IconButton} from "./index";
+@inject('theme')
 export default class SheetView extends React.Component {
     constructor(props){
         super(props)
@@ -10,32 +12,41 @@ export default class SheetView extends React.Component {
         this.setActionRef = this.setActionRef.bind(this)
     }
     render() {
-        const {Title , image , details ,  actions , description , navigation , stream , comp} = this.props;
+      //  const {title, navigation, theme, back, rightAction, header, style , body} = this.props;
+        const {Title , image , details ,  actions , description , navigation , stream , comp , theme} = this.props;
         const posts = this.props.stream;
-        
+        const back = "Events"
         return (
-            <ScrollView style={{flex : 1, backgroundColor: "#283355"}}>
-                <NavigationBar {...{navigation}}/>
-                    <View  height={200} style={{backgroundColor: "#283355"}}>
-                        <View style={styles.container}>
-                            <Avatar uri={image} size={110} style={styles.avatar} />
-                            <Text color="white" type="title3" style={styles.text}>{Title}</Text>
-                            <View style={{flex : 1 , flexDirection : 'row' , alignContent: "space-between", justifyContent: "center" }}>
-                                <IconButton  name="calendar" style={{flex : 1}} />
-                                <IconButton name="calendar" style={{flex : 1}} />
-                                <IconButton name="calendar" style={{flex : 1}} />
-                            </View>
-                        </View>
-                    </View>
-                    <DetailsBar details={details} />
-                    <Content style={styles.gutter}>
-                        <Text style={{flex: 1 ,padding: 10}}>{description}</Text>
-                        {actions && actions.map( action => <Button primary icon={action.icon} label={action.label} onPress={(comp) => this.toggleAction()} />)}
-                    </Content>
-                    <ActionSheet title="Action" ref={this.setActionRef}>
-                        {   comp()                    }
-                    </ActionSheet>
-            </ScrollView>
+            <View>
+                <Shell 
+                    header={<DetailsBar details={details} />}
+                   
+                    {...{Title, navigation }}
+                    
+                />
+            </View>
+            // <ScrollView style={{flex : 1, backgroundColor: "#283355"}}>
+                
+            //         <View  height={200} style={{backgroundColor: "#283355"}}>
+            //             <View style={styles.container}>
+            //                 <Avatar uri={image} size={110} style={styles.avatar} />
+            //                 <Text color="white" type="title3" style={styles.text}>{Title}</Text>
+            //                 <View style={{flex : 1 , flexDirection : 'row' , alignContent: "space-between", justifyContent: "center" }}>
+            //                     <IconButton  name="calendar" style={{flex : 1}} />
+            //                     <IconButton name="calendar" style={{flex : 1}} />
+            //                     <IconButton name="calendar" style={{flex : 1}} />
+            //                 </View>
+            //             </View>
+            //         </View>
+                   
+            //         <Content style={styles.gutter}>
+            //             <Text style={{flex: 1 ,padding: 10}}>{description}</Text>
+            //             {actions && actions.map( action => <Button primary icon={action.icon} label={action.label} onPress={(comp) => this.toggleAction()} />)}
+            //         </Content>
+            //         <ActionSheet title="Action" ref={this.setActionRef}>
+            //             {   comp()                    }
+            //         </ActionSheet>
+            // </ScrollView>
         );
     }
     toggleAction() {

@@ -47,3 +47,4 @@ export {default as Post} from "./Post";
 export {default as PostHeader} from "./PostHeader";
 export {default as Handle} from "./Handle";
 export {default as SheetView} from "./SheetView";
+export {default as Shell} from "./Shell";
