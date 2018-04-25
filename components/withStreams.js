@@ -7,28 +7,34 @@ export default function withStreams(WrappedComponent) {
     
       constructor(props) {
         super(props);
-        this.recordName = this.props.navigation.state.params.stream_id;
-        this.list = global.dsc.record.getList('/posts/' + this.recordName);
-        //this.list.whenReady( this._setEntries.bind(this))
-        this.list.subscribe(this._setEntries.bind(this))
+        this.AddPost = this.AddPost.bind(this)
         this.state = {
           posts : []
         }
-        this.AddPost = this.AddPost.bind(this)
+      }
+      componentDidMount(){
+        console.log('reinitializing List!')
+        this.list = null;
+        this.state = {
+          posts : []
+        }
+        this.recordName = this.props.navigation.state.params.stream_id;
+        this.list = global.dsc.record.getList('/posts/' + this.recordName);
+        this.list.subscribe(this._setEntries.bind(this))
        
       }
       componentWillUnmount(){
         this.list.discard()
       }
       _setEntries(entries){
-        console.log(entries)
+       // console.log(entries)
         this.setState({
           "posts" : entries
         })
       }
       AddPost(obj){
        var id = '/post/' + global.dsc.getUid();
-       global.dsc.record.getRecord( id ).set( obj);
+       global.dsc.record.getRecord( id ).set( obj).discard();
        this.list.addEntry(id)
       }
     

@@ -48,8 +48,8 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     global.dsc = createDeepstream(DS_URL).login();
-    global.dsc.on('error' , (error) => console.log(error))
-    global.dsc.on('connectionStateChanged' , (error , event , topic) => console.log(error , event , topic))
+    global.dsc.on('error' , (error) => {})
+    global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
     global.user = global.dsc.record.getRecord('/user/1')
     StatusBar.setBarStyle("light-content");
     if (Platform.OS === "android") {          StatusBar.setBackgroundColor("white");      }

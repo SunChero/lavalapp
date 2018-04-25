@@ -8,13 +8,11 @@ import {withTheme, StyleGuide} from "./theme";
 
 @observer
 class Shell extends React.Component {
-    constructor(props){
-        super(props)
-    }
+    
     @observable scrollAnimation = new Animated.Value(0);
     render() {
         const { scrollAnimation} = this;
-        const {Title, navigation, header} = this.props;
+        const {data, title, navigation, theme, back, rightAction, header, body, style} = this.props;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],
             outputRange: [55, 0, 0]
@@ -29,28 +27,30 @@ class Shell extends React.Component {
             }],
             { useNativeDriver: true }
         );
-        const back = "Events"
         const titleStyle = back ? {} : { transform: [{ translateY }] };
-       // const top = theme.palette.primary;
-       // const bottom = theme.palette.lightGray;
-        console.log(header)
+        const top = theme.palette.primary;
+        const bottom = theme.palette.lightGray;
         
         return (
             <View style={styles.flex}>
-                <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: "#283355" }}>
-                    {  !back && ( <View style={[styles.halfFlex, { backgroundColor:  "#283355" }]} /> )
+                <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: bottom }}>
+                    {  !back && ( <View style={[styles.halfFlex, { backgroundColor: top}]} /> )
                     }
                 </View>
-                <NavigationBar  {...{ navigation, Title,  titleStyle }}  />
-                <AnimatedScrollView   contentContainerStyle={[styles.container, style]}   onScroll={onScroll}  showsVerticalScrollIndicator={false}  scrollEventThrottle={16} >
+                <NavigationBar {...{ navigation, title, back, titleStyle, rightAction}}  />
+                <AnimatedScrollView   contentContainerStyle={[styles.container, style]}  
+                     onScroll={onScroll}  showsVerticalScrollIndicator={false}  
+                     scrollEventThrottle={16} >
                     <Animated.View style={{ backgroundColor: theme.palette.primary }}>
                         <View style={styles.header}>
-                            <Text type="title1" style={styles.headerText}>{Title}</Text>
+                            <Text type="title1" style={styles.headerText}>{title}</Text>
                         </View>
                         <View style={styles.extraHeader}>{header}</View>
+                        
                     </Animated.View>
-                    <View style={{flex : 1}}><Text>Text</Text></View>
+                    <View style={{flex : 1}}>{body}</View>
                 </AnimatedScrollView>
+                
             </View>
         );
     }

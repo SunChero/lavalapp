@@ -66,6 +66,7 @@ class Feed extends React.Component {
                 <NavigationBar  {...{ navigation, title, back, titleStyle, rightAction}}
                 />
                 <AnimatedFlatList
+                   
                     contentContainerStyle={[styles.container, style]}
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={(
