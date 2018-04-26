@@ -33,7 +33,7 @@ export {default as KeyboardSpacer} from "./KeyboardSpacer";
 export {default as Avatar} from "./Avatar";
 // export {default as Footer} from "./Footer";
 export {default as NewMessage} from "./NewMessage";
-export {default as EventCard} from "./EventCard";
+//export {default as EventCard} from "./EventCard";
 
 export {default as ReservationSheat} from "./ReservationSheat";
 export {default as TransparentHeader} from "./TransparentHeader";
@@ -41,7 +41,7 @@ export {NavigationHelpers} from "./Navigation";
 export {createTheme, Colors, StyleGuide, withTheme, withStyles} from "./theme";
 export {notImplementedYet} from "./notImplementedYet";
 
-export {withPosts} from "./streams";
+export {hasPosts , hasLikes , hasVues} from "./streams";
 export {default as Post} from "./Post";
 export {default as PostHeader} from "./PostHeader";
 export {default as Handle} from "./Handle";

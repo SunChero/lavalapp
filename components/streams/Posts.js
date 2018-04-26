@@ -1,13 +1,17 @@
 
 import * as React from "react";
+import {hasLikes, hasVues} from '../index'
+@hasLikes
+@hasVues
 export default function Posts(WrappedComponent) {
     return class extends React.Component {
       constructor(props) {
         super(props);
         this.state = {   posts : []  }
+        const {stream} = this.props;
+        const id = stream ? stream : this.props.navigation.state.params.stream;
         this.AddPost = this.AddPost.bind(this)
-        this.posts_id = this.props.navigation.state.params.posts_id;
-        this.list = global.dsc.record.getList('/posts/' + this.posts_id);
+        this.list = global.dsc.record.getList('/posts/' + id);
         this.list.subscribe(this._setEntries.bind(this))
       }
       componentWillUnmount(){

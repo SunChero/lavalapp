@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Image, View, Text , FlatList} from 'react-native';
 import {observer, inject} from 'mobx-react/native'
-import { notImplementedYet , Feed , ActionSheet , NewMessage , Ratings, Post , Shell , withPosts} from './../../components';
+import { notImplementedYet , Feed , ActionSheet , NewMessage , Ratings, Post , Shell , hasPosts} from './../../components';
 import { AppLoading } from 'expo';
 import moment from 'moment'
 
-@withPosts
+@hasPosts
 @inject('store') 
 @observer
 export default class NewsPage extends React.Component{
@@ -14,6 +14,9 @@ export default class NewsPage extends React.Component{
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.AddPost = this.AddPost.bind(this)
+    }
+    componentDidMount(){
+       // this.props.counter()
     }
     onPress() {
         this.newPost.toggle();
@@ -30,6 +33,7 @@ export default class NewsPage extends React.Component{
           'user_id' : global.user.name
       })
       this.newPost.toggle();
+      this.props.AddLike()
     }
   
     render(){
@@ -45,18 +49,21 @@ export default class NewsPage extends React.Component{
         const {navigation} = this.props;
         const rightAction = {          icon: "edit",   onPress };
         const postAction = {            label: "Save", onPress: AddPost };
+        
         let header = 
             <View style={{flex : 1}}>
                 <Image   source={{uri: image }} style={{  height: 230, width: null,  flex: 1  }} /> 
             </View>          
         const body =    <View style={{  flex: 1 , marginBottom: 50}} >
                             <View style={{ padding: 10  }}>
+                                <Text>Likes: {this.props.likes.length}</Text>
+                                <Text>watched: {this.props.vues}</Text>
                                 <Text>{moment(timestamp).fromNow()}</Text>
                             </View>
                             <View style={{ padding: 10  }}>
                                 <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {Content} </Text>
                             </View>
-                            <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream_id={item} />} />
+                            <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} />} />
                             <ActionSheet title="Post" ref={this.newPostRef} rightAction={postAction}>
                                 <NewMessage onChange={onChangeHandler}/>
                             </ActionSheet>

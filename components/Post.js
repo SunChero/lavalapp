@@ -3,55 +3,39 @@ import * as React from "react";
 import {StyleSheet} from "react-native";
 import {StyleGuide, Text, BaseCard} from "./index";
 import PostHeader from "./PostHeader";
-export default class Message extends React.PureComponent<MessageProps> {
+import {observer} from 'mobx-react/native'
+import {observable} from 'mobx'
+
+@observer
+export default class Message extends React.Component<MessageProps> {
+    @observable user = null;
+    @observable post = null;
     constructor(props){
         super(props)
-        const {stream_id} = this.props
-        
-        console.log('constructor  ' + stream_id )
-        this.post = global.dsc.record.getRecord( stream_id);
-        this.post.subscribe(this.setPost.bind(this))
-        this.state = {
-           "post" : {},
-           "user" : null
-        }
+        const {stream} = this.props;
+        const id = stream ? stream : this.props.navigation.state.params.stream;
+        this.postRef = global.dsc.record.getRecord(id);
+        this.postRef.subscribe(this.setPost.bind(this))
     }
-    componentDidMount(){
-        const {stream_id} = this.props
-        console.log('mounting ' + stream_id )
-    }
+    
     componentWillUnmount(){
-        const {stream_id} = this.props
-        console.log('unmounting ' + stream_id )
-        this.post.discard()
-      //  this.post.discard()
-       // this.user.discard()
+        this.postRef.discard()
     }
-    setUser(user){
-        this.setState({
-            "user" : user
-        })
-    }
-    setPost(entry){
-        this.setState({
-            "post" :entry
-        })
-         self = this;
-         global.dsc.record.snapshot(entry.user_id , (error, data)=> {
-            self.setUser(data)
+    
+    setPost(data){
+        this.post = data
+         global.dsc.record.snapshot(data.user_id , (error, data)=> {
+            this.user = data
          })
-         console.log(this.state)
-         
     }
     
     render(){
-        const {navigation , stream_id} = this.props;
-        const {user , post } = this.state ;
+        const {navigation } = this.props;
+        const {post , user} = this;
         const timestamp = post ? post.timestamp : null;
         console.log('rendering')
         return (
-            this.state.user &&
-            <BaseCard onPress={() => navigation && navigation.navigate("Message", {})}>
+           user && <BaseCard onPress={() => navigation && navigation.navigate("Message", {})}>
                 <PostHeader {...{user, timestamp}} />
                 <Text style={styles.text}>{post.postData}</Text>
             </BaseCard>

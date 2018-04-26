@@ -30,7 +30,7 @@ export default class App extends React.Component {
       
       // ]),
       Font.loadAsync({
-        ...Ionicons.font,
+       // ...Ionicons.font,
         "SFProText-Bold": require("./assets/fonts/Baloo-Regular.ttf"),
         "SFProText-Semibold": require("./assets/fonts/Exo2-Light.ttf"),
         "SFProText-Regular": require("./assets/fonts/Exo2-Thin.ttf")
@@ -48,6 +48,7 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     const user_id = Math.floor((Math.random() * 10) + 1)
+    console.log(user_id)
     global.dsc = createDeepstream(DS_URL).login();
     global.dsc.on('error' , (error) => {})
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})

@@ -1,18 +1,14 @@
-
 import * as React from "react";
-export default function withLikes(WrappedComponent) {
+export default function Posts(WrappedComponent) {
     return class extends React.Component {
       constructor(props) {
         super(props);
-        this.LikeIt = this.LikeIt.bind(this)
-        this.state = {
-          likes : []
-        }
-      }
-      componentDidMount(){
-        const {stream} = this.props;
-        this.stream = stream ? stream : this.props.navigation.state.params.stream;
-        this.list = global.dsc.record.getList('/likes/' + this.stream);
+        const {stream} = this.props
+        console.log(stream)
+        const id = stream ?  stream : this.props.navigation.state.params.stream;
+        this.state = {   likes : []  }
+        this.AddLike = this.AddLike.bind(this)
+        this.list = global.dsc.record.getList('/likes/' + id);
         this.list.subscribe(this._setEntries.bind(this))
       }
       componentWillUnmount(){
@@ -20,16 +16,17 @@ export default function withLikes(WrappedComponent) {
       }
       _setEntries(entries){
         this.setState({
-          "posts" : entries
+          "likes" : entries
         })
       }
-     LikeIt(yes=true){
-       this.list.addEntry( global.user.name)
+      AddLike(){
+       const user = global.user.name
+       this.list.addEntry(user)
       }
       render() {
         const {likes} = this.state;
-        const {LikeIt} = this;
-        return <WrappedComponent  {...{...this.props , LikeIt , likes}} />;
+        const {AddLike} = this;
+        return <WrappedComponent {...{...this.props , AddLike , likes}} />;
       }
     };
   }

@@ -39,28 +39,7 @@ class SheetView extends React.Component {
                     {...{title , image ,  actions , description , navigation  }}
                 />
            
-            // <ScrollView style={{flex : 1, backgroundColor: "#283355"}}>
-                
-            //         <View  height={200} style={{backgroundColor: "#283355"}}>
-            //             <View style={styles.container}>
-            //                 <Avatar uri={image} size={110} style={styles.avatar} />
-            //                 <Text color="white" type="title3" style={styles.text}>{Title}</Text>
-            //                 <View style={{flex : 1 , flexDirection : 'row' , alignContent: "space-between", justifyContent: "center" }}>
-            //                     <IconButton  name="calendar" style={{flex : 1}} />
-            //                     <IconButton name="calendar" style={{flex : 1}} />
-            //                     <IconButton name="calendar" style={{flex : 1}} />
-            //                 </View>
-            //             </View>
-            //         </View>
-                   
-            //         <Content style={styles.gutter}>
-            //             <Text style={{flex: 1 ,padding: 10}}>{description}</Text>
-            //             {actions && actions.map( action => <Button primary icon={action.icon} label={action.label} onPress={(comp) => this.toggleAction()} />)}
-            //         </Content>
-            //         <ActionSheet title="Action" ref={this.setActionRef}>
-            //             {   comp()                    }
-            //         </ActionSheet>
-            // </ScrollView>
+           
         );
     }
     toggleAction() {

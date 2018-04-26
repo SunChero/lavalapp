@@ -3,31 +3,39 @@ export default function withVues(WrappedComponent) {
     return class extends React.Component {
       constructor(props) {
         super(props);
+        const {stream} = this.props;
+        const id  = stream ? stream : this.props.navigation.state.params.stream;
         this.state = {
-          vues : 0
+            counter: 0
         }
+        self =this
+        this.record = global.dsc.record.getRecord(id)
+        this.record.whenReady( ( rc) =>{
+          rc.set( "counter" , rc.get("counter") + 1 )
+          self.setState({
+            counter : rc.get("counter")
+          })
+        });
       }
       componentDidMount(){
-        const {stream} = this.props;
-        this.stream = stream ? stream : this.props.navigation.state.params.stream;
-        global.dsc.record.getRecord( id ).set( obj).discard();
-        this.list.subscribe(this._setEntries.bind(this))
+        
+        
+       // this.record.subscribe(this._setRecord.bind(this))
       }
       componentWillUnmount(){
-        this.list.discard()
+        this.record.discard()
       }
-      _setVues(counter){
-        this.setState({
-          "posts" : entries
-        })
-      }
-     LikeIt(yes=true){
-       this.list.addEntry( global.user.name)
-      }
+      // _setRecord(rc){
+      //   console.log(rc)
+      //   this.setState({
+      //     "counter" : rc.counter
+      //   })
+      // }
+     
       render() {
-        const {vues} = this.state;
-        const {LikeIt} = this;
-        return <WrappedComponent  {...{...this.props , LikeIt , likes}} />;
+        const vues = this.state.counter;
+        const {counter} = this;
+        return <WrappedComponent  {...{...this.props , vues}} />;
       }
     };
   }

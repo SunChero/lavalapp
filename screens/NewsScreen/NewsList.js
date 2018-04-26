@@ -28,7 +28,7 @@ export default class NewsList extends React.Component{
         const image = 'http://www.laval.ca' + news.ImageUrl
         const _onPress = () => {
             this.props.store.loadNewsPage(news.link);
-            this.props.navigation.navigate('page' , {posts_id : news.id})}
+            this.props.navigation.navigate('page' , {stream : news.id})}
         return (
             <TouchableOpacity style={{  flex: 1 , marginBottom: 50}} underlayColor="rgba(253,138,94,0.2)" onPress={_onPress}>
                 <View>
