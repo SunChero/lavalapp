@@ -47,10 +47,11 @@ export default class App extends React.Component {
   };
   async componentDidMount() {
     console.disableYellowBox = true;
+    const user_id = Math.floor((Math.random() * 10) + 1)
     global.dsc = createDeepstream(DS_URL).login();
     global.dsc.on('error' , (error) => {})
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
-    global.user = global.dsc.record.getRecord('/user/1')
+    global.user = global.dsc.record.getRecord('/user/' + user_id)
     StatusBar.setBarStyle("light-content");
     if (Platform.OS === "android") {          StatusBar.setBackgroundColor("white");      }
     await store.loadSite();

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Image, View, Text , FlatList} from 'react-native';
 import {observer, inject} from 'mobx-react/native'
-import { notImplementedYet , Feed , ActionSheet , NewMessage , Ratings, withStreams , Post , Shell} from './../../components';
+import { notImplementedYet , Feed , ActionSheet , NewMessage , Ratings, Post , Shell , withPosts} from './../../components';
 import { AppLoading } from 'expo';
 import moment from 'moment'
 
-@withStreams
+@withPosts
 @inject('store') 
 @observer
-export default class NewsPageView extends React.Component{
+export default class NewsPage extends React.Component{
     constructor(props){
         super(props)
         this.onPress = this.onPress.bind(this)
@@ -18,7 +18,6 @@ export default class NewsPageView extends React.Component{
     onPress() {
         this.newPost.toggle();
     }
-   
     newPostRef(newPost) {
         if (newPost) {
             this.newPost = newPost;
@@ -37,7 +36,7 @@ export default class NewsPageView extends React.Component{
         onChangeHandler = (data) => {
             this.newMessage = data
         }
-        const posts = this.props.stream;
+        const posts = this.props.posts;
         console.log(posts.length)
         const {onPress, AddPost} = this;
         const {Title , Content , timestamp} = this.props.store.newsPage; 
@@ -62,7 +61,6 @@ export default class NewsPageView extends React.Component{
                                 <NewMessage onChange={onChangeHandler}/>
                             </ActionSheet>
                         </View>
-
        if(!title){
             return <AppLoading />
         }
@@ -70,12 +68,7 @@ export default class NewsPageView extends React.Component{
                 <Shell 
                     header={header}
                     body={body}
-                {...{ timestamp, Content, posts, title, navigation, postAction, rightAction}} />
-                    
-               
+                {...{ timestamp, Content, posts, title, navigation, image, postAction, rightAction}} />
             )
-           
-    
-   
     }
 }

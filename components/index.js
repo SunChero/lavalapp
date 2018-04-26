@@ -40,11 +40,13 @@ export {default as TransparentHeader} from "./TransparentHeader";
 export {NavigationHelpers} from "./Navigation";
 export {createTheme, Colors, StyleGuide, withTheme, withStyles} from "./theme";
 export {notImplementedYet} from "./notImplementedYet";
-export type {NavigationProps} from "./Navigation";
-export type {ThemeProps, StyleProps} from "./theme";
-export {default as withStreams} from "./withStreams";
+
+export {withPosts} from "./streams";
 export {default as Post} from "./Post";
 export {default as PostHeader} from "./PostHeader";
 export {default as Handle} from "./Handle";
 export {default as SheetView} from "./SheetView";
 export {default as Shell} from "./Shell";
+
+export type {NavigationProps} from "./Navigation";
+export type {ThemeProps, StyleProps} from "./theme";

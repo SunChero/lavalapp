@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
-import NewsListView from './NewsListView'
-import NewsPageView from './NewsPageView'
+import NewsList from './NewsList'
+import NewsPage from './NewsPage'
 import { StackNavigator } from 'react-navigation';
 
 const screenStack = StackNavigator({
     list: {
-      screen: NewsListView
+      screen: NewsList
     },
     page: {
-      screen: NewsPageView
+      screen: NewsPage
     }
   }, {headerMode: 'none'})
 

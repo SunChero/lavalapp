@@ -6,13 +6,11 @@ import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconBu
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 
-
 @inject('store' , 'theme') 
 @observer
-export default class NewsListView extends React.Component{
+export default class NewsList extends React.Component{
     constructor(props){
         super(props)
-       
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.renderItem = this.renderItem.bind(this)
@@ -25,16 +23,12 @@ export default class NewsListView extends React.Component{
             this.newPost = newPost;
         }
     }
-    componentDidMount(){
-      // this.props.navigation.state.routeName == 'list' ?  this.props.NewsStore.loadNews() : null 
-    }
-    
     renderItem = (item) => {
         const news = item.item;
         const image = 'http://www.laval.ca' + news.ImageUrl
         const _onPress = () => {
             this.props.store.loadNewsPage(news.link);
-            this.props.navigation.navigate('page' , {stream_id : news.id})}
+            this.props.navigation.navigate('page' , {posts_id : news.id})}
         return (
             <TouchableOpacity style={{  flex: 1 , marginBottom: 50}} underlayColor="rgba(253,138,94,0.2)" onPress={_onPress}>
                 <View>
@@ -45,15 +39,12 @@ export default class NewsListView extends React.Component{
                     <View style={{  padding: 10 }}>
                         <Text style={{ color: "#283355" ,fontFamily: "SFProText-Semibold" , fontSize: 25  }}>{news.caption} </Text>
                     </View>
-                   
-                    
                     <View style={{ padding: 10  }}>
                         <Text>{moment(news.timestamp).fromNow()}</Text>
                     </View>
                     <View style={{ padding: 10  }}>
                         <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {news.body} </Text>
                     </View>
-                    
                 </View>
             </TouchableOpacity>
         )
@@ -68,11 +59,11 @@ export default class NewsListView extends React.Component{
         return (
         <View style={{flex : 1}}>
             <Feed 
-             header={<Alerts {...{alerts : Alertes}} />}
-            {...{data : news, renderItem, title, navigation,rightAction }} />
-            <ActionSheet title="Aviser la ville" ref={this.newPostRef} rightAction={postAction}>
-                    <NewMessage />
-            </ActionSheet>
+                header={<Alerts {...{alerts : Alertes}} />}
+                    {...{data : news, renderItem, title, navigation,rightAction }} />
+                    <ActionSheet title="Aviser la ville" ref={this.newPostRef} rightAction={postAction}>
+                        <NewMessage />
+                    </ActionSheet>
         </View>
         )
     }
