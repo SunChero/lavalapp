@@ -1,11 +1,14 @@
 // @flow
 import * as React from "react";
-import {Ionicons, Feather  as Icon} from "@expo/vector-icons";
-
 import {StyleGuide, withTheme} from "./theme";
-
 import type {ThemeProps} from "./theme";
 import type {IconName} from "./Model";
+
+import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+
+
 
 
 type IconProps = ThemeProps & {
@@ -24,7 +27,7 @@ class IconComp extends React.PureComponent<IconProps> {
     };
 
     render(): React.Node {
-        const {theme, name, primary, secondary, color, size} = this.props;
+        const {theme, name, primary, secondary, color, size , type} = this.props;
         let iconColor: string;
         if (primary) {
             iconColor = theme.palette.primary;
@@ -33,9 +36,18 @@ class IconComp extends React.PureComponent<IconProps> {
         } else {
             iconColor = color;
         }
-        return (
-            <Icon color={iconColor} {...{name, size}} />
-        );
+        
+        switch(type){
+            case "ionicons" : 
+                return <Ionicons color={iconColor} {...{name, size}} /> ;
+                break;
+            case "entypo" : 
+                 return <Entypo color={iconColor} {...{name, size}} /> ;
+                 break;
+            default : 
+                return <Feather color={iconColor} {...{name, size}} />;
+        }
+       
     }
 }
 

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Image, View, Text , FlatList} from 'react-native';
 import {observer, inject} from 'mobx-react/native'
-import { notImplementedYet , Feed , ActionSheet , NewMessage , Ratings, Post , Shell , hasPosts} from './../../components';
+import { notImplementedYet , ActionSheet , NewMessage , Post , Shell , hasPosts , IconButton , Card} from './../../components';
 import { AppLoading } from 'expo';
 import moment from 'moment'
-
 @hasPosts
 @inject('store') 
 @observer
@@ -14,9 +13,6 @@ export default class NewsPage extends React.Component{
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.AddPost = this.AddPost.bind(this)
-    }
-    componentDidMount(){
-       // this.props.counter()
     }
     onPress() {
         this.newPost.toggle();
@@ -35,7 +31,6 @@ export default class NewsPage extends React.Component{
       this.newPost.toggle();
       this.props.AddLike()
     }
-  
     render(){
         onChangeHandler = (data) => {
             this.newMessage = data
@@ -45,22 +40,29 @@ export default class NewsPage extends React.Component{
         const {onPress, AddPost} = this;
         const {Title , Content , timestamp} = this.props.store.newsPage; 
         const image = this.props.store.newsPage.Image
-        const title = Title
+        const title = "something"
+        const picture = {uri: image}
         const {navigation} = this.props;
         const rightAction = {          icon: "edit",   onPress };
         const postAction = {            label: "Save", onPress: AddPost };
-        
+        const description = "something"
+        const height = 250
+        const subtitle = Title
         let header = 
-            <View style={{flex : 1}}>
-                <Image   source={{uri: image }} style={{  height: 230, width: null,  flex: 1  }} /> 
-            </View>          
+            <Card {...{picture, height, title, subtitle, description, onPress}}>
+                <View style={{ padding: 10 , flexDirection:'row' }}>
+                               <IconButton name="ios-eye-outline" type="ionicons" size="40" color="black">
+                                    <Text style={{fontSize: 20,marginLeft:5}}>{this.props.vues}</Text>
+                               </IconButton> 
+                               <IconButton name="ios-heart-outline" type="ionicons" size="32" color="black">
+                                    <Text style={{fontSize: 20, marginLeft:5}}>{this.props.likes.length}</Text>
+                               </IconButton>
+                </View>
+            </Card>
+                   
         const body =    <View style={{  flex: 1 , marginBottom: 50}} >
                             <View style={{ padding: 10  }}>
-                                <Text>Likes: {this.props.likes.length}</Text>
-                                <Text>watched: {this.props.vues}</Text>
-                                <Text>{moment(timestamp).fromNow()}</Text>
-                            </View>
-                            <View style={{ padding: 10  }}>
+                            <Text>{moment(timestamp).fromNow()}</Text>
                                 <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {Content} </Text>
                             </View>
                             <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} />} />

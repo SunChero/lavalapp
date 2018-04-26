@@ -12,14 +12,17 @@ import {store} from './store'
 import {Provider , observer} from 'mobx-react/native'
 import {observable , action} from 'mobx'
 import {Asset , Font, AppLoading} from "expo";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
 import createDeepstream from 'deepstream.io-client-js';
 import SheetView from './components/SheetView';
 const DS_URL = "ws://45.77.147.98/deepstream";
 
 @observer
+
 export default class App extends React.Component {
+
+  
   state = {
     isLoadingComplete: false,
   };
@@ -30,10 +33,13 @@ export default class App extends React.Component {
       
       // ]),
       Font.loadAsync({
-       // ...Ionicons.font,
-        "SFProText-Bold": require("./assets/fonts/Baloo-Regular.ttf"),
-        "SFProText-Semibold": require("./assets/fonts/Exo2-Light.ttf"),
-        "SFProText-Regular": require("./assets/fonts/Exo2-Thin.ttf")
+        "SFProText-Bold" :  require("./assets/fonts/Baloo-Regular.ttf"),
+        "SFProText-Semibold" :  require("./assets/fonts/Exo2-Light.ttf"),
+        "SFProText-Regular" : require("./assets/fonts/Exo2-Thin.ttf"),
+        ...Ionicons.font,
+        ...Entypo.font,
+        ...Feather.font
+     
       }),
     ]);
   };
@@ -54,13 +60,13 @@ export default class App extends React.Component {
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
     global.user = global.dsc.record.getRecord('/user/' + user_id)
     StatusBar.setBarStyle("light-content");
-    if (Platform.OS === "android") {          StatusBar.setBackgroundColor("white");      }
+    if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
     await store.loadSite();
     store.getUser();
   }
   render() {
     const theme = createTheme();
-    const Social=  {      primary: Colors.tintColor,      secondary: "#f7ebfe"    }
+    const Social=  {  primary: Colors.tintColor,  secondary: "#f7ebfe" }
     theme.switchColors(Social)
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (

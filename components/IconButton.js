@@ -7,6 +7,7 @@ import {withTheme} from "./theme";
 
 import type {IconName} from "./Model";
 import type {ThemeProps, StyleProps} from "./theme";
+import { FontAwesomeasIcon } from '@expo/vector-icons';
 
 type IconButtonProps = StyleProps & ThemeProps & {
     onPress: () => mixed,
@@ -32,16 +33,20 @@ class IconButton extends React.PureComponent<IconButtonProps> {
 
     render(): React.Node {
         const {
-            onPress, name, theme, backgroundPrimary, primary, secondary, rounded, color: defaultColor, disabled
+           size, onPress, name, theme, backgroundPrimary, primary, secondary, rounded, color: defaultColor, disabled , type
         } = this.props;
         const style = [{ opacity: disabled ? 0.5 : 1 }];
         if (rounded) {
             style.push({
+                flex: 1,
                 borderRadius: 14,
-                width: 28,
-                height: 28,
+                width: 40,
+                height: 40,
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                fontSize: 25,
+                margin: 5,
+                padding: 10
             });
         }
         if (backgroundPrimary) {
@@ -61,8 +66,9 @@ class IconButton extends React.PureComponent<IconButtonProps> {
         const Btn = disabled ? View : TouchableOpacity;
         return (
             <Btn {...{onPress}}>
-                <View {...{style}}>
-                    <Icon {...{name, color}} />
+                <View style={{ flex: 1 , alignItems: 'center' , flexDirection: 'row', justifyContent: 'center' , width: 50 , height: 50 , marginLeft: 10,}}>
+                    <Icon {...{name, color ,size, type}} />
+                    {this.props.children}
                 </View>
             </Btn>
         );
