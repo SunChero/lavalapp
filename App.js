@@ -15,7 +15,7 @@ import {Asset , Font, AppLoading} from "expo";
 import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
 import createDeepstream from 'deepstream.io-client-js';
-import SheetView from './components/SheetView';
+import ActivitySheet  from './screens/ActivitySheet';
 const DS_URL = "ws://45.77.147.98/deepstream";
 
 @observer
@@ -55,7 +55,10 @@ export default class App extends React.Component {
     console.disableYellowBox = true;
     const user_id = Math.floor((Math.random() * 10) + 1)
     console.log(user_id)
-    global.dsc = createDeepstream(DS_URL).login();
+    global.dsc = createDeepstream(DS_URL).login({
+      username : 'user' + user_id ,
+      password : 'password'
+    });
     global.dsc.on('error' , (error) => {})
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
     global.user = global.dsc.record.getRecord('/user/' + user_id)
@@ -66,8 +69,7 @@ export default class App extends React.Component {
   }
   render() {
     const theme = createTheme();
-    const Social=  {  primary: Colors.tintColor,  secondary: "#f7ebfe" }
-    theme.switchColors(Social)
+    theme.switchColors ({  primary: Colors.tintColor,  secondary: "white" })
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading          startAsync={this._loadResourcesAsync}          onError={this._handleLoadingError}          onFinish={this._handleFinishLoading}        />
@@ -153,7 +155,7 @@ const RootTabNavigator = TabNavigator({
 
 const RootNavigator = StackNavigator({
   RootTabs : {screen : RootTabNavigator},
-  sheet : {screen : SheetView}
+  activity : {screen : ActivitySheet}
 },{
   headerMode: 'none'
 })

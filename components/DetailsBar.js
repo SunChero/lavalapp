@@ -25,14 +25,12 @@ export default class DetailsBar extends React.PureComponent<DetailsBarProps> {
             <View style={styles.details}>
                 {
                     this.props.details.map((detail, key) => (
-                        <View style={styles.item} {...{key}}>
+                        <View style={[styles.item, {backgroundColor : this.props.color}]} {...{key}}>
                             <View style={styles.icon}>
-                                {detail.icon && <Icon name={detail.icon} primary />}
+                                {detail.icon && <Icon name={detail.icon}  color="white"/>}
                                 {detail.comp}
                             </View>
-                            <Text
-                                type="caption"
-                                style={styles.caption}
+                            <Text type="footnote" style={styles.caption}
                                 primary
                             >
                                 {detail.caption}
@@ -49,18 +47,26 @@ const styles = StyleSheet.create({
     details: {
         flexDirection: "row",
         zIndex: 100,
-        ...StyleGuide.styles.shadow
+     
     },
     item: {
         flex: 1,
-        alignItems: "center",
-        padding: StyleGuide.spacing.small
+        padding: StyleGuide.spacing.small,
+        color: "white",
+        alignItems: 'flex-start',
+       
     },
     icon: {
         height: 30,
-        justifyContent: "center"
+        justifyContent: "center",
+        color: "white",
+        
     },
     caption: {
-        marginTop: StyleGuide.spacing.tiny
+        marginTop: StyleGuide.spacing.tiny,
+        justifyContent:'center',
+        alignItems: 'center',
+        alignContent : "center",
+        color: "white"
     }
 });

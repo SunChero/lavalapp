@@ -11,7 +11,7 @@ export default class Location extends Component {
     }
     _onPress(item){
         const {navigation} = this.props;
-        this.props.store.setUser({city : item.title})
+        global.user.set("city" , item.title)
         navigation.navigate('main')
     }
     _renderItem = ({item}) => (

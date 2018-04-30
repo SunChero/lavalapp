@@ -60,7 +60,7 @@ export const Colors: { [name: ThemeName]: ThemeColors } = {
 
 export const createTheme = (): Theme => ({
     palette: {
-        primary: "white",
+        primary: "#A237F3",
         secondary: "#e6e6e6",
         ...styleGuide.palette
     },

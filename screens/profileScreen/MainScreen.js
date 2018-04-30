@@ -62,21 +62,21 @@ export default class MainScreen extends React.Component {
         });
     };
     render() {
-    const {user} = this.props.store;
+    const user = global.user.get()
+      console.log(user)
      const {navigation} = this.props
-     const back = true;
      const title = "Profile"
         return (
           <View style={{flex :  1}}>
-             <NavigationBar {...{navigation , title , back}} />
+             <NavigationBar {...{navigation , title}} />
              <ScrollView style={styles.scroll}>
                 <View style={styles.userRow}>
                   <View style={styles.userImage}>
-                    <Avatar   large   rounded  source={{ uri: user.picture.thumbnail }}  style={{borderWidth : 2 , borderColor: 'white',}}/>
+                    <Avatar   large   rounded  source={{ uri: user.picture }}  style={{borderWidth : 2 , borderColor: 'white',}}/>
                   </View>
                   <View style={{flex : 3}}>
-                    <Text style={{ fontSize: 16 , color : 'white' }}>@{user.login.username}</Text>
-                    <Text  style={{   color: 'white', fontSize: 16,  }}>  {user.email} </Text>
+                    <Text style={{ fontSize: 16 , color : 'white' }}>@{user.name}</Text>
+                    <Text  style={{   color: 'white', fontSize: 16,  }}>  {user._id} </Text>
                   </View>
                 </View>
                 <InfoText text="Account" />

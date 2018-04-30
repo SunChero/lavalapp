@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
-import HotEventsView from './HotEventsView'
-//import AgendaView from './AgendaView'
+import HotEvents from './HotEvents'
+import AgendaView from './AgendaView'
 import { StackNavigator } from 'react-navigation';
-import ActivitySheet from './ActivitySheet';
+
 
 const screenStack = StackNavigator({
     hot: {
-      screen: HotEventsView
+      screen: HotEvents
     },
-    // full: {
-    //   screen: AgendaView
-    // },
-    activity: {
-      screen: ActivitySheet
+    full: {
+      screen: AgendaView
     }
   }, {headerMode: 'none'})
 

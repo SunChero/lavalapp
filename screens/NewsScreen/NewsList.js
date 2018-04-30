@@ -30,11 +30,11 @@ export default class NewsList extends React.Component{
             this.props.store.loadNewsPage(news.link);
             this.props.navigation.navigate('page' , {stream : news.id})}
         return (
-            <TouchableOpacity style={{  flex: 1 , marginBottom: 50}} underlayColor="rgba(253,138,94,0.2)" onPress={_onPress}>
+            <TouchableOpacity style={{  flex: 1 , marginBottom: 50 , backgroundColor:"white"}}  onPress={_onPress}>
                 <View>
                     <View>
                         <Image  source={{ uri: image   }}
-                        style={{  height: 230, width: null,  flex: 1  }}/>
+                        style={{  height: 202, width: null,  flex: 1  }}/>
                     </View>
                     <View style={{  padding: 10 }}>
                         <Text style={{ color: "#283355" ,fontFamily: "SFProText-Semibold" , fontSize: 25  }}>{news.caption} </Text>
@@ -54,10 +54,10 @@ export default class NewsList extends React.Component{
         const {news , Alertes} = this.props.store.site; 
         const title = "News"
         const {navigation} = this.props;
-        const rightAction = {          icon: "zap",            onPress        };
+        const rightAction = {          icon: "md-paper-plane", type: "ionicons"  ,         onPress        };
         const postAction = {            label: "Send",            onPress: notImplementedYet        };
         return (
-        <View style={{flex : 1}}>
+        <View style={{flex : 1 ,backgroundColor:"white"}}>
             <Feed 
                 header={<Alerts {...{alerts : Alertes}} />}
                     {...{data : news, renderItem, title, navigation,rightAction }} />

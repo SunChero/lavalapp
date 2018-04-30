@@ -11,9 +11,10 @@ export default class Language extends Component {
     }
     _onPress(item){
         const {navigation} = this.props;
-        //console.log(navigation)
-        this.props.store.setUser({language : item.title})
-       navigation.goBack()
+        console.log(item)
+        global.user.set("language" ,item.title)
+       // this.props.store.setUser({language : item.title})
+       navigation.navigate('main')
     }
     _renderItem = ({item}) => (
         <TouchableOpacity onPress={() => this._onPress(item)} >

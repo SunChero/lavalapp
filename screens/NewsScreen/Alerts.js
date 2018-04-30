@@ -10,7 +10,7 @@ export default class Alert extends React.Component {
         return (
             <View style={{backgroundColor: '#ddd'}}>
                 
-                <View style={{padding : 20,  backgroundColor: '#ae2a85',    flex :1}}>
+                <View style={{padding : 20,  backgroundColor: 'goldenrod',    flex :1}}>
                     <Text  color="white" style={{fontSize: 20}}>{alert.Descr}</Text>
                     {
                         alert.WarningInfos.map(item =>  {

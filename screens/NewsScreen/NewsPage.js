@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Image, View, Text , FlatList} from 'react-native';
+import { Image, View, FlatList , StyleSheet} from 'react-native';
 import {observer, inject} from 'mobx-react/native'
-import { notImplementedYet , ActionSheet , NewMessage , Post , Shell , hasPosts , IconButton , Card} from './../../components';
+import { Avatar,notImplementedYet , ActionSheet , NewMessage , Post , Shell , hasPosts , IconButton , Card , Text , StyleGuide} from './../../components';
 import { AppLoading } from 'expo';
 import moment from 'moment'
 @hasPosts
@@ -40,29 +40,22 @@ export default class NewsPage extends React.Component{
         const {onPress, AddPost} = this;
         const {Title , Content , timestamp} = this.props.store.newsPage; 
         const image = this.props.store.newsPage.Image
-        const title = "something"
+        const title = Title
         const picture = {uri: image}
-        const {navigation} = this.props;
+        const {navigation , vues} = this.props;
         const rightAction = {          icon: "edit",   onPress };
         const postAction = {            label: "Save", onPress: AddPost };
         const description = "something"
         const height = 250
         const subtitle = Title
-        let header = 
-            <Card {...{picture, height, title, subtitle, description, onPress}}>
-                <View style={{ padding: 10 , flexDirection:'row' }}>
-                               <IconButton name="ios-eye-outline" type="ionicons" size="40" color="black">
-                                    <Text style={{fontSize: 20,marginLeft:5}}>{this.props.vues}</Text>
-                               </IconButton> 
-                               <IconButton name="ios-heart-outline" type="ionicons" size="32" color="black">
-                                    <Text style={{fontSize: 20, marginLeft:5}}>{this.props.likes.length}</Text>
-                               </IconButton>
-                </View>
-            </Card>
+        const likes = this.props.likes.length
+       // let header = <Avatar uri={image} size={90} style={styles.avatar} />
+            
                    
         const body =    <View style={{  flex: 1 , marginBottom: 50}} >
+                            <Image source={{uri: image}} style={{height:202  , width: null}} />
                             <View style={{ padding: 10  }}>
-                            <Text>{moment(timestamp).fromNow()}</Text>
+                            <Text style={{padding:10}}>@{moment(timestamp).fromNow()}</Text>
                                 <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {Content} </Text>
                             </View>
                             <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} />} />
@@ -75,9 +68,31 @@ export default class NewsPage extends React.Component{
         }
             return (
                 <Shell 
-                    header={header}
+                   
                     body={body}
-                {...{ timestamp, Content, posts, title, navigation, image, postAction, rightAction}} />
+                {...{ timestamp, Content, posts, title, navigation, image, postAction, rightAction, vues , likes}} />
             )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        marginHorizontal: StyleGuide.spacing.small,
+        flex: 1,
+        justifyContent: "center"
+    },
+    avatar: {
+        flex: 1,
+        borderRadius: 45,
+        borderWidth: 3,
+        borderColor: StyleGuide.palette.white,
+        marginVertical: StyleGuide.spacing.tiny
+    },
+    text: {
+        textAlign: "center",
+        marginBottom: StyleGuide.spacing.tiny
+    },
+    content: {
+        paddingBottom: StyleGuide.spacing.small
+    }
+});

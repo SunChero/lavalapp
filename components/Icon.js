@@ -6,7 +6,7 @@ import type {IconName} from "./Model";
 
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { Feather as Icon } from '@expo/vector-icons';
 
 
 
@@ -45,7 +45,7 @@ class IconComp extends React.PureComponent<IconProps> {
                  return <Entypo color={iconColor} {...{name, size}} /> ;
                  break;
             default : 
-                return <Feather color={iconColor} {...{name, size}} />;
+                return <Icon color={iconColor} {...{name, size}} />;
         }
        
     }

@@ -66,7 +66,7 @@ class IconButton extends React.PureComponent<IconButtonProps> {
         const Btn = disabled ? View : TouchableOpacity;
         return (
             <Btn {...{onPress}}>
-                <View style={{ flex: 1 , alignItems: 'center' , flexDirection: 'row', justifyContent: 'center' , width: 50 , height: 50 , marginLeft: 10,}}>
+                <View style={{  alignItems: 'center' , flexDirection: 'row', justifyContent: 'center' , width: 50 , height: 50 , marginLeft: 10,}}>
                     <Icon {...{name, color ,size, type}} />
                     {this.props.children}
                 </View>

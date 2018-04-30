@@ -32,6 +32,7 @@
     "react-native-camera-roll-picker": "^1.2.3",
     "react-native-datepicker": "^1.7.1",
     "react-native-elements": "^0.19.1",
+    "react-native-floating-action": "^1.10.1",
     "react-native-gifted-chat": "^0.4.3",
     "react-native-keyboard-spacer": "^0.4.1",
     "react-native-maps": "^0.21.0",

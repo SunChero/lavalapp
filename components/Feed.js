@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         paddingBottom: StyleGuide.spacing.small,
-        backgroundColor: StyleGuide.palette.lightGray
+        backgroundColor: StyleGuide.palette.white
     },
     header: {
         padding: StyleGuide.spacing.small

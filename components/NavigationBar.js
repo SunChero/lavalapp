@@ -94,6 +94,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                                 <IconButton
                                     onPress={rightAction.onPress}
                                     name={rightAction.icon}
+                                    type={rightAction.type}
                                     style={styles.rightAction}
                                 />
                             )
@@ -103,7 +104,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                 {
                     expanded && (
                         <View style={[{ backgroundColor: theme.palette.primary }, styles.header]}>
-                            <Text type="title1" color="white">{title}</Text>
+                            <Text type="title3" color="white">{title}</Text>
                         </View>
                     )
                 }

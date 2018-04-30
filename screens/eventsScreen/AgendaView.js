@@ -4,6 +4,7 @@ import {observer, inject} from 'mobx-react/native'
 import {Agenda} from 'react-native-calendars';
 import {NavigationBar} from '../../components'
 import moment from 'moment'
+import {NavigationActions} from 'react-navigation'
 import EventCard from './EventCard'
 @inject('store')
 @observer
@@ -22,7 +23,15 @@ export default class EventsScreen extends Component {
       const {navigation} = this.props;
       return (<EventCard item={item}  {...{navigation}} />);
     }
-  
+    // GotoActivity(){
+    //   const resetAction = NavigationActions.reset({
+    //     index : 0,
+    //     actions : [
+    //       NavigationActions.navigate({routeName : 'events'})
+    //     ]
+    //   })
+    //   this.props.navigation.dispatch(resetAction)
+    // }
     renderEmptyDate() {
       return (
         <View style={styles.emptyDate}>
@@ -39,7 +48,7 @@ export default class EventsScreen extends Component {
     render() {
      // console.log(this.props.EventsStore)
       const {navigation} = this.props;
-      const back = true;
+      const back = "Events";
       const title = "Full Calendar"
       const expanded = true
       return (
