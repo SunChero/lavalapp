@@ -18,11 +18,13 @@ export {default as Content} from "./Content";
 export {default as List} from "./List";
 export {default as ActionSheet} from "./ActionSheet";
 export {default as Sheet} from "./Sheet";
+export {default as Message} from "./Message";
 export {default as Icon} from "./Icon";
 export {default as Icons} from "./Icons";
 export {default as Activity} from "./Activity";
 export {default as Ratings} from "./Ratings";
 export {default as BaseCard} from "./BaseCard";
+export {default as Comments} from "./Comments";
 // export {default as Map} from "./Map";
 export {default as InfoText} from "./InfoText"
 export {default as QuantityInput} from "./QuantityInput";
@@ -31,14 +33,14 @@ export {default as SegmentedControl} from "./SegmentedControl";
 export {default as KeyboardSpacer} from "./KeyboardSpacer";
 // export {default as Images} from "./images";
 export {default as Avatar} from "./Avatar";
-// export {default as Footer} from "./Footer";
+export {default as Footer} from "./Footer";
 export {default as NewMessage} from "./NewMessage";
 //export {default as EventCard} from "./EventCard";
 
 export {default as ReservationSheat} from "./ReservationSheat";
 export {default as TransparentHeader} from "./TransparentHeader";
 export {NavigationHelpers} from "./Navigation";
-export {createTheme, Colors, StyleGuide, withTheme, withStyles} from "./theme";
+export {createTheme, Colors, StyleGuide, withTheme, withStyles } from "./theme";
 export {notImplementedYet} from "./notImplementedYet";
 
 export {hasPosts , hasLikes , hasVues} from "./streams";

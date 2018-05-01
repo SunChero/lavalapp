@@ -20,7 +20,7 @@ export default class Story extends React.Component<StoryProps> {
     @autobind
     onPress() {
         const {navigation, id} = this.props;
-        navigation.navigate("Story", { id });
+        navigation.navigate("user", { id });
     }
 
     render(): React.Node {

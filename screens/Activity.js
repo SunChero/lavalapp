@@ -4,7 +4,7 @@ import {StyleSheet, View ,  Modal, Dimensions , ScrollView} from "react-native";
 import {Shell , NewMessage, StyleGuide, Content, Button , hasPosts, DetailsBar, NavigationBar, Text , IconButton , Icon} from '../components';
 import { FloatingAction } from 'react-native-floating-action';
 @hasPosts   
-export default class ActivitySheet extends React.Component {
+export default class Activity extends React.Component {
 
     constructor(props){
      super(props)

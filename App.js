@@ -16,7 +16,8 @@ import {Asset , Font, AppLoading} from "expo";
 import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
 import createDeepstream from 'deepstream.io-client-js';
-import ActivitySheet  from './screens/ActivitySheet';
+import Activity  from './screens/Activity';
+import User from './screens/User'
 const DS_URL = "ws://45.77.147.98/deepstream";
 
 @observer
@@ -55,7 +56,7 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     const user_id = Math.floor((Math.random() * 10) + 1)
-    console.log(user_id)
+   //   console.log(user_id)
     global.dsc = createDeepstream(DS_URL).login({
       username : 'user' + user_id ,
       password : 'password'
@@ -68,7 +69,7 @@ export default class App extends React.Component {
     StatusBar.setBarStyle("light-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
     await store.loadSite();
-    store.getUser();
+    //store.getUser();
   }
   render() {
     const theme = createTheme();
@@ -158,7 +159,8 @@ const RootTabNavigator = TabNavigator({
 
 const RootNavigator = StackNavigator({
   RootTabs : {screen : RootTabNavigator},
-  activity : {screen : ActivitySheet}
+  activity : {screen : Activity},
+  user : {screen : User}
 },{
   headerMode: 'none'
 })

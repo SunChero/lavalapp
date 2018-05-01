@@ -27,40 +27,34 @@ export default class MainScreen extends React.Component {
    
     }
     componentDidMount(){
-      this.registerForPushNotificationsAsync()
+      this.register()
     }
-    registerForPushNotificationsAsync = async () => {
-      console.log('inside register')
-        try {
-          const response = await Permissions.getAsync(Permissions.REMOTE_NOTIFICATIONS);
-          console.log(response)
-          if (response.status !== 'granted') {
-            if (response.status === 'denied' || response.status === 'undetermined') {
-              alert('Please enable push notifications from your device settings.');
-            } else {
-              const { status } = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
-             
-              if (status === 'granted') this.setState({ notificationsGranted: true });
-            }
-          } else this.setState({ notificationsGranted: true });
-        } catch (error) {
-          alert(error.message);
-        }
-        let token = await Notifications.getExpoPushTokenAsync()
-        console.log(token)
-        return fetch(PUSH_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: {
-              value: token,
-            },
-          }),
-        });
-    };
+    register(){
+      Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS).then(function(status , result){
+        console.log(result)
+      })
+    }
+    // registerForPushNotificationsAsync = async () => {
+    
+    //     try {
+    //       const response = await Permissions.getAsync(Permissions.REMOTE_NOTIFICATIONS);
+    //       console.log(response)
+    //       if (response.status !== 'granted') {
+    //         if (response.status === 'denied' || response.status === 'undetermined' || response.status === 'null') {
+    //           alert('Please enable push notifications from your device settings.');
+    //         } 
+    //       } 
+    //       else{
+    //         const response = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
+    //         console.log('asking for notifications')
+    //         console.log(response)
+    //       }
+    //     } catch (error) {
+    //       alert(error.message);
+    //     }
+    //     let token = await Notifications.getExpoPushTokenAsync()
+    //     console.log(token)
+    // };
     render() {
     const user = global.user.get()
       console.log(user)

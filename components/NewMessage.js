@@ -1,7 +1,7 @@
 import * as React from "react";
 import {observable, action} from "mobx";
 import {observer} from "mobx-react/native";
-import {StyleSheet, TextInput, View , Text , Modal} from "react-native";
+import {StyleSheet, TextInput, View , Text , Modal , Image} from "react-native";
 import SegmentedControl from './SegmentedControl'
 import {StyleGuide} from './theme'
 import KeyboardSpacer from './KeyboardSpacer';
@@ -11,7 +11,7 @@ import {NavigationBar} from "./index";
 export default class NewMessage extends React.Component<{}> {
 
     @observable selectedIndex = 0;
-    @observable images = null;
+    @observable images = [];
     @observable location = null;
     @observable showCamera = false;
     constructor(props){
@@ -21,7 +21,7 @@ export default class NewMessage extends React.Component<{}> {
             location : {
                 latitude : null,
                 longitude : null
-            }
+            },
         }
         this.selectImages = this.selectImages.bind(this)
     }
@@ -41,7 +41,6 @@ export default class NewMessage extends React.Component<{}> {
                                 longitude: position.coords.longitude,
                             }
                       },
-                   
                   (error) => alert(error.message),
                   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
                 );
@@ -52,39 +51,29 @@ export default class NewMessage extends React.Component<{}> {
     selectImages(images) {
         this.images = images
     }
-    render(): React.Node {
+    
+    render() {
         const {selectedIndex, onChange} = this;
         const title = "Select Image"
-        const rightAction = {
-            icon : "calendar" ,
-            onPress : () => {
-                this.showCamera = false;
-            }
+        const rightAction = {icon : "md-checkmark-circle-outline" , type:"ionicons" ,  onPress : () => { this.showCamera = false;}
         }
         return (
             <View style={styles.container}>
-                 {this.location && <View style={{ height :20, color: 'black'}}> <Text>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
-                 {this.images && <View style={{ height :20, color: 'black'}}> <Text>{this.images[0].filename}</Text></View> }
-                <Modal   animationType={'slide'}     transparent={false}  visible={this.showCamera}
-                        onRequestClose={() => {
-                            this.showCamera = false;
+                {this.location && <View style={{ height :20, color: 'black'}}> <Text>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
+                {
+                     this.images.map((i)=><Image style={styles.image}  source={{ uri:i.uri }}  />) 
+                }
+                <Modal   animationType={'slide'}     transparent={false}  visible={this.showCamera}  onRequestClose={() => {
+                        this.showCamera = false;
                         }}
                 >
                     <NavigationBar {...{rightAction, title }}/>
-                    <CameraRollPicker   maximum={10}  imagesPerRow={4}   callback={this.selectImages}   selected={[]}   />
+                    <CameraRollPicker   maximum={10}  imagesPerRow={4}   callback={this.selectImages}   selected={this.images}   />
                 </Modal>
-                 
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Description"
-                    underlineColorAndroid="transparent"
-                    textAlignVertical="top"
-                    multiline
-                    autoFocus
+                <TextInput  style={styles.textInput}  placeholder="Description"  underlineColorAndroid="transparent"  textAlignVertical="top" multiline  autoFocus
                     onChangeText={(text) => this.props.onChange(text)}
                 />
-               
-                <SegmentedControl values={[" Description", "Photo" , "Position"]} {...{selectedIndex, onChange}} />
+                <SegmentedControl transparent values={["Description", "Photo" , "Position"]} {...{selectedIndex, onChange}} />
                 <KeyboardSpacer />
             </View>
         );
@@ -98,5 +87,13 @@ const styles = StyleSheet.create({
     textInput: {
         height: 143,
         ...StyleGuide.typography.body
-    }
+    }, 
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 0,
+        margin: 3,
+        resizeMode: 'cover',
+      }
+
 });

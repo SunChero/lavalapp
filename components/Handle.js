@@ -21,7 +21,7 @@ export default class Handle extends React.PureComponent<HandleProps> {
         const tmp = user.name.replace(/\//g , '')
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
         return (
-            <View style={styles.user}>
+            <View style={styles.user} onPress={()=>{alert('clciekd')}}>
                 <Avatar uri={user.picture} />
                 <PresenceDot  user={user} backgroundColor={backgroundColor}/>
                 <View style={styles.username}>

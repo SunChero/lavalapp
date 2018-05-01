@@ -156,6 +156,7 @@ class Store {
     }
     @computed  get _hotEvents(){
         let uniqueUrls = [];
+        console.log(this.site.events)
         const hotEvents = this.site.events.filter((item) => {
             if (!uniqueUrls.includes(item.PageUrl)) {
                 return uniqueUrls.push(item.PageUrl) && item.hot

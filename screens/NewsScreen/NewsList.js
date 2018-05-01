@@ -5,7 +5,6 @@ import Alerts from './Alerts'
 import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconButton , Ratings} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
-
 @inject('store') 
 @observer
 export default class NewsList extends React.Component{
@@ -14,6 +13,7 @@ export default class NewsList extends React.Component{
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.renderItem = this.renderItem.bind(this)
+        this.onChangeHandler = this.onChangeHandler.bind(this)
     }
     onPress() {
         this.newPost.toggle();
@@ -22,6 +22,9 @@ export default class NewsList extends React.Component{
         if (newPost) {
             this.newPost = newPost;
         }
+    }
+    onChangeHandler = (data) => {
+        this.newMessage = data
     }
     renderItem = (item) => {
         const news = item.item;
@@ -62,7 +65,7 @@ export default class NewsList extends React.Component{
                 header={<Alerts {...{alerts : Alertes}} />}
                     {...{data : news, renderItem, title, navigation,rightAction }} />
                     <ActionSheet title="Aviser la ville" ref={this.newPostRef} rightAction={postAction}>
-                        <NewMessage />
+                        <NewMessage onChange={this.onChangeHandler}/>
                     </ActionSheet>
         </View>
         )

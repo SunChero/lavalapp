@@ -31,7 +31,7 @@ export default class Sheet extends React.PureComponent<SheetProps> {
         const children = noSafeArea ? this.props.children : <SafeAreaView>{this.props.children}</SafeAreaView>;
         return (
             <View style={[styles.content, style]}>
-                <TouchableWithoutFeedback onPress={toggle}>
+                <TouchableWithoutFeedback >
                     <View style={styles.header}>
                         <TouchableOpacity style={styles.left} onPress={toggle}>
                             <Icon name="chevron-down" primary />
@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
         borderColor: StyleGuide.palette.lightGray
     },
     left: {
-        width: 36
+        width: 36,
+        height: 36
+       
     },
     center: {
         flex: 1
