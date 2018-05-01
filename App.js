@@ -9,6 +9,7 @@ import  InboxScreen from './screens/InboxScreen'
 import  ProfileScreen from './screens/profileScreen'
 import  Neighbourhood from './screens/neighbourhood'
 import {store} from './store'
+import {onlinestore} from './onlineStore'
 import {Provider , observer} from 'mobx-react/native'
 import {observable , action} from 'mobx'
 import {Asset , Font, AppLoading} from "expo";
@@ -62,6 +63,8 @@ export default class App extends React.Component {
     global.dsc.on('error' , (error) => {})
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
     global.user = global.dsc.record.getRecord('/user/' + user_id)
+    onlinestore.Setup();
+    onlinestore.subscribe();
     StatusBar.setBarStyle("light-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
     await store.loadSite();
@@ -76,7 +79,7 @@ export default class App extends React.Component {
       );
     } else {
       return (
-      <Provider store={store}  theme={theme} > 
+      <Provider store={store} theme={theme} onlinestore={onlinestore}> 
         <ModalHost>   
           <RootNavigator />
         </ModalHost>

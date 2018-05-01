@@ -15,10 +15,10 @@ type HeaderProps = {
 export default class PostHeader extends React.PureComponent<HeaderProps> {
 
     render(): React.Node {
-        const {user, timestamp} = this.props;
+        const {user, timestamp } = this.props;
         return (
             <View style={styles.header}>
-                <Handle {...{user}} />
+                <Handle {...{user }} />
                 <Text type="footnote">{moment(timestamp, "X").fromNow()}</Text>
             </View>
         );

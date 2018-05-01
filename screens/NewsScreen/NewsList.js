@@ -6,7 +6,7 @@ import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconBu
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 
-@inject('store' , 'theme') 
+@inject('store') 
 @observer
 export default class NewsList extends React.Component{
     constructor(props){
