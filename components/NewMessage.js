@@ -60,6 +60,7 @@ export default class NewMessage extends React.Component<{}> {
         return (
             <View style={styles.container}>
                 {this.location && <View style={{ height :20, color: 'black'}}> <Text>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
+                
                 {
                      this.images.map((i)=><Image style={styles.image}  source={{ uri:i.uri }}  />) 
                 }

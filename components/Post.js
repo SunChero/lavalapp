@@ -35,7 +35,6 @@ export default class Message extends React.Component<MessageProps> {
         const {navigation } = this.props;
         const {post , user } = this;
         const timestamp = post ? post.timestamp : null;
-        console.log('rendering')
         return (
            user && <BaseCard onPress={() => navigation && navigation.navigate("Message", {})}>
                 <PostHeader {...{user,timestamp}} />

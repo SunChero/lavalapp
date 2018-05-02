@@ -6,7 +6,7 @@ import {Shell ,  Text , StyleGuide} from './../../components';
 import moment from 'moment'
 @inject('store')
 @observer
-export default class NewsPage extends React.PureComponent{
+export default class NewsPage extends React.Component{
     render(){
         const {Title , Content , timestamp} = this.props.store.newsPage; 
         const image = this.props.store.newsPage.Image
@@ -16,12 +16,13 @@ export default class NewsPage extends React.PureComponent{
         const description = "something"
         const height = 250
         const subtitle = Title
-        const body =  <View style={{  flex: 1 , marginBottom: 50}} >
-                            <Image source={{uri: image}} style={{height:202  , width: null}} />
+        const body =  <View style={{  flex: 1 }} >
+                            <Image source={{uri: image}} style={{height:250  , width: null}} />
                             <View style={{ padding: 10  }}>
-                            <Text style={{padding:10}}>@{moment(timestamp).fromNow()}</Text>
-                                <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {Content} </Text>
+                            <Text style={{padding:10 , fontWeight: 900}}>@{moment(timestamp).fromNow()}</Text>
+                                <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 22 , fontWeight: "400" }}>  {Content} </Text>
                             </View>
+                            
                         </View>
        if(!title){
             return  <View style={[styles.container, styles.horizontal]}>

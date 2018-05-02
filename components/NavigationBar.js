@@ -66,7 +66,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                             <View style={block}>
                                 <AnimatedText
                                     type="headline"
-                                    color="white"
+                                    color={theme.palette.secondary}
                                     align="center"
                                     style={titleStyle}
                                     numberOfLines={1}
@@ -77,7 +77,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                                     subtitle && (
                                         <Text
                                             type="footnote"
-                                            color="white"
+                                            color={theme.palette.secondary}
                                             align="center"
                                             numberOfLines={1}
                                         >
@@ -91,7 +91,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                     <View style={styles.rightBlock}>
                         {
                             rightAction && (
-                                <IconButton
+                                <IconButton secondary
                                     onPress={rightAction.onPress}
                                     name={rightAction.icon}
                                     type={rightAction.type}
@@ -103,8 +103,8 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                 </View>
                 {
                     expanded && (
-                        <View style={[{ backgroundColor: theme.palette.primary }, styles.header]}>
-                            <Text type="title3" color="white">{title}</Text>
+                        <View style={[ styles.header]}>
+                            <Text type="title3" color={theme.palette.secondary}>{title}</Text>
                         </View>
                     )
                 }

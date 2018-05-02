@@ -2,12 +2,12 @@ import React from "react"
 import { Text, FlatList, View, Image, ScrollView, Animated, TouchableOpacity } from 'react-native';
 import {Ionicons as Icon} from '@expo/vector-icons'
 import Alerts from './Alerts'
-import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconButton , Ratings} from '../../components'
+import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconButton , withTheme} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 @inject('store') 
 @observer
-export default class NewsList extends React.Component{
+class NewsList extends React.Component{
     constructor(props){
         super(props)
         this.onPress = this.onPress.bind(this)
@@ -27,26 +27,28 @@ export default class NewsList extends React.Component{
         this.newMessage = data
     }
     renderItem = (item) => {
+        const {theme} = this.props;
         const news = item.item;
         const image = 'http://www.laval.ca' + news.ImageUrl
         const _onPress = () => {
             this.props.store.loadNewsPage(news.link);
             this.props.navigation.navigate('page' , {stream : news.id})}
         return (
-            <TouchableOpacity style={{  flex: 1 , marginBottom: 50 , backgroundColor:"white"}}  onPress={_onPress}>
+            <TouchableOpacity style={{  flex: 1 , paddingBottom: 50 }}  onPress={_onPress}>
                 <View>
-                    <View>
-                        <Image  source={{ uri: image   }}
-                        style={{  height: 202, width: null,  flex: 1  }}/>
-                    </View>
+                    
                     <View style={{  padding: 10 }}>
-                        <Text style={{ color: "#283355" ,fontFamily: "SFProText-Semibold" , fontSize: 25  }}>{news.caption} </Text>
+                        <Text style={{ color: theme.palette.secondary ,fontFamily: "SFProText-Semibold" , fontSize: 35  }}>{news.caption} </Text>
                     </View>
                     <View style={{ padding: 10  }}>
                         <Text>{moment(news.timestamp).fromNow()}</Text>
                     </View>
                     <View style={{ padding: 10  }}>
-                        <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 18 , fontWeight: "100" }}>  {news.body} </Text>
+                        <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 22 , fontWeight: "400" }}>  {news.body} </Text>
+                    </View>
+                    <View>
+                        <Image  source={{ uri: image   }}
+                        style={{  height: 250, width: null,  flex: 1  }}/>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -72,3 +74,4 @@ export default class NewsList extends React.Component{
     }
 }
 
+export default withTheme(NewsList)

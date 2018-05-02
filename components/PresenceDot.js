@@ -5,10 +5,7 @@ import {StyleGuide, withTheme} from "./index";
 import type {StyleProps, ThemeProps} from "./index";
 
 class PresenceDot extends React.PureComponent {
- 
     render(){
-      
-        
         const {style, theme , backgroundColor} = this.props;
         return (
             <View style={[styles.dot, { backgroundColor }, style]} />

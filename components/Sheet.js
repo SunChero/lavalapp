@@ -34,12 +34,12 @@ export default class Sheet extends React.PureComponent<SheetProps> {
                 <TouchableWithoutFeedback >
                     <View style={styles.header}>
                         <TouchableOpacity style={styles.left} onPress={toggle}>
-                            <Icon name="chevron-down" primary />
+                            <Icon name="chevron-down" secondary />
                         </TouchableOpacity>
                         <View style={styles.center}>
-                            <Text type="headline" style={styles.title} numberOfLines={1} primary>{title}</Text>
+                            <Text type="headline" style={styles.title} numberOfLines={1} secondary>{title}</Text>
                             {subtitle && (
-                                <Text type="footnote" style={styles.title} numberOfLines={1} primary>
+                                <Text type="footnote" style={styles.title} numberOfLines={1} secondary>
                                     {subtitle}
                                 </Text>
                             )}
@@ -48,7 +48,7 @@ export default class Sheet extends React.PureComponent<SheetProps> {
                             {
                                 rightAction && (
                                     <TouchableOpacity onPress={rightAction.onPress}>
-                                        <Text type="headline" primary>{rightAction.label}</Text>
+                                        <Text type="headline" secondary>{rightAction.label}</Text>
                                     </TouchableOpacity>
                                 )
                             }

@@ -7,14 +7,11 @@ import {Text, StyleGuide} from "./index";
 
 import Handle from "./Handle";
 
-type HeaderProps = {
-    user: User,
-    timestamp: number
-};
 
-export default class PostHeader extends React.PureComponent<HeaderProps> {
 
-    render(): React.Node {
+export default class PostHeader extends React.PureComponent{
+
+    render() {
         const {user, timestamp } = this.props;
         return (
             <View style={styles.header}>

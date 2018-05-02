@@ -52,7 +52,7 @@ class Feed extends React.Component {
         );
         const titleStyle = back ? {} : { transform: [{ translateY }] };
         const top = theme.palette.primary;
-        const bottom = theme.palette.lightGray;
+        const bottom = theme.palette.primary;
         
         return (
             <View style={styles.flex}>
@@ -99,16 +99,16 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         paddingBottom: StyleGuide.spacing.small,
-        backgroundColor: StyleGuide.palette.white
+        backgroundColor: StyleGuide.palette.primary
     },
     header: {
         padding: StyleGuide.spacing.small
     },
     headerText: {
-        color: StyleGuide.palette.white
+        color: StyleGuide.palette.secondary
     },
     extraHeader: {
-        backgroundColor: StyleGuide.palette.white,
+        backgroundColor: StyleGuide.palette.secondary,
         ...StyleGuide.styles.shadow
     },
     columnWrapperStyle: {

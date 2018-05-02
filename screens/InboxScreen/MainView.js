@@ -1,6 +1,6 @@
 import React from "react"
 import { View ,TouchableOpacity ,Text, StyleSheet} from 'react-native';
-import {Feed , Avatar, StyleGuide} from '../../components'
+import {Feed , Avatar, StyleGuide, PresenceDot , Handle} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 
@@ -22,19 +22,10 @@ export default class MainView extends React.Component{
        this.props.navigation.state.routeName == 'main' ?  this.props.store.loadSite() : null 
     }
     renderItem = (user) => (
+        
         <TouchableOpacity style={styles.header} onPress={() => this.onPress(user)}>
                 <View style={styles.user} >
-                <Avatar uri={user.item.picture} />
-                    <View style={styles.username}>
-                        <Text type="headline" style={styles.headline} color={this.handleColor}>{user.item.name}</Text>
-                        <Text
-                            type="footnote"
-                            style={styles.footnote}
-                            color={"#999999"}
-                        >
-                            {`@${user.item.id}`}
-                        </Text>
-                    </View>
+                    <Handle {...{user : user.item}} />
                 </View>
                 <Text type="footnote">{moment(150000000, "X").fromNow()}</Text>
         </TouchableOpacity>

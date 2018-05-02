@@ -30,10 +30,10 @@ export default class App extends React.Component {
   };
   _loadResourcesAsync = async () => {
     return Promise.all([
-      // Asset.loadAsync([
-      //   require('./assets/images/app.png')
+       Asset.loadAsync([
+         require('./assets/images/app.png')
       
-      // ]),
+       ]),
       Font.loadAsync({
         "SFProText-Bold" :  require("./assets/fonts/Baloo-Regular.ttf"),
         "SFProText-Semibold" :  require("./assets/fonts/Exo2-Light.ttf"),
@@ -56,7 +56,6 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     const user_id = Math.floor((Math.random() * 10) + 1)
-   //   console.log(user_id)
     global.dsc = createDeepstream(DS_URL).login({
       username : 'user' + user_id ,
       password : 'password'
@@ -64,19 +63,19 @@ export default class App extends React.Component {
     global.dsc.on('error' , (error) => {})
     global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
     global.user = global.dsc.record.getRecord('/user/' + user_id)
+    global.username = 'user' + user_id
     onlinestore.Setup();
     onlinestore.subscribe();
-    StatusBar.setBarStyle("light-content");
+    StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
     await store.loadSite();
-    //store.getUser();
   }
   render() {
     const theme = createTheme();
-    theme.switchColors ({  primary: Colors.tintColor,  secondary: "white" })
+    theme.switchColors ({  primary: "white",  secondary: "black" })
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
-        <AppLoading          startAsync={this._loadResourcesAsync}          onError={this._handleLoadingError}          onFinish={this._handleFinishLoading}        />
+        <AppLoading startAsync={this._loadResourcesAsync}  onError={this._handleLoadingError} onFinish={this._handleFinishLoading}        />
       );
     } else {
       return (

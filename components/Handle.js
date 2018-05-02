@@ -2,24 +2,21 @@
 import * as React from "react";
 import {StyleSheet, View} from "react-native";
 import {Text, StyleGuide, Avatar, PresenceDot} from "./index";
-type HandleProps = {
-    user: User,
-    handleColor: string
-};
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 
 @inject('onlinestore')
 @observer
-export default class Handle extends React.PureComponent<HandleProps> {
+export default class Handle extends React.Component {
     static defaultProps = {
         handleColor: "black"
     }
-    render(): React.Node {
-        
+    render() {
         const {user, handleColor } = this.props;
+       
         const tmp = user.name.replace(/\//g , '')
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
+        console.log(this.props.onlinestore.users)
         return (
             <View style={styles.user} onPress={()=>{alert('clciekd')}}>
                 <Avatar uri={user.picture} />
