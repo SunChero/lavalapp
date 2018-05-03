@@ -15,7 +15,6 @@ export default class MainView extends React.Component{
     }
 
     onPress(user) {
-        console.log(user)
         this.props.navigation.navigate("chat" , {user})
     }
     componentDidMount(){
@@ -33,14 +32,11 @@ export default class MainView extends React.Component{
     render(){
         const {onPress, renderItem} = this;
         const {users} = this.props.store; 
-        console.log(users)
         const title = "Conversations"
         const {navigation} = this.props;
-        const rightAction = {          icon: "edit",            onPress        };
-        const postAction = {            label: "Send",            onPress       };
         return (
         <View style={{flex : 1}}>
-            <Feed  {...{data : users, renderItem, title, navigation,rightAction }} />
+            <Feed  {...{data : users, renderItem, title, navigation }} />
            
         </View>
         )

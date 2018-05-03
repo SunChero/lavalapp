@@ -40,13 +40,12 @@ export default class HotEvents extends Component {
       padding: 40,
       fontSize: 30,
       fontWeight: '100',
-      backgroundColor: '#ae2a85',
+      backgroundColor: "black",
       color: 'white'
     }}>{event.item.value}</Text>
   }
   render() {
     const {_hotEvents , _weekEvents} = this.props.store;
-    console.log(_hotEvents)
     const {onPress, renderItem} = this;
     let arr = [
       ...{}, {
@@ -62,7 +61,9 @@ export default class HotEvents extends Component {
     const title = "Evenements"
     const {navigation} = this.props;
     const rightAction = {
-      icon: "calendar",
+      icon: "ios-calendar-outline", 
+      size: 30,
+      type: 'ionicons',
       onPress
     };
     return (

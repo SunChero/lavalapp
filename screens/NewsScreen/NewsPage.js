@@ -19,14 +19,14 @@ export default class NewsPage extends React.Component{
         const body =  <View style={{  flex: 1 }} >
                             <Image source={{uri: image}} style={{height:250  , width: null}} />
                             <View style={{ padding: 10  }}>
-                            <Text style={{padding:10 , fontWeight: 900}}>@{moment(timestamp).fromNow()}</Text>
-                                <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 22 , fontWeight: "400" }}>  {Content} </Text>
+                                <Text style={{padding:10}}>@{moment(timestamp).fromNow()}</Text>
+                                <Text style={{ fontFamily: "SFProText-Semibold" , fontSize: 16 }}>  {Content} </Text>
                             </View>
                             
                         </View>
        if(!title){
             return  <View style={[styles.container, styles.horizontal]}>
-                        <ActivityIndicator size="small" color="#00ff00" />
+                        <ActivityIndicator size="small" color="black" />
                     </View>
         }
             return ( <Shell body={body}  {...{ timestamp, Content, title, navigation, image}} /> )

@@ -15,8 +15,8 @@ class PresenceDot extends React.PureComponent {
 
 const styles = StyleSheet.create({
     dot: {
-        width: 12,
-        height: 12,
+        width: 15,
+        height: 15,
         borderWidth: 2,
         borderRadius: 6,
         borderColor: StyleGuide.palette.white,

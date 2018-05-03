@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme, Icons}  from './components'
+import { createTheme, Icon}  from './components'
 import { Text, View ,Platform, StatusBar } from 'react-native';
 import {Colors} from './constants'
 import {StackNavigator, TabNavigator} from 'react-navigation'
@@ -18,6 +18,7 @@ import ModalHost from "expo/src/modal/ModalHost";
 import createDeepstream from 'deepstream.io-client-js';
 import Activity  from './screens/Activity';
 import User from './screens/User'
+import Chat from './screens/Chat'
 const DS_URL = "ws://45.77.147.98/deepstream";
 
 @observer
@@ -31,7 +32,8 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
        Asset.loadAsync([
-         require('./assets/images/app.png')
+         require('./assets/images/app.png'),
+         require('./assets/images/add.png')
       
        ]),
       Font.loadAsync({
@@ -102,56 +104,55 @@ const RootTabNavigator = TabNavigator({
       let iconClass;
       switch (routeName) {
         case 'news':
-          iconName = Platform.OS === 'ios' ? `network` : 'md-flame';
-          iconClass ='entypo'
+          iconName = Platform.OS === 'ios' ? `ios-flame${focused ? '' : '-outline'}` : 'md-flame';
+          iconClass ='ionicons'
           break;
         case 'explore':
-          iconName = Platform.OS === 'ios' ? `calendar` : 'md-link';
-          iconClass ='foundation'
+          iconName = Platform.OS === 'ios' ? `ios-compass${focused ? '' : '-outline'}` : 'md-link';
+          iconClass ='ionicons'
           break;
         case 'Signalement':
           iconName = Platform.OS === 'ios' ? `ios-megaphone${focused ? '' : '-outline'}` : 'md-options';
-          iconClass ='ionicon'
+          iconClass ='ionicons'
             break;
         case 'profile':
-            iconName = Platform.OS === 'ios' ? `menu` : 'md-options';
-            iconClass = 'feather'
+            iconName = Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
+            iconClass = 'ionicons'
             break;
         case 'people':
-            iconName = Platform.OS === 'ios' ? `google-circles-extended` : 'md-options';
-            iconClass ='material-community'
+            iconName = Platform.OS === 'ios' ? `ios-people${focused ? '' : '-outline'}` : 'md-options';
+            iconClass ='ionicons'
             break;
         case 'inbox':
-            iconName = Platform.OS === 'ios' ? `mail` : 'md-flame';
-            iconClass ='feather'
+            iconName = Platform.OS === 'ios' ? `ios-chatbubbles${focused ? '' : '-outline'}` : 'md-flame';
+            iconClass ='ionicons'
             break;
         case 'Filter':
            iconName = Platform.OS === 'ios' ? `ios-funnel${focused ? '' : '-outline'}` : 'md-options';
-           iconClass ='ionicon'
+           iconClass ='ionicons'
       }
       return (
-        <Icons  
-            containerStyle={{ backgroundColor: 'transparent'}}  
-            icon={{type: iconClass, name: iconName , color: focused ? Colors.tabIconSelected : Colors.tabIconDefault}}
-        />
+        <Icon  containerStyle={{ backgroundColor: 'transparent'}}  type={iconClass} name={iconName} size={28}  color={focused ? "black" : "#B0BEC5"}  />
       );
     }
-   
   }),
   tabBarOptions: {
     tabBarPosition: 'bottom',
     animationEnabled: true,
     swipeEnabled: false,
     headerEnabled : false,
-		activeTintColor: Colors.tintColor,
-		//inactiveTintColor: Colors.tabIconSelected,
+    showLabel: true,
+    activeTintColor: "black",
+    inactiveTintColor : '#B0BEC5',
 		labelStyle: {
-			fontSize: 12,
-     // color: Colors.tintColor
+      fontSize: 12,
+      fontWeight: '100'
 		},
 		style: {
 			borderTopWidth: 1,
-			borderTopColor: 'white'
+      borderTopColor: 'white' ,
+      backgroundColor : "white",
+      color: ''
 		},
 	}
 })
@@ -159,7 +160,8 @@ const RootTabNavigator = TabNavigator({
 const RootNavigator = StackNavigator({
   RootTabs : {screen : RootTabNavigator},
   activity : {screen : Activity},
-  user : {screen : User}
+  user : {screen : User},
+  chat : {screen : Chat}
 },{
   headerMode: 'none'
 })

@@ -18,7 +18,7 @@ export default class Handle extends React.Component {
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
         console.log(this.props.onlinestore.users)
         return (
-            <View style={styles.user} onPress={()=>{alert('clciekd')}}>
+            <View style={styles.user} >
                 <Avatar uri={user.picture} />
                 <PresenceDot  user={user} backgroundColor={backgroundColor}/>
                 <View style={styles.username}>

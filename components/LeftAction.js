@@ -12,16 +12,14 @@ type LeftActionProps = {
     label: string,
     onPress: () => void
 };
-
 export default class LeftAction extends React.PureComponent<LeftActionProps> {
-
     render(): React.Node {
         const {name, label, onPress} = this.props;
         return (
             <TouchableOpacity activeOpacity={0.5} underlayColor="transparent" {...{onPress}}>
                 <View style={styles.backBtn}>
-                    <Icon color="white" {...{name}} />
-                    <Text color="white">{label}</Text>
+                    <Icon color="black" {...{name}} />
+                    <Text color="black">{label}</Text>
                 </View>
             </TouchableOpacity>
         );

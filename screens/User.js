@@ -2,11 +2,12 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, TouchableOpacity, Platform, StatusBar} from "react-native";
-import {Comments, Handle, Message, NewMessage, Image,  IconButton, ActionSheet, Content, TransparentHeader, Footer, notImplementedYet} from "../components";
-
+import {Comments, Handle, Message, NewMessage, Image,  IconButton, ActionSheet, Text, Content, TransparentHeader, Footer,withTheme, hasPosts, notImplementedYet} from "../components";
+import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
 
-export default class User extends React.Component{
+@hasPosts
+class User extends React.Component{
     @autobind
     goBack() {
         this.props.navigation.goBack();
@@ -46,7 +47,7 @@ export default class User extends React.Component{
     }
 
     render() {
-        const {navigation} = this.props;
+        const {navigation, theme, vues, like, posts} = this.props;
        // const {id} = navigation.state.params;
         const story = {
             "id": "db18e45b-6ce1-40fa-b0f8-45808ff25012",
@@ -84,22 +85,35 @@ export default class User extends React.Component{
             label: "Post",
             onPress: notImplementedYet
         };
+        const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
         return (
             <View style={styles.story}>
-                <Image style={styles.image} {...story.picture} />
+                
+                
                 <View style={styles.content}>
-                    <TransparentHeader>
-                        <View style={styles.topLeft}>
-                            <IconButton name="x" onPress={this.goBack} style={styles.goBack} />
-                            <Handle {...{user}} handleColor="white" />
-                        </View>
-                        <TouchableOpacity onPress={this.toggleComments}>
-                            { <Comments
-                                comments={story.comments.map(comment => comment.user)}
-                                showLabel={false}
-                            /> }
+                    <Image style={styles.image} {...story.picture} />  
+                    <View style={{position: 'absolute' , top: 0, left: 0, right: 0 , height: 250}}>
+                        <LinearGradient colors={bottomGradient} style={{height:150,position: 'absolute' , top: 100 , left:0 , right: 0}}>
+                        </LinearGradient>
+                    </View>
+                    <View style={{ flex: 1 , flexDirection : 'row'}}>
+                         <Text type="title1" color="white">  {user.name}</Text>
+                         <TouchableOpacity onPress={this.toggleComments}>
+                            { <Comments  comments={story.comments.map(comment => comment.user)}  showLabel={false}   /> }
                         </TouchableOpacity>
-                    </TransparentHeader>
+                    </View>
+                    <View style={{   flexDirection:'row' }}>
+                                <IconButton secondary name="ios-eye-outline" type="ionicons" size="40" >
+                                    <Text type="title2" style={{fontSize: 20,marginLeft:5, color: theme.palette.secondary}}>{vues}</Text>
+                                </IconButton> 
+                                <IconButton secondary name="ios-heart-outline" type="ionicons" size="32" onPress={()=> {this.AddLike()}}>
+                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{likes.length}</Text>
+                                </IconButton>
+                                <IconButton secondary name="ios-chatbubbles-outline" type="ionicons" size="32"  >
+                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{posts.length}</Text>
+                                </IconButton>
+                    </View>
+                   
                     <Footer>
                         <IconButton name="edit" onPress={this.toggleNewMessage} />
                     </Footer>
@@ -128,14 +142,20 @@ export default class User extends React.Component{
 
 const styles = StyleSheet.create({
     story: {
-        flex: 1
+        flex: 1,
+        backgroundColor : 'black'
     },
     image: {
-        ...StyleSheet.absoluteFillObject
+        top: 0,
+        position: 'absolute',
+       width: '100%',
+       height: 250
     },
     content: {
         ...StyleSheet.absoluteFillObject,
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        paddingTop: 250
+
     },
     topLeft: {
         flexDirection: "row"
@@ -147,3 +167,6 @@ const styles = StyleSheet.create({
         paddingBottom: 40
     }
 });
+
+
+export default withTheme(User)

@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     container: {
       paddingTop: 20,
       paddingBottom: 20,
-      backgroundColor: '#F4F5F4',
+      backgroundColor: 'white',
     },
     infoText: {
-      fontSize: 16,
+      fontSize: 24,
       marginLeft: 20,
-      color: 'gray',
-      fontWeight: '500',
+      color: 'black',
+      fontWeight: '900',
     }
   })

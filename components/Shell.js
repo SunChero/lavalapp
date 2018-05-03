@@ -43,7 +43,7 @@ class Shell extends React.Component {
     }
     render() {
         const {onPress, AddPost , scrollAnimation} = this;
-        const rightAction = {          icon: "edit",   onPress };
+        const rightAction = {          icon: "ios-create-outline", type: 'ionicons',   onPress };
         const postAction = {            label: "Save", onPress: AddPost };
         const {data, title, navigation, theme, back,header, body, style , vues , likes, posts} = this.props;
         const translateY = scrollAnimation.interpolate({
@@ -77,22 +77,22 @@ class Shell extends React.Component {
                         <View style={styles.header}>
                             <View>{header}</View>
                             <Text type="title1" style={styles.headerText}>{title}</Text>
-                            <View style={{ padding: 10 , flexDirection:'row' }}>
-                                <IconButton name="ios-eye-outline" type="ionicons" size="40" >
-                                    <Text type="title2" style={{fontSize: 20,marginLeft:5, color:"white"}}>{vues}</Text>
+                            <View style={{   flexDirection:'row' }}>
+                                <IconButton secondary name="ios-eye-outline" type="ionicons" size="40" >
+                                    <Text type="title2" style={{fontSize: 20,marginLeft:5, color: theme.palette.secondary}}>{vues}</Text>
                                 </IconButton> 
-                                <IconButton name="ios-heart-outline" type="ionicons" size="32" onPress={()=> {this.AddLike()}}>
-                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{likes.length}</Text>
+                                <IconButton secondary name="ios-heart-outline" type="ionicons" size="32" onPress={()=> {this.AddLike()}}>
+                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{likes.length}</Text>
                                 </IconButton>
-                                <IconButton name="ios-chatbubbles-outline" type="ionicons" size="32"  >
-                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{posts.length}</Text>
+                                <IconButton secondary name="ios-chatbubbles-outline" type="ionicons" size="32"  >
+                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{posts.length}</Text>
                                 </IconButton>
                             </View>
                         </View>
                     </Animated.View>
                     <View style={{flex : 1}}>{body} </View>
                     <View style={{flex: 1}}>
-                     <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} />} />    
+                     <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} {...{navigation}}/>} />    
                     </View>
                 </AnimatedScrollView>
                 

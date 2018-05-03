@@ -16,7 +16,7 @@ export default class Alert extends React.Component {
                         alert.WarningInfos.map(item =>  {
                             return (
                                 <View style={{flex : 1 , flexDirection : 'row' , padding: 10}}>
-                                    <Icon name="alert-triangle" color="white" style={{ flex :1}} />
+                                    <Icon name="ios-alert"  type="ionicons" color="white" style={{ flex :1}} />
                                     <Text style={{flex :4 , color :'white', marginLeft:10}}> {`${item.Title}`} </Text>
                                 </View>
                          )})

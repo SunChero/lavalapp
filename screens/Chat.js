@@ -210,7 +210,7 @@ export default class Chat extends React.Component {
     const back = "Inbox";
     return (
       <View style={{flex : 1}}> 
-        <NavigationBar  {...{navigation ,back , title, back}}/>
+        <NavigationBar  {...{navigation , title, back}}/>
         <GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}

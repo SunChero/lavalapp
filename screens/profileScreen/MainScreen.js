@@ -1,9 +1,10 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import {Avatar, List , ListItem} from 'react-native-elements'
-import {Icon , NavigationBar, Feed , InfoText} from "../../components"
+import {Icon , EmptyShell , InfoText} from "../../components"
 import {inject, observer} from 'mobx-react/native'
-import { Constants, Permissions, Notifications } from 'expo';
+import { Constants, Permissions, Notifications , Facebook} from 'expo';
+import { SocialIcon } from 'react-native-elements'
 const PUSH_ENDPOINT = 'https://exponent-push-server.herokuapp.com/tokens';
 
 @inject('store')
@@ -16,7 +17,16 @@ export default class MainScreen extends React.Component {
       }
       
     }
-
+    logIn = async () => {
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync('438232683290557', {
+          permissions: ['public_profile'],
+        });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        alert('Logged in!',  `Hi ${(await response.json()).name}!`, );
+      }
+    }
     onPressOptions = (route) => {
       this.props.navigation.navigate(route)
     }
@@ -24,55 +34,24 @@ export default class MainScreen extends React.Component {
       this.setState(state => ({
         pushNotifications: !state.pushNotifications,
       }))
-   
     }
-    componentDidMount(){
-      this.register()
-    }
-    register(){
-      Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS).then(function(status , result){
-        console.log(result)
-      })
-    }
-    // registerForPushNotificationsAsync = async () => {
-    
-    //     try {
-    //       const response = await Permissions.getAsync(Permissions.REMOTE_NOTIFICATIONS);
-    //       console.log(response)
-    //       if (response.status !== 'granted') {
-    //         if (response.status === 'denied' || response.status === 'undetermined' || response.status === 'null') {
-    //           alert('Please enable push notifications from your device settings.');
-    //         } 
-    //       } 
-    //       else{
-    //         const response = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
-    //         console.log('asking for notifications')
-    //         console.log(response)
-    //       }
-    //     } catch (error) {
-    //       alert(error.message);
-    //     }
-    //     let token = await Notifications.getExpoPushTokenAsync()
-    //     console.log(token)
-    // };
     render() {
     const user = global.user.get()
-      console.log(user)
-     const {navigation} = this.props
-     const title = "Profile"
-        return (
-          <View style={{flex :  1}}>
-             <NavigationBar {...{navigation , title}} />
-             <ScrollView style={styles.scroll}>
-                <View style={styles.userRow}>
-                  <View style={styles.userImage}>
-                    <Avatar   large   rounded  source={{ uri: user.picture }}  style={{borderWidth : 2 , borderColor: 'white',}}/>
-                  </View>
-                  <View style={{flex : 3}}>
-                    <Text style={{ fontSize: 16 , color : 'white' }}>@{user.name}</Text>
-                    <Text  style={{   color: 'white', fontSize: 16,  }}>  {user._id} </Text>
-                  </View>
-                </View>
+    const {navigation} = this.props
+    const title = "Profile"
+    const expanded = false
+    const header = <View style={styles.userRow}>
+                      <View style={styles.userImage}>
+                          <Avatar   medium   rounded  source={{ uri: user.picture }}  style={{borderWidth : 2 , borderColor: 'black',}}/>
+                      </View>
+                        <View style={{flex : 3}}>
+                          <Text style={{ fontSize: 16 , color : 'black' }}>@{user.name}</Text>
+                          <Text  style={{   color: 'black', fontSize: 16,  }}>  {user._id} </Text>
+                        </View>
+                   </View>
+    const body = 
+              <View>
+                <SocialIcon title='Sign In With Facebook' button  type='facebook' onPress={this.logIn.bind(this)}/>
                 <InfoText text="Account" />
                 <List containerStyle={styles.listContainer}>
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}
@@ -97,9 +76,14 @@ export default class MainScreen extends React.Component {
                   leftIcon={ <Icon containerStyle={{ backgroundColor: '#00C001', }} icon={{type: 'materialicon', name: 'feedback', }} />  }
                   />
                 </List>
-              </ScrollView>
-          </View>
+              </View>
        
+      return (
+        <EmptyShell 
+          body={body}
+          header={header}
+          {...{navigation , title , expanded , rightAction : {Label : 'somethign' , title: 'something'}}}
+        />
       )
     }
    
@@ -111,15 +95,15 @@ const styles = StyleSheet.create({
       userRow: {
         alignItems: 'center',
         flexDirection: 'row',
-        paddingBottom: 6,
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 6,
-        backgroundColor : '#283355',
+        paddingBottom: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        paddingTop: 5,
+       
         flex :1
       },
       userImage: {
-        marginRight: 12,
+        marginRight: 5,
         flex :1
       },
       listContainer: {

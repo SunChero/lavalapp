@@ -50,8 +50,8 @@ export default class Activity extends React.Component {
        // const actions = [{icon: "calendar" , label : "calendar" , comp : comp}]
         const comp = () => {return <NewMessage />}
         return (
-            <View style={{flex : 1 , backgroundColor: "#283355"}}>
-            <ScrollView style={{flex : 1 , backgroundColor: "#283355"}}>
+            <View style={{flex : 1 , backgroundColor: "black"}}>
+            <ScrollView style={{flex : 1 }}>
                
                     <View style={styles.container}>
                         <View style={styles.text}>
@@ -88,13 +88,13 @@ export default class Activity extends React.Component {
 const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
         gutter: {
-           backgroundColor: '#283355',
+           backgroundColor: 'black',
       
         },
         container: {
             flex: 1,
             justifyContent: "center",
-            backgroundColor: "#283355",
+            backgroundColor: "black",
             marginTop: 30,
             padding : 20
         },

@@ -36,7 +36,6 @@ class NewsList extends React.Component{
         return (
             <TouchableOpacity style={{  flex: 1 , paddingBottom: 50 }}  onPress={_onPress}>
                 <View>
-                    
                     <View style={{  padding: 10 }}>
                         <Text style={{ color: theme.palette.secondary ,fontFamily: "SFProText-Semibold" , fontSize: 35  }}>{news.caption} </Text>
                     </View>
@@ -44,7 +43,7 @@ class NewsList extends React.Component{
                         <Text>{moment(news.timestamp).fromNow()}</Text>
                     </View>
                     <View style={{ padding: 10  }}>
-                        <Text style={{ fontFamily: "SFProText-Regular" , fontSize: 22 , fontWeight: "400" }}>  {news.body} </Text>
+                        <Text style={{ fontFamily: "SFProText-Semibold" , fontSize: 16 , fontWeight: "400" }}>  {news.body} </Text>
                     </View>
                     <View>
                         <Image  source={{ uri: image   }}

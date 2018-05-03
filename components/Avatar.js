@@ -49,7 +49,7 @@ export default class Avatar extends React.Component<AvatarProps> {
                 borderRadius: width / 2
             };
             return (
-                <NativeImage style={[styles.avatar, style, computedStyle]} source={{ uri }} />
+                <NativeImage style={[styles.avatar, style, computedStyle]} source={{ uri }}/>
             );
         }
         return (
