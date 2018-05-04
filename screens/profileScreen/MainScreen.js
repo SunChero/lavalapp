@@ -14,17 +14,27 @@ export default class MainScreen extends React.Component {
       super(props)
       this.state =  {
         pushNotifications: true,
+        facebook :{}
       }
       
     }
     logIn = async () => {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync('438232683290557', {
-          permissions: ['public_profile'],
+          permissions: ['public_profile', 'email', 'user_friends'],
         });
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
-        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-        alert('Logged in!',  `Hi ${(await response.json()).name}!`, );
+        const response = await fetch(`https://graph.facebook.com/me?fields=name,email,address,birthday,first_name,last_name&access_token=${token}`);
+        const js = await response.json();
+        // const srv = await fetch('http://45.77.147.98/__-__register', {
+        //     method: 'post',
+        //     body: JSON.stringify(js)
+        // });
+        //const srvres = await srv.json()
+        this.setState({
+          'facebook' : js
+        })
+        console.log(srvres)
       }
     }
     onPressOptions = (route) => {
@@ -52,7 +62,7 @@ export default class MainScreen extends React.Component {
     const body = 
               <View>
                 <SocialIcon title='Sign In With Facebook' button  type='facebook' onPress={this.logIn.bind(this)}/>
-                <InfoText text="Account" />
+                <InfoText text={JSON.stringify(this.state.facebook)} />
                 <List containerStyle={styles.listContainer}>
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon  containerStyle={{ backgroundColor: 'transparent',}}  icon={{type: 'material',  name: 'notifications', }}  />  }

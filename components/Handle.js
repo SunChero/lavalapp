@@ -13,7 +13,6 @@ export default class Handle extends React.Component {
     }
     render() {
         const {user, handleColor } = this.props;
-       
         const tmp = user.name.replace(/\//g , '')
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
         console.log(this.props.onlinestore.users)
