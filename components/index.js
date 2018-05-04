@@ -8,6 +8,7 @@ export {default as Text} from "./Text";
 export {default as Feed} from "./Feed";
 // export {default as GeoFeed} from "./GeoFeed";
 export {default as Header} from "./Header";
+export {default as ChatMessage} from "./ChatMessage";
 export {default as DetailsBar} from "./DetailsBar";
 export {default as Image} from "./Image";
 export {default as BlurView} from "./BlurView";

@@ -1,248 +1,103 @@
-import React from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Modal
-} from 'react-native';
-import {NavigationBar, CustomActions , CustomView} from '../components'
-import {GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat';
-export default class Chat extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      messages: [],
-      loadEarlier: true,
-      typingText: null,
-      isLoadingEarlier: false,
-      visible : true
-    };
 
-    this._isMounted = false;
-    this.onSend = this.onSend.bind(this);
-    this.onReceive = this.onReceive.bind(this);
-    this.renderCustomActions = this.renderCustomActions.bind(this);
-    this.renderBubble = this.renderBubble.bind(this);
-    this.renderSystemMessage = this.renderSystemMessage.bind(this);
-    this.renderFooter = this.renderFooter.bind(this);
-    this.onLoadEarlier = this.onLoadEarlier.bind(this);
-    this.onHide  = this.onHide.bind(this)
+import moment from "moment";
+import autobind from "autobind-decorator";
+import * as React from "react";
+import {StyleSheet, SafeAreaView, TextInput, View} from "react-native";
+import {observable, action} from "mobx";
+import {observer} from "mobx-react/native";
+import {Feed, Container, IconButton, KeyboardSpacer, StyleGuide , ChatMessage} from "../components";
 
-    this._isAlright = null;
-  }
 
-  componentWillMount() {
-    this._isMounted = true;
-    this.setState(() => {
-      return {
-        messages: require('./data/messages.js'),
-      };
-    });
-  }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+@observer
+export default class Message extends React.Component{
 
-  onLoadEarlier() {
-    this.setState((previousState) => {
-      return {
-        isLoadingEarlier: true,
-      };
-    });
-
-    setTimeout(() => {
-      if (this._isMounted === true) {
-        this.setState((previousState) => {
-          return {
-            messages: GiftedChat.prepend(previousState.messages, require('./data/old_messages.js')),
-            loadEarlier: false,
-            isLoadingEarlier: false,
-          };
-        });
-      }
-    }, 1000); // simulating network
-  }
-
-  onSend(messages = []) {
-    this.setState((previousState) => {
-      return {
-        messages: GiftedChat.append(previousState.messages, messages),
-      };
-    });
-
-    // for demo purpose
-    this.answerDemo(messages);
-  }
-
-  answerDemo(messages) {
-    if (messages.length > 0) {
-      if ((messages[0].image || messages[0].location) || !this._isAlright) {
-        this.setState((previousState) => {
-          return {
-            typingText: 'React Native is typing'
-          };
-        });
-      }
+    @observable message;
+    @observable messagesRef = [];
+    constructor(props){
+      super(props)
+      const {user} = this.props.navigation.state.params;
+      console.log(user.name)
+      this.postMessage = this.postMessage.bind(this)
+      const channel = '/channel/' + [user.name, global.user.name].sort().join('::');
+      this.list = global.dsc.record.getList(channel);
     }
-
-    setTimeout(() => {
-      if (this._isMounted === true) {
-        if (messages.length > 0) {
-          if (messages[0].image) {
-            this.onReceive('Nice picture!');
-          } else if (messages[0].location) {
-            this.onReceive('My favorite place');
-          } else {
-            if (!this._isAlright) {
-              this._isAlright = true;
-              this.onReceive('Alright');
-            }
-          }
-        }
-      }
-
-      this.setState((previousState) => {
-        return {
-          typingText: null,
-        };
-      });
-    }, 1000);
-  }
-
-  onReceive(text) {
-    this.setState((previousState) => {
-      return {
-        messages: GiftedChat.append(previousState.messages, {
-          _id: Math.round(Math.random() * 1000000),
-          text: text,
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            // avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        }),
-      };
-    });
-  }
-
-  renderCustomActions(props) {
-    if (Platform.OS === 'ios') {
-      return (
-        <CustomActions
-          {...props}
-        />
-      );
+    postMessage() {
+      const msgId = '/msg/' + global.dsc.getUid();
+      let self= this;
+       const msg = global.dsc.record.getRecord(msgId).set({
+        'message' : self.message,
+        'timestamp' : parseInt(moment().format("X"), 10),
+        'user' : global.user.name
+      }).discard();
+      this.list.addEntry(msgId);
+      this.message = "";
     }
-    const options = {
-      'Action 1': (props) => {
-        alert('option 1');
-      },
-      'Action 2': (props) => {
-        alert('option 2');
-      },
-      'Cancel': () => {},
-    };
-    return (
-      <Actions
-        {...props}
-        options={options}
-      />
-    );
-  }
-
-  renderBubble(props) {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          left: {
-            backgroundColor: '#f0f0f0',
-          }
-        }}
-      />
-    );
-  }
-
-  renderSystemMessage(props) {
-    return (
-      <SystemMessage
-        {...props}
-        containerStyle={{
-          marginBottom: 15,
-        }}
-        textStyle={{
-          fontSize: 14,
-        }}
-      />
-    );
-  }
-
-  renderCustomView(props) {
-    return (
-      <CustomView
-        {...props}
-      />
-    );
-  }
-
-  renderFooter(props) {
-    if (this.state.typingText) {
-      return (
-        <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>
-            {this.state.typingText}
-          </Text>
-        </View>
-      );
+    componentDidMount() {
+       this.list.subscribe(this.setEntries.bind(this))
     }
-    return null;
-  }
-  onHide() {
-    this.setState({visible : false})
+    setEntries(entries){
+      this.messagesRef = entries;
+     // console.log(this.messagesRef)
+    }
+    componentWillUnmount(){
+      this.list.discard()
+    }
+    @autobind
+    renderItem(data){
+        const {navigation} = this.props;
+        const messageRef = data.item;
+        return <ChatMessage {...{messageRef , navigation}} />;
+ 
+        
+    }
+    @autobind @action
+    setMessage(message) {
+      this.message = message;
   }
   render() {
-    const {_name} = this.props.navigation.state.params.user.item
-    const {navigation} = this.props
-    const title = _name
-    const back = "Inbox";
+    const {renderItem, messagesRef} = this;
+    const {navigation } = this.props;
+    const {user} = navigation.state.params;
+    const back = "Messages";
+    const title = user.name;
     return (
-      <View style={{flex : 1}}> 
-        <NavigationBar  {...{navigation , title, back}}/>
-        <GiftedChat
-        messages={this.state.messages}
-        onSend={this.onSend}
-        loadEarlier={this.state.loadEarlier}
-        onLoadEarlier={this.onLoadEarlier}
-        isLoadingEarlier={this.state.isLoadingEarlier}
-
-        user={{
-          _id: 1, // sent messages should have same user._id
-        }}
-
-        renderActions={this.renderCustomActions}
-        renderBubble={this.renderBubble}
-        renderSystemMessage={this.renderSystemMessage}
-        renderCustomView={this.renderCustomView}
-        renderFooter={this.renderFooter}
-      />
-      </View>
-      
-    );
+           <Container>
+                <Feed data={messagesRef} {...{renderItem, back, title, navigation}} />
+                <SafeAreaView style={styles.inputBox}>
+                    <View style={styles.innerInputBox}>
+                        <TextInput
+                            placeholder="Message"
+                            underlineColorAndroid="transparent"
+                            style={styles.input}
+                            onSubmitEditing={this.postMessage}
+                            onChangeText={this.setMessage}
+                            value={this.message}
+                        />
+                        <IconButton name="arrow-up" onPress={this.postMessage} backgroundPrimary rounded />
+                    </View>
+                </SafeAreaView>
+                <KeyboardSpacer />
+            </Container>
+    )
   }
 }
 
+
 const styles = StyleSheet.create({
-  footerContainer: {
-    marginTop: 5,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+  inputBox: {
+      backgroundColor: StyleGuide.palette.white
   },
-  footerText: {
-    fontSize: 14,
-    color: '#aaa',
+  innerInputBox: {
+      padding: StyleGuide.spacing.tiny,
+      flexDirection: "row",
+      alignItems: "center"
   },
+  input: {
+      backgroundColor: StyleGuide.palette.lightGray,
+      flex: 1,
+      padding: StyleGuide.spacing.tiny,
+      marginRight: StyleGuide.spacing.tiny,
+      ...StyleGuide.styles.borderRadius
+  }
 });

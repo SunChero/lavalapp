@@ -19,7 +19,7 @@ import createDeepstream from 'deepstream.io-client-js';
 import Activity  from './screens/Activity';
 import User from './screens/User'
 import Chat from './screens/Chat'
-const DS_URL = "ws://45.77.147.98/deepstream";
+const DS_URL = "ws://192.168.183.145:6020/deepstream";
 
 @observer
 

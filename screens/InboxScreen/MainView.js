@@ -15,16 +15,17 @@ export default class MainView extends React.Component{
     }
 
     onPress(user) {
+        console.log(user)
         this.props.navigation.navigate("chat" , {user})
     }
     componentDidMount(){
        this.props.navigation.state.routeName == 'main' ?  this.props.store.loadSite() : null 
     }
-    renderItem = (user) => (
+    renderItem = ({item}) => (
         
-        <TouchableOpacity style={styles.header} onPress={() => this.onPress(user)}>
+        <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
                 <View style={styles.user} >
-                    <Handle {...{user : user.item}} />
+                    <Handle {...{user : item}} />
                 </View>
                 <Text type="footnote">{moment(150000000, "X").fromNow()}</Text>
         </TouchableOpacity>

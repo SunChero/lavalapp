@@ -66,7 +66,6 @@ class Feed extends React.Component {
                 <NavigationBar  {...{ navigation, title, back, titleStyle, rightAction}}
                 />
                 <AnimatedFlatList
-                   
                     contentContainerStyle={[styles.container, style]}
                     showsVerticalScrollIndicator={false}
                     ListHeaderComponent={(
@@ -79,7 +78,7 @@ class Feed extends React.Component {
                             </Animated.View>
                         )
                     )}
-                    scrollEventThrottle={1}
+                    scrollEventThrottle={16}
                     columnWrapperStyle={(numColumns && numColumns > 0) ? styles.columnWrapperStyle : undefined}
                     {...{data, keyExtractor, renderItem, onScroll, numColumns}}
                 />
