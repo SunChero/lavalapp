@@ -15,16 +15,14 @@ import {observable , action} from 'mobx'
 import {Asset , Font, AppLoading} from "expo";
 import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
-import createDeepstream from 'deepstream.io-client-js';
 import Activity  from './screens/Activity';
 import User from './screens/User'
 import Chat from './screens/Chat'
-const DS_URL = "ws://192.168.183.145:6020/deepstream";
+import * as bootStrap from './api/bootstrap';
 
 @observer
 
 export default class App extends React.Component {
-
   
   state = {
     isLoadingComplete: false,
@@ -57,15 +55,7 @@ export default class App extends React.Component {
   };
   async componentDidMount() {
     console.disableYellowBox = true;
-    const user_id = Math.floor((Math.random() * 10) + 1)
-    global.dsc = createDeepstream(DS_URL).login({
-      username : 'user' + user_id ,
-      password : 'password'
-    });
-    global.dsc.on('error' , (error) => {})
-    global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
-    global.user = global.dsc.record.getRecord('/user/' + user_id)
-    global.username = 'user' + user_id
+    await bootStrap.SignUp()
     onlinestore.Setup();
     onlinestore.subscribe();
     StatusBar.setBarStyle("dark-content");

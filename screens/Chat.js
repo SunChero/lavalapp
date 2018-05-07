@@ -2,10 +2,10 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, SafeAreaView, TextInput, View} from "react-native";
+import {StyleSheet, SafeAreaView, TextInput, View  , FlatList} from "react-native";
 import {observable, action} from "mobx";
 import {observer} from "mobx-react/native";
-import {Feed, Container, IconButton, KeyboardSpacer, StyleGuide , ChatMessage} from "../components";
+import {Feed, Container, IconButton, KeyboardSpacer, StyleGuide , ChatMessage, NavigationBar} from "../components";
 
 
 
@@ -20,7 +20,9 @@ export default class Message extends React.Component{
       console.log(user.name)
       this.postMessage = this.postMessage.bind(this)
       const channel = '/channel/' + [user.name, global.user.name].sort().join('::');
+      console.log(channel)
       this.list = global.dsc.record.getList(channel);
+      this.scroll = this.scroll.bind(this)
     }
     postMessage() {
       const msgId = '/msg/' + global.dsc.getUid();
@@ -39,6 +41,10 @@ export default class Message extends React.Component{
     setEntries(entries){
       this.messagesRef = entries;
      // console.log(this.messagesRef)
+   
+    }
+    scroll(){
+        this.refs.scrollview.scrollToEnd()
     }
     componentWillUnmount(){
       this.list.discard()
@@ -46,8 +52,9 @@ export default class Message extends React.Component{
     @autobind
     renderItem(data){
         const {navigation} = this.props;
+        const {scroll} = this;
         const messageRef = data.item;
-        return <ChatMessage {...{messageRef , navigation}} />;
+        return <ChatMessage {...{messageRef , navigation , scroll}} />;
  
         
     }
@@ -63,7 +70,9 @@ export default class Message extends React.Component{
     const title = user.name;
     return (
            <Container>
-                <Feed data={messagesRef} {...{renderItem, back, title, navigation}} />
+               <NavigationBar  {...{ navigation, title, back}} />
+                <FlatList ref="scrollview" data={messagesRef} {...{renderItem}} />
+               
                 <SafeAreaView style={styles.inputBox}>
                     <View style={styles.innerInputBox}>
                         <TextInput

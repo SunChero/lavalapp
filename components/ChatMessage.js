@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
-import {StyleSheet , View} from "react-native";
+import {StyleSheet , View, TouchableOpacity} from "react-native";
 import {StyleGuide, Text, BaseCard, Avatar} from "./index";
+import moment from 'moment'
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 @observer
@@ -26,20 +27,25 @@ export default class ChatMessage extends React.Component{
             this.user = data
          })
     }
+    componentDidUpdate(){
+       setTimeout(function(){
+           const {scroll} = this.props;
+           scroll()
+       }.bind(this) , 200)
+    }
     render(){
         const {navigation } = this.props;
         const {message , user } = this;
-        console.log(message)
         const timestamp = message ? message.timestamp : null;
         return (
            user &&
-           <View style={{ flexDirection: 'row' }}>
-                <View style={styles.user}>
-                   <Avatar size={48} uri={user.picture} />
-                </View>
-                <BaseCard style={styles.baseCard}>
-                    <Text>{message.message}</Text>
-                </BaseCard>
+           <View style={[{ flexDirection: global.user.name === message.user ? 'row-reverse' : 'row' } , styles.box]}>
+                 <Avatar size={32} uri={user.picture} style={{margin: 5}}/>
+                <TouchableOpacity style={ global.user.name === message.user ? styles.me : styles.message}>
+                    <Text style={ global.user.name === message.user ? null : styles.white} >{message.message}</Text>
+                    <Text style={[global.user.name === message.user ? null : styles.white ,styles.time]}> {moment(timestamp, "X").fromNow()}
+                    </Text>
+                </TouchableOpacity>
             </View>
           
         );
@@ -47,14 +53,33 @@ export default class ChatMessage extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    baseCard: {
-        minHeight: 48,
-        justifyContent: "center",
-        flex: 1
+    time: {
+        fontSize: 11,
+       
     },
-    user: {
-        width: 80,
-        justifyContent: "flex-end"
+    box : {
+        padding: 5
+    },
+    message: {
+        padding: 12,
+        width: '80%',
+        backgroundColor: '#4A148C',
+        borderRadius: 10,
+        color : 'white',
+        marginBottom: 2,
+        justifyContent: 'flex-end'
+    },
+    me : {
+        width: '80%',
+        backgroundColor: '#F5F5F5',
+        color : 'black',
+        marginBottom: 2,
+        padding: 12,
+        borderRadius: 10,
+        marginTop:10
+    },
+    white : {
+        color : 'white'
     }
 });
 

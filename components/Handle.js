@@ -13,21 +13,23 @@ export default class Handle extends React.Component {
     }
     render() {
         const {user, handleColor } = this.props;
-        const tmp = user.name.replace(/\//g , '')
+        const tmp = user.id
+        console.log(tmp)
+        console.log(user)
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
         console.log(this.props.onlinestore.users)
         return (
             <View style={styles.user} >
-                <Avatar uri={user.picture} />
+                <Avatar uri={null} />
                 <PresenceDot  user={user} backgroundColor={backgroundColor}/>
                 <View style={styles.username}>
-                    <Text type="headline" style={styles.headline} color={handleColor}>{user._name}</Text>
+                    <Text type="headline" style={styles.headline} color={handleColor}>{null}</Text>
                     <Text
                         type="footnote"
                         style={styles.footnote}
                         color={handleColor === "black" ? "#999999" : handleColor}
                     >
-                        {`@${user._id}`}
+                        {`@${null}`}
                     </Text>
                 </View>
             </View>

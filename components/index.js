@@ -1,6 +1,4 @@
 export {default as Container} from "./Container";
-export {default as CustomActions} from './CustomActions';
-export {default as  CustomView } from './CustomView';
 export {default as NavigationBar} from "./NavigationBar";
 //export {default as TabBar} from "./TabBar";
 export {default as Card} from "./Card";

@@ -30,6 +30,7 @@ class Feed extends React.Component {
   
     renderItem(item){
         const {renderItem} = this.props;
+     
         return renderItem(item);
     }
 

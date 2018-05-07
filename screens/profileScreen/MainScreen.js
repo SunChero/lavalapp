@@ -1,11 +1,14 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native'
 import {Avatar, List , ListItem} from 'react-native-elements'
 import {Icon , EmptyShell , InfoText} from "../../components"
 import {inject, observer} from 'mobx-react/native'
 import { Constants, Permissions, Notifications , Facebook} from 'expo';
 import { SocialIcon } from 'react-native-elements'
-const PUSH_ENDPOINT = 'https://exponent-push-server.herokuapp.com/tokens';
+import {default as registerPush} from '../../api/registerForPushNotificationsAsync'
+const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
+
+
 
 @inject('store')
 @observer
@@ -14,36 +17,35 @@ export default class MainScreen extends React.Component {
       super(props)
       this.state =  {
         pushNotifications: true,
+        token : null,
         facebook :{}
       }
       
     }
-    logIn = async () => {
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync('438232683290557', {
-          permissions: ['public_profile', 'email', 'user_friends'],
-        });
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(`https://graph.facebook.com/me?fields=name,email,address,birthday,first_name,last_name&access_token=${token}`);
-        const js = await response.json();
-        // const srv = await fetch('http://45.77.147.98/__-__register', {
-        //     method: 'post',
-        //     body: JSON.stringify(js)
-        // });
-        //const srvres = await srv.json()
-        this.setState({
-          'facebook' : js
-        })
-        console.log(srvres)
-      }
+    async componentDidMount(){
+      const value = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
+      console.log(value)
+      this.setState({
+        'token': value,
+        'pushNotifications' : value ? true : false
+      });
     }
+
+    
     onPressOptions = (route) => {
       this.props.navigation.navigate(route)
     }
     onChangePushNotifications = () => {
-      this.setState(state => ({
-        pushNotifications: !state.pushNotifications,
-      }))
+      console.log(this.state.token)
+      if(! this.state.token) {
+       let token = registerPush()
+       this.setState({
+         'token' : token,
+         'pushNotifications' : true
+       })
+  
+      }
+    
     }
     render() {
     const user = global.user.get()
@@ -52,16 +54,16 @@ export default class MainScreen extends React.Component {
     const expanded = false
     const header = <View style={styles.userRow}>
                       <View style={styles.userImage}>
-                          <Avatar   medium   rounded  source={{ uri: user.picture }}  style={{borderWidth : 2 , borderColor: 'black',}}/>
+                          <Avatar   medium   rounded  source={{ uri: user.picture.thumbnail }}  style={{borderWidth : 2 , borderColor: 'black',}}/>
                       </View>
                         <View style={{flex : 3}}>
-                          <Text style={{ fontSize: 16 , color : 'black' }}>@{user.name}</Text>
-                          <Text  style={{   color: 'black', fontSize: 16,  }}>  {user._id} </Text>
+                          <Text style={{ fontSize: 16 , color : 'black' }}>@{JSON.stringify(user.name)}</Text>
+                          <Text  style={{   color: 'black', fontSize: 16,  }}>  {user.id} </Text>
                         </View>
                    </View>
     const body = 
               <View>
-                <SocialIcon title='Sign In With Facebook' button  type='facebook' onPress={this.logIn.bind(this)}/>
+                <SocialIcon title='Sign In With Facebook' button  type='facebook'/>
                 <InfoText text={JSON.stringify(this.state.facebook)} />
                 <List containerStyle={styles.listContainer}>
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}

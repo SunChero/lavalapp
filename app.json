@@ -10,8 +10,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "facebookScheme": "fb438232683290557",
-    "facebookAppId": "438232683290557",
-    "facebookDisplayName": "Ici Laval",
+    "facebookAppId": "200996303851059",
+    "facebookDisplayName": "ICILaval",
     "splash": {
       "image": "./assets/images/app.png",
       "resizeMode": "contain",

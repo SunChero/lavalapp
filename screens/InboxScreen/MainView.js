@@ -4,7 +4,7 @@ import {Feed , Avatar, StyleGuide, PresenceDot , Handle} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 
-@inject('store' , 'theme') 
+@inject('onlinestore' , 'theme') 
 @observer
 export default class MainView extends React.Component{
     constructor(props){
@@ -19,7 +19,7 @@ export default class MainView extends React.Component{
         this.props.navigation.navigate("chat" , {user})
     }
     componentDidMount(){
-       this.props.navigation.state.routeName == 'main' ?  this.props.store.loadSite() : null 
+      // this.props.navigation.state.routeName == 'main' ?  this.props.store.loadSite() : null 
     }
     renderItem = ({item}) => (
         
@@ -32,7 +32,7 @@ export default class MainView extends React.Component{
     )
     render(){
         const {onPress, renderItem} = this;
-        const {users} = this.props.store; 
+        const {users} = this.props.onlinestore; 
         const title = "Conversations"
         const {navigation} = this.props;
         return (
