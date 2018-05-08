@@ -36,7 +36,7 @@ export default class Message extends React.Component<MessageProps> {
         const {post , user } = this;
         const timestamp = post ? post.timestamp : null;
         return (
-           user && <BaseCard onPress={() => navigation && navigation.navigate("Message", {})}>
+           user && <BaseCard onPress={() => navigation.navigate("user", {stream : user})}>
                 <PostHeader {...{user,timestamp}} />
                 <Text style={styles.text}>{post.postData}</Text>
             </BaseCard>

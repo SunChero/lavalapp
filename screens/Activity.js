@@ -52,24 +52,22 @@ export default class Activity extends React.Component {
         return (
             <View style={{flex : 1 , backgroundColor: "black"}}>
             <ScrollView style={{flex : 1 }}>
-               
                     <View style={styles.container}>
                         <View style={styles.text}>
                             <Icon name="map-pin"  size="14"/>
                             <Text color="white" style={{fontSize: 14 , marginLeft : 5}}>{location}</Text>
                         </View>
-                        
                         <Text   color="white" type="title1" >{Title}</Text>
                         <View style={{ padding: 10 , flexDirection:'row' }}>
-                                <IconButton name="ios-eye-outline" type="ionicons" size="40" >
-                                    <Text type="title2" style={{fontSize: 20,marginLeft:5, color:"white"}}>{vues}</Text>
-                                </IconButton> 
-                                <IconButton name="ios-heart-outline" type="ionicons" size="32" >
-                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{likes}</Text>
-                                </IconButton>
-                                <IconButton name="ios-chatbubbles-outline" type="ionicons" size="32" >
-                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{likes}</Text>
-                                </IconButton>
+                            <IconButton name="ios-eye-outline" type="ionicons" size="40" >
+                                <Text type="title2" style={{fontSize: 20,marginLeft:5, color:"white"}}>{vues}</Text>
+                            </IconButton> 
+                            <IconButton name="ios-heart-outline" type="ionicons" size="32" >
+                                <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{likes}</Text>
+                            </IconButton>
+                            <IconButton name="ios-chatbubbles-outline" type="ionicons" size="32" >
+                                <Text type="title2" style={{fontSize: 20, marginLeft:5 , color:"white"}}>{likes}</Text>
+                            </IconButton>
                         </View>
                         <Text  color="white" type="footnote" style={styles.text}>{summary}</Text>
                         <DetailsBar details={details}/>

@@ -10,8 +10,8 @@ export default class Handle extends React.Component {
     @observable user = null;
     static defaultProps = {
         handleColor: "black",
-        light : false,
-        size: 40
+        light : true,
+        size: 28
     }
     constructor(props){
         super(props)
@@ -31,7 +31,7 @@ export default class Handle extends React.Component {
            user &&
             <View style={styles.user} >
                 <Avatar uri={user.picture.thumbnail} size={size} />
-                <PresenceDot  user={user} backgroundColor={backgroundColor}/>
+                <PresenceDot backgroundColor={backgroundColor}/>
                { light && <View style={styles.username}>
                     <Text type="headline" style={styles.headline} color={handleColor}>{username}</Text>
                     <Text
