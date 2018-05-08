@@ -9,15 +9,7 @@ class Store {
     
     @observable newsPage = {};
     @observable site = {};
-    @observable user = {
-        "email": "marianne.lévesque@example.com",
-        "login": {
-        "username": "bluebutterfly641",
-        },
-        "picture": {
-        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/69.jpg"
-        }
-    };
+  
     @observable users =[
         {
             "name" : "/user/1",
@@ -94,34 +86,7 @@ class Store {
             "caption": ""
         }
     ];
-    // @action getPosts(stream__id){
-    //     let streamref = '/posts/'  + stream__id
-    //     dsc.record.getList(streamref).whenReady(listObj => {
-    //         let postRefs = listObj.getEntries();
-    //         let posts = postRefs.map(postRef => {
-    //             return dsc.record.getRecord(postRef).get();
-    //         })
-    //         console.log('streamref is' + streamref)
-    //         this.streams[streamref] = posts
-    //         console.log(this.streams)
-    //     })
-    // }
-
-
-    @action setUser = (obj) => {
-        this.user = {...obj , ...this.user }
-    }
-    @action getUser = () => {
-        //this.user = {}
-        fetch(GET_USER_URL).then(response => response.json())
-              .then(data =>{
-                  runInAction(() => {
-                      this.user = data.results[0];
-
-                  })
-        })
-    }
-    @action loadNewsPage = (link) =>{
+     @action loadNewsPage = (link) =>{
         this.newsPage = {}
             fetch(NEWS_PAGE_URL + link).then(response => response.json())
               .then(data =>{

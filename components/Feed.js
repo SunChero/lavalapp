@@ -27,13 +27,10 @@ class Feed extends React.Component {
         this.renderItem = this.renderItem.bind(this)
     }
     @observable scrollAnimation = new Animated.Value(0);
-  
     renderItem(item){
         const {renderItem} = this.props;
-     
         return renderItem(item);
     }
-
     render(): React.Node {
         const {renderItem, scrollAnimation} = this;
         const {data, title, navigation, theme, back, rightAction, header, numColumns, style} = this.props;

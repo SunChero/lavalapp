@@ -30,8 +30,6 @@ export default class MainScreen extends React.Component {
         'pushNotifications' : value ? true : false
       });
     }
-
-    
     onPressOptions = (route) => {
       this.props.navigation.navigate(route)
     }
@@ -43,9 +41,7 @@ export default class MainScreen extends React.Component {
          'token' : token,
          'pushNotifications' : true
        })
-  
       }
-    
     }
     render() {
     const user = global.user.get()
@@ -57,14 +53,12 @@ export default class MainScreen extends React.Component {
                           <Avatar   medium   rounded  source={{ uri: user.picture.thumbnail }}  style={{borderWidth : 2 , borderColor: 'black',}}/>
                       </View>
                         <View style={{flex : 3}}>
-                          <Text style={{ fontSize: 16 , color : 'black' }}>@{JSON.stringify(user.name)}</Text>
+                          <Text style={{ fontSize: 16 , color : 'black' }}>@{user.login.username}</Text>
                           <Text  style={{   color: 'black', fontSize: 16,  }}>  {user.id} </Text>
                         </View>
                    </View>
     const body = 
               <View>
-                <SocialIcon title='Sign In With Facebook' button  type='facebook'/>
-                <InfoText text={JSON.stringify(this.state.facebook)} />
                 <List containerStyle={styles.listContainer}>
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon  containerStyle={{ backgroundColor: 'transparent',}}  icon={{type: 'material',  name: 'notifications', }}  />  }

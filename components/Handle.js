@@ -4,34 +4,45 @@ import {StyleSheet, View} from "react-native";
 import {Text, StyleGuide, Avatar, PresenceDot} from "./index";
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
-
 @inject('onlinestore')
 @observer
 export default class Handle extends React.Component {
+    @observable user = null;
     static defaultProps = {
-        handleColor: "black"
+        handleColor: "black",
+        light : false,
+        size: 40
+    }
+    constructor(props){
+        super(props)
+        global.dsc.record.snapshot(this.props.user , (error, data)=> {
+            this.user = data
+        })
     }
     render() {
-        const {user, handleColor } = this.props;
-        const tmp = user.id
-        console.log(tmp)
-        console.log(user)
+        const {handleColor  , onPress , light , size} = this.props;
+        const {user} = this;
+        const tmp = user ? user.id : null
+        console.log('tmp is ' + tmp)
+        const username = user && user.login ? user.login.username : 'undefined';
+        const id  = user && user.id ? user.id : 'undefined'
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
-        console.log(this.props.onlinestore.users)
         return (
+           user &&
             <View style={styles.user} >
-                <Avatar uri={null} />
+                <Avatar uri={user.picture.thumbnail} size={size} />
                 <PresenceDot  user={user} backgroundColor={backgroundColor}/>
-                <View style={styles.username}>
-                    <Text type="headline" style={styles.headline} color={handleColor}>{null}</Text>
+               { light && <View style={styles.username}>
+                    <Text type="headline" style={styles.headline} color={handleColor}>{username}</Text>
                     <Text
                         type="footnote"
                         style={styles.footnote}
                         color={handleColor === "black" ? "#999999" : handleColor}
                     >
-                        {`@${null}`}
+                        {`@${id}`}
                     </Text>
                 </View>
+               }
             </View>
         );
     }
@@ -51,5 +62,11 @@ const styles = StyleSheet.create({
     },
     footnote: {
         lineHeight: 13
-    }
+    },
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: StyleGuide.spacing.tiny
+    },
 });

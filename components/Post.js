@@ -25,10 +25,10 @@ export default class Message extends React.Component<MessageProps> {
     
     setPost(data){
         this.post = data
-         global.dsc.record.snapshot(data.user_id , (error, data)=> {
-            this.user = data
-            
-         })
+        this.user = data.user_id
+        //  global.dsc.record.snapshot(data.user_id , (error, data)=> {
+        //     this.user = data
+        //  })
     }
     
     render(){

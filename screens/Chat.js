@@ -17,9 +17,8 @@ export default class Message extends React.Component{
     constructor(props){
       super(props)
       const {user} = this.props.navigation.state.params;
-      console.log(user.name)
       this.postMessage = this.postMessage.bind(this)
-      const channel = '/channel/' + [user.name, global.user.name].sort().join('::');
+      const channel = '/channel/' + [user, global.user.name].sort().join('::');
       console.log(channel)
       this.list = global.dsc.record.getList(channel);
       this.scroll = this.scroll.bind(this)
@@ -67,7 +66,7 @@ export default class Message extends React.Component{
     const {navigation } = this.props;
     const {user} = navigation.state.params;
     const back = "Messages";
-    const title = user.name;
+    const title = user;
     return (
            <Container>
                <NavigationBar  {...{ navigation, title, back}} />
@@ -91,7 +90,6 @@ export default class Message extends React.Component{
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   inputBox: {

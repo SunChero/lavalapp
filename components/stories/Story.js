@@ -3,7 +3,7 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, TouchableOpacity} from "react-native";
 
-import {StyleGuide, Avatar} from "../index";
+import {StyleGuide, Handle} from "../index";
 
 import NotificationDot from "./NotificationDot";
 
@@ -15,25 +15,21 @@ type StoryProps = NavigationProps<> & {
     id: string
 };
 
-export default class Story extends React.Component<StoryProps> {
+export default class Story extends React.Component {
 
     @autobind
     onPress() {
-        const {navigation, id} = this.props;
-        navigation.navigate("user", { id });
+        const {navigation,user} = this.props;
+        const stream = user;
+        navigation.navigate("user", {stream});
     }
 
-    render(): React.Node {
+    render() {
         const {onPress} = this;
-        const {read, uri} = this.props;
+        const {user} = this.props;
         return (
             <TouchableOpacity {...{onPress}}>
-                <View style={[styles.story, read ? styles.semiTransparent : styles.opaque]}>
-                    <Avatar size={48} {...{uri}} />
-                    {
-                        !read && <NotificationDot style={styles.dot} />
-                    }
-                </View>
+                <Handle {...{user}} />
             </TouchableOpacity>
         );
     }

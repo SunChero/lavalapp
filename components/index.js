@@ -37,7 +37,7 @@ export {default as Avatar} from "./Avatar";
 export {default as Footer} from "./Footer";
 export {default as NewMessage} from "./NewMessage";
 //export {default as EventCard} from "./EventCard";
-
+export {default as UserHandle} from "./UserHandle";
 export {default as ReservationSheat} from "./ReservationSheat";
 export {default as TransparentHeader} from "./TransparentHeader";
 export {NavigationHelpers} from "./Navigation";
