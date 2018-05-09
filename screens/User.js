@@ -104,8 +104,8 @@ class User extends React.Component{
                         <Text type="title2" color="white" style={{flex:1}}>{user.login.username}</Text>
                     </View>
                     <Footer>
-                        <Icon raised name="ios-create-outline" size="32" type="ionicon"  onPress={this.toggleNewMessage} />
-                        <Icon  raised name="ios-chatbubbles-outline" type="ionicon" size="32" /> 
+                        <Icon color="white" name="ios-create-outline" size="32" type="ionicon"  onPress={this.toggleNewMessage} />
+                        <Icon  color="white"  name="ios-chatbubbles-outline" type="ionicon" size="32" onPress={() => {navigation.navigate('chat' , {user: user.id})}} /> 
                     </Footer>
                     <ActionSheet title="Comments" ref={this.commentsRef}>
                         <Content style={styles.comments}>

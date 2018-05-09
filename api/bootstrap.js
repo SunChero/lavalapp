@@ -1,8 +1,8 @@
 import {Facebook} from 'expo'
 import {AsyncStorage} from 'react-native'
 import createDeepstream from 'deepstream.io-client-js';
-const GET_USER_URL = 'http://192.168.183.145:3000/register'
-const DS_URL = "ws://192.168.183.145:6020/deepstream";
+const GET_USER_URL = 'http://192.168.2.22:3000/register'
+const DS_URL = "ws://192.168.2.22:6020/deepstream";
 export const SignUpWithFacebook = async() => {
         const { type, token } = await Facebook.logInWithReadPermissionsAsync('200996303851059', {
             permissions: ['public_profile', 'email', 'user_friends'],
@@ -51,10 +51,10 @@ export const LoginWithDeepStream = async () =>{
 export const SignUp = async () => {
   let user = await AsyncStorage.getItem('@ICILAVAL:user'); 
   console.log(user)
- // if(user === null){
+  if(user === null){
     console.log('user not FOUND')
     user = await SignUpAnonymous()
- // }
+  }
   await LoginWithDeepStream()
 }
 

@@ -50,7 +50,7 @@ export default class MainScreen extends React.Component {
     const expanded = false
     const header = <View style={styles.userRow}>
                       <View style={styles.userImage}>
-                          <Avatar   medium   rounded  source={{ uri: user.picture.thumbnail }}  style={{borderWidth : 2 , borderColor: 'black',}}/>
+                          <Avatar   rounded  source={{ uri: user.picture.thumbnail }}  size={36}/>
                       </View>
                         <View style={{flex : 3}}>
                           <Text style={{ fontSize: 16 , color : 'black' }}>@{user.login.username}</Text>

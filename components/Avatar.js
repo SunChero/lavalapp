@@ -21,7 +21,8 @@ export default class Avatar extends React.Component<AvatarProps> {
 
     static defaultProps = {
         size: 36,
-        stacked: false
+        stacked: false, 
+      
     };
 
     @observable _uri: string;

@@ -40,7 +40,7 @@ export default class ChatMessage extends React.Component{
         return (
            user &&
            <View style={[{ flexDirection: global.user.name === message.user ? 'row-reverse' : 'row' } , styles.box]}>
-                 <Avatar size={32} uri={user.picture} style={{margin: 5}}/>
+                 <Avatar size={32} uri={user.picture.thumbnail} style={{margin: 5}}/>
                 <TouchableOpacity style={ global.user.name === message.user ? styles.me : styles.message}>
                     <Text style={ global.user.name === message.user ? null : styles.white} >{message.message}</Text>
                     <Text style={[global.user.name === message.user ? null : styles.white ,styles.time]}> {moment(timestamp, "X").fromNow()}

@@ -142,7 +142,7 @@ const RootTabNavigator = TabNavigator({
 			borderTopWidth: 1,
       borderTopColor: 'white' ,
       backgroundColor : "white",
-      color: ''
+     
 		},
 	}
 })

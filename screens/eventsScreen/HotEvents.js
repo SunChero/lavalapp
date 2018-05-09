@@ -17,7 +17,7 @@ export default class HotEvents extends Component {
   }
   componentDidMount() {
    // this.props.navigation.state.routeName == 'hot' && this.props.EventsStore.loadEvents();
-   console.log(this.props.store._hotEvents)
+  /// console.log(this.props.store._hotEvents)
   }
   onPress(navigation) {
     this

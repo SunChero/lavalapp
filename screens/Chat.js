@@ -19,7 +19,9 @@ export default class Message extends React.Component{
       const {user} = this.props.navigation.state.params;
       this.postMessage = this.postMessage.bind(this)
       const channel = '/channel/' + [user, global.user.name].sort().join('::');
-      console.log(channel)
+      console.log('this is global user ' + global.user.name)
+      console.log('this is user ' + user)
+      console.log('this is channel ' + channel)
       this.list = global.dsc.record.getList(channel);
       this.scroll = this.scroll.bind(this)
     }
@@ -82,7 +84,7 @@ export default class Message extends React.Component{
                             onChangeText={this.setMessage}
                             value={this.message}
                         />
-                        <IconButton name="arrow-up" onPress={this.postMessage} backgroundPrimary rounded />
+                        <IconButton name="ios-send" type="ionicons" onPress={this.postMessage} color="black" size={40} rounded />
                     </View>
                 </SafeAreaView>
                 <KeyboardSpacer />

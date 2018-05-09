@@ -78,7 +78,7 @@ class Feed extends React.Component {
                     )}
                     scrollEventThrottle={16}
                     columnWrapperStyle={(numColumns && numColumns > 0) ? styles.columnWrapperStyle : undefined}
-                    {...{data, keyExtractor, renderItem, onScroll, numColumns}}
+                    {...{data, keyExtractor, renderItem, onScroll, numColumns} }
                 />
             </View>
         );
