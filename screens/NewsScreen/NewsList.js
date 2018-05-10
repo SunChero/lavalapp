@@ -1,8 +1,8 @@
 import React from "react"
-import { Text, FlatList, View, Image, ScrollView, Animated, TouchableOpacity } from 'react-native';
+import { Text, FlatList, View, ScrollView, Animated, TouchableOpacity } from 'react-native';
 import {Ionicons as Icon} from '@expo/vector-icons'
 import Alerts from './Alerts'
-import { NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconButton , withTheme} from '../../components'
+import { Image ,NewsCard , Feed , ActionSheet , notImplementedYet , NewMessage , IconButton , withTheme} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 @inject('store') 
@@ -30,6 +30,7 @@ class NewsList extends React.Component{
         const {theme} = this.props;
         const news = item.item;
         const image = 'http://www.laval.ca' + news.ImageUrl
+        console.log(image)
         const _onPress = () => {
             this.props.store.loadNewsPage(news.link);
             this.props.navigation.navigate('page' , {stream : news.id})}
@@ -46,8 +47,7 @@ class NewsList extends React.Component{
                         <Text style={{ fontFamily: "SFProText-Semibold" , fontSize: 16 , fontWeight: "400" }}>  {news.body} </Text>
                     </View>
                     <View>
-                        <Image  source={{ uri: image   }}
-                        style={{  height: 250, width: null,  flex: 1  }}/>
+                        <Image uri={image}  preview={image} style={{  height: 250, width: null,  flex: 1  }}/>
                     </View>
                 </View>
             </TouchableOpacity>

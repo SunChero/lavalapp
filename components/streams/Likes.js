@@ -7,7 +7,7 @@ export default function Posts(WrappedComponent) {
         console.log(stream)
         const id = stream ?  stream : this.props.navigation.state.params.stream;
         this.state = {   likes : []  }
-        this.AddLike = this.AddLike.bind(this)
+        this.toggleLike = this.toggleLike.bind(this)
         this.list = global.dsc.record.getList('/likes/' + id);
         this.list.subscribe(this._setEntries.bind(this))
       }
@@ -19,14 +19,14 @@ export default function Posts(WrappedComponent) {
           "likes" : entries
         })
       }
-      AddLike(){
-       const user = global.user.name
-       this.list.addEntry(user)
+     toggleLike(action){
+       if (action ===  true) this.list.addEntry(global.user.name)
+       else this.list.removeEntry(global.user.name)
       }
       render() {
         const {likes} = this.state;
-        const {AddLike} = this;
-        return <WrappedComponent {...{...this.props , AddLike , likes}} />;
+        const {toggleLike} = this;
+        return <WrappedComponent {...{...this.props , toggleLike , likes}} />;
       }
     };
   }

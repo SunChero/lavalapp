@@ -11,7 +11,7 @@ class EmptyShell extends React.Component {
     @observable scrollAnimation = new Animated.Value(0);
     render() {
         const { scrollAnimation} = this;
-        const {data, title, navigation, theme, back,header, body, style , expanded} = this.props;
+        const {data, title, navigation, theme, back,header, body, style , expanded , rightAction} = this.props;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],
             outputRange: [55, 0, 0]
@@ -34,7 +34,7 @@ class EmptyShell extends React.Component {
                 <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: bottom }}>
                     {  !back && ( <View style={[styles.halfFlex, { backgroundColor: top}]} /> )   }
                 </View>
-                <NavigationBar {...{ navigation, title, back, expanded}}  />
+                <NavigationBar {...{ navigation, title, back, expanded , rightAction}}  />
                 <AnimatedScrollView   contentContainerStyle={[styles.container, style]}  
                      onScroll={onScroll}  showsVerticalScrollIndicator={false}  
                      scrollEventThrottle={16} >

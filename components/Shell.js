@@ -2,7 +2,7 @@ import * as React from "react";
 import {ScrollView, StyleSheet, View, Animated , FlatList} from "react-native";
 import {observable} from "mobx";
 import {observer} from "mobx-react/native";
-import {NavigationBar , IconButton , NewMessage, ActionSheet , hasPosts, Post , withTheme , StyleGuide , Text} from "./index";
+import {NavigationBar , IconButton , NewMessage, ActionSheet , hasPosts, Post , withTheme , StyleGuide , Text, LikeButton , VueButton} from "./index";
 import moment from 'moment';
 
 @hasPosts
@@ -14,7 +14,7 @@ class Shell extends React.Component {
         this.onPress = this.onPress.bind(this)
         this.newPostRef = this.newPostRef.bind(this)
         this.AddPost = this.AddPost.bind(this)
-        this.AddLike = this.AddLike.bind(this)
+        this.toggleLike = this.toggleLike.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
     onPress() {
@@ -33,10 +33,10 @@ class Shell extends React.Component {
       })
       this.newPost.toggle();
     }
-    AddLike(){
-        console.log('Adding Like')
+    toggleLike(action){
+        console.log('toggle Like ' + action)
         //check if not user already likes this
-        this.props.AddLike()
+        this.props.toggleLike(action)
     }
     onChangeHandler = (data) => {
         this.newMessage = data
@@ -45,6 +45,7 @@ class Shell extends React.Component {
         const {onPress, AddPost , scrollAnimation} = this;
         const rightAction = {          icon: "ios-create-outline", type: 'ionicons',   onPress };
         const postAction = {            label: "Save", onPress: AddPost };
+        
         const {data, title, navigation, theme, back,header, body, style , vues , likes, posts} = this.props;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],
@@ -78,12 +79,8 @@ class Shell extends React.Component {
                             <View>{header}</View>
                             <Text type="title1" style={styles.headerText}>{title}</Text>
                             <View style={{   flexDirection:'row' }}>
-                                <IconButton secondary name="ios-eye-outline" type="ionicons" size="40" >
-                                    <Text type="title2" style={{fontSize: 20,marginLeft:5, color: theme.palette.secondary}}>{vues}</Text>
-                                </IconButton> 
-                                <IconButton secondary name="ios-heart-outline" type="ionicons" size="32" onPress={()=> {this.AddLike()}}>
-                                    <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{likes.length}</Text>
-                                </IconButton>
+                                <VueButton  color="black" count={vues}/>
+                                <LikeButton liked={likes.includes(global.user.name)} color="black" onLikeFunc={this.toggleLike} counter={likes.length}/>
                                 <IconButton secondary name="ios-chatbubbles-outline" type="ionicons" size="32"  >
                                     <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{posts.length}</Text>
                                 </IconButton>

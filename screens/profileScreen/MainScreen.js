@@ -47,7 +47,11 @@ export default class MainScreen extends React.Component {
     const user = global.user.get()
     const {navigation} = this.props
     const title = "Profile"
-    const expanded = false
+    const rightAction = {
+      Label : 'Edit',
+      title: 'Edit',
+      onPress : () =>{console.log('pressed')}
+    }
     const header = <View style={styles.userRow}>
                       <View style={styles.userImage}>
                           <Avatar   rounded  source={{ uri: user.picture.thumbnail }}  size={36}/>
@@ -88,7 +92,7 @@ export default class MainScreen extends React.Component {
         <EmptyShell 
           body={body}
           header={header}
-          {...{navigation , title , expanded , rightAction : {Label : 'somethign' , title: 'something'}}}
+          {...{navigation , title ,  rightAction}}
         />
       )
     }

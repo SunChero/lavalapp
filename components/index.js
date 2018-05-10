@@ -26,6 +26,8 @@ export {default as Activity} from "./Activity";
 export {default as Ratings} from "./Ratings";
 export {default as BaseCard} from "./BaseCard";
 export {default as Comments} from "./Comments";
+export {default as LikeButton} from "./LikeButton";
+export {default as VueButton} from "./VueButton";
 // export {default as Map} from "./Map";
 export {default as InfoText} from "./InfoText"
 export {default as QuantityInput} from "./QuantityInput";

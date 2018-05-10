@@ -2,13 +2,13 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, TouchableOpacity, Platform, StatusBar} from "react-native";
-import {Comments, Handle, Message, NewMessage, Image,  IconButton, ActionSheet, Text, Content, TransparentHeader, Footer,withTheme, hasPosts, notImplementedYet} from "../components";
+import {VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasPosts} from "../components";
 import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
 import {observable} from 'mobx'
 import {observer} from 'mobx-react/native'
 import { Icon } from 'react-native-elements'
-
+import moment from 'moment'
 
 @hasPosts
 @observer
@@ -19,7 +19,7 @@ class User extends React.Component{
         const {stream} = this.props.navigation.state.params;
         this.userRef = global.dsc.record.getRecord(stream);
         this.userRef.subscribe(this.setUser.bind(this))
-        this.AddLike = this.AddLike.bind(this)
+        this.toggleLike = this.toggleLike.bind(this)
     }
     setUser = (user)=>{
         this.user = user
@@ -62,21 +62,31 @@ class User extends React.Component{
         }
         this.userRef.discard();
     }
-    AddLike(){
-        console.log('Adding Like')
-        //check if not user already likes this
-        this.props.AddLike()
+    toggleLike(action){
+        this.props.toggleLike(action)
     }
+    onChangeHandler = (data) => {
+        this.newMessage = data
+    }
+    AddPost = () =>{
+        this.props.AddPost({
+            'postData' : this.newMessage,
+            'timestamp' : moment().unix(),
+            'user_id' : global.user.name
+        })
+        this.newPost.toggle();
+      }
     render() {
-        const {user} = this;
+        const {user , AddPost} = this;
         const {navigation, theme, vues, likes, posts} = this.props;
         const {stream} = navigation.state.params;
         
        
         const postAction = {
             label: "Post",
-            onPress: notImplementedYet
+            onPress:  AddPost
         };
+        
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
        
         return (
@@ -88,20 +98,17 @@ class User extends React.Component{
                         </LinearGradient>
                     </View>
                     <View style={{ flex: 1 ,padding:20}}>
+                         <Text type="title2" color="white" style={{flex:1}}>{user.login.username}</Text>
                          <View style={{  flexDirection:'row' }}>
                          <View style={{  flexDirection:'row' , flex: 4}}>
-                            <IconButton primary name="ios-eye-outline" type="ionicons" size="40" >
-                                <Text type="title2" style={{fontSize: 20,marginLeft:5, color: theme.palette.primary}}>{vues}</Text>
-                            </IconButton> 
-                            <IconButton primary name="ios-heart" type="ionicons" size="32" onPress={()=> {this.AddLike()}}>
-                                <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.primary}}>{likes.length}</Text>
-                            </IconButton>
+                            <VueButton  color="white" count={vues} />
+                            <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
                          </View>
                          <TouchableOpacity onPress={this.toggleComments}>
                             { <Comments  comments={posts.map(comment => comment.user)}  showLabel={false}   /> }
                          </TouchableOpacity>
                         </View>
-                        <Text type="title2" color="white" style={{flex:1}}>{user.login.username}</Text>
+                        
                     </View>
                     <Footer>
                         <Icon color="white" name="ios-create-outline" size="32" type="ionicon"  onPress={this.toggleNewMessage} />
@@ -111,18 +118,13 @@ class User extends React.Component{
                         <Content style={styles.comments}>
                                 {
                                     posts.map((msg, key) => (
-                                        <Message
-                                            user={msg.user}
-                                            timestamp={msg.timestamp}
-                                            message={msg.comment}
-                                            {...{key}}
-                                        />
+                                        <Post stream={msg} {...{navigation , key}} /> 
                                     ))
                                 }
                             </Content>
                     </ActionSheet>
                     <ActionSheet title="New Post" ref={this.newPostRef} rightAction={postAction}>
-                        <NewMessage />
+                        <NewMessage onChange={this.onChangeHandler}/>
                     </ActionSheet>
                    
                 </View>
