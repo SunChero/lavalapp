@@ -15,15 +15,17 @@ export default class Handle extends React.Component {
     }
     constructor(props){
         super(props)
+      //  console.log(this.props.user)
         global.dsc.record.snapshot(this.props.user , (error, data)=> {
             this.user = data
+            console.log(this.user)
         })
     }
     render() {
         const {handleColor  , onPress , light , size} = this.props;
         const {user} = this;
         const tmp = user ? user.id : null
-        console.log('tmp is ' + tmp)
+      //  console.log('tmp is ' + tmp)
         const username = user && user.login ? user.login.username : 'undefined';
         const id  = user && user.id ? user.id : 'undefined'
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';

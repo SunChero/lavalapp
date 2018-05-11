@@ -1,28 +1,21 @@
 import React from "react"
 import { View ,TouchableOpacity ,Text, StyleSheet} from 'react-native';
-import {Feed , Avatar, StyleGuide, PresenceDot , Handle} from '../../components'
+import {Feed , Avatar, StyleGuide, PresenceDot , Handle , hasChannels , withTheme} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import moment from 'moment'
 
-@inject('onlinestore' , 'theme') 
+@inject('onlinestore')
 @observer
-export default class MainView extends React.Component{
+class MainView extends React.Component{
     constructor(props){
         super(props) 
-        this.onPress = this.onPress.bind(this)
         this.handleColor = "black"
-        this.renderItem = this.renderItem.bind(this)
     }
-
-    onPress(user) {
-        console.log(user)
+    onPress = (user) => {
+       // this.props.onlinestore.createChannel(user)
         this.props.navigation.navigate("chat" , {user})
     }
-    componentDidMount(){
-      // this.props.navigation.state.routeName == 'main' ?  this.props.store.loadSite() : null 
-    }
     renderItem = ({item}) => (
-        
         <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
                 <View style={styles.user} >
                     <Handle {...{user : item}} />
@@ -32,12 +25,12 @@ export default class MainView extends React.Component{
     )
     render(){
         const {onPress, renderItem} = this;
-        
         const title = "Conversations"
         const {navigation} = this.props;
+       // console.log(this.props.onlinestore.channels)
         return (
         <View style={{flex : 1}}>
-            <Feed  {...{data : this.props.onlinestore.users , renderItem, title, navigation }} />
+            <Feed  {...{data : this.props.onlinestore.channels , renderItem, title, navigation }} />
            
         </View>
         )
@@ -67,3 +60,6 @@ const styles = StyleSheet.create({
         lineHeight: 13
     }
 });
+
+
+export default withTheme(MainView)

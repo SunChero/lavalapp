@@ -45,7 +45,7 @@ export {default as TransparentHeader} from "./TransparentHeader";
 export {NavigationHelpers} from "./Navigation";
 export {createTheme, Colors, StyleGuide, withTheme, withStyles } from "./theme";
 export {notImplementedYet} from "./notImplementedYet";
-export {hasPosts , hasLikes , hasVues} from "./streams";
+export {hasPosts , hasLikes , hasVues , hasChannels} from "./streams";
 export {default as Post} from "./Post";
 export {default as PostHeader} from "./PostHeader";
 export {default as Handle} from "./Handle";

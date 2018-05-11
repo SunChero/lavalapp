@@ -4,11 +4,11 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, SafeAreaView, TextInput, View  , FlatList} from "react-native";
 import {observable, action} from "mobx";
-import {observer} from "mobx-react/native";
+import {observer , inject} from "mobx-react/native";
 import {Feed, Container, IconButton, KeyboardSpacer, StyleGuide , ChatMessage, NavigationBar} from "../components";
 
 
-
+@inject('onlinestore')
 @observer
 export default class Message extends React.Component{
 
@@ -17,6 +17,7 @@ export default class Message extends React.Component{
     constructor(props){
       super(props)
       const {user} = this.props.navigation.state.params;
+     // this.props.onlinestore.createChannel(user)
       this.postMessage = this.postMessage.bind(this)
       const channel = '/channel/' + [user, global.user.name].sort().join('::');
       console.log('this is global user ' + global.user.name)

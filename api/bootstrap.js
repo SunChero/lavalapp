@@ -39,22 +39,24 @@ export const SignUpAnonymous = async () =>{
 export const LoginWithDeepStream = async () =>{
   const user = await AsyncStorage.getItem('@ICILAVAL:user');
   const token = await AsyncStorage.getItem('@ICILAVAL:token');  
-    global.dsc = createDeepstream(DS_URL).login({
+  global.dsc = createDeepstream(DS_URL).login({
     username : user ,
     password :  token
   });
   global.dsc.on('error' , (error) => {})
   global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
-  global.user = global.dsc.record.getRecord(user)
+  global.user = global.dsc.record.getRecord(user);
+  global.user.whenReady(record => global.userObj = record.get())
+
  // global.username = 'user' + user_id
 }
 export const SignUp = async () => {
   let user = await AsyncStorage.getItem('@ICILAVAL:user'); 
   console.log(user)
- // if(user === null){
+ if(user === null){
     console.log('user not FOUND')
     user = await SignUpAnonymous()
- // }
+ }
   await LoginWithDeepStream()
 }
 

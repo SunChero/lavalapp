@@ -6,11 +6,12 @@ import {VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, 
 import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
 import {observable} from 'mobx'
-import {observer} from 'mobx-react/native'
+import {observer , inject} from 'mobx-react/native'
 import { Icon } from 'react-native-elements'
 import moment from 'moment'
 
 @hasPosts
+@inject('onlinestore')
 @observer
 class User extends React.Component{
     @observable user = null;
@@ -68,6 +69,10 @@ class User extends React.Component{
     onChangeHandler = (data) => {
         this.newMessage = data
     }
+    gotoChat = () =>{
+        this.props.onlinestore.createChannel(this.user.id)
+        this.props.navigation.navigate('chat' , {user: this.user.id})
+    }
     AddPost = () =>{
         this.props.AddPost({
             'postData' : this.newMessage,
@@ -112,7 +117,7 @@ class User extends React.Component{
                     </View>
                     <Footer>
                         <Icon color="white" name="ios-create-outline" size="32" type="ionicon"  onPress={this.toggleNewMessage} />
-                        <Icon  color="white"  name="ios-chatbubbles-outline" type="ionicon" size="32" onPress={() => {navigation.navigate('chat' , {user: user.id})}} /> 
+                        <Icon  color="white"  name="ios-chatbubbles-outline" type="ionicon" size="32" onPress={this.gotoChat} /> 
                     </Footer>
                     <ActionSheet title="Comments" ref={this.commentsRef}>
                         <Content style={styles.comments}>
