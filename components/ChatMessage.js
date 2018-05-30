@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     me : {
         width: '80%',
         backgroundColor: '#F5F5F5',
-        color : 'black',
         marginBottom: 2,
         padding: 12,
         borderRadius: 10,

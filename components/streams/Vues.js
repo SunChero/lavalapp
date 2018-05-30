@@ -1,8 +1,11 @@
 import * as React from "react";
 export default function withVues(WrappedComponent) {
     return class extends React.Component {
-      constructor(props) {
-        super(props);
+      state = {
+        counter : 0
+      }
+
+      componentDidMount() {
         const {stream} = this.props;
         const id  = stream ? stream : this.props.navigation.state.params.stream;
         this.state = {
@@ -17,21 +20,9 @@ export default function withVues(WrappedComponent) {
           })
         });
       }
-      componentDidMount(){
-        
-        
-       // this.record.subscribe(this._setRecord.bind(this))
-      }
       componentWillUnmount(){
         this.record.discard()
       }
-      // _setRecord(rc){
-      //   console.log(rc)
-      //   this.setState({
-      //     "counter" : rc.counter
-      //   })
-      // }
-     
       render() {
         const vues = this.state.counter;
         const {counter} = this;

@@ -1,11 +1,12 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native'
 import {Avatar, List , ListItem} from 'react-native-elements'
-import {Icon , EmptyShell , InfoText} from "../../components"
+import {Icon , EmptyShell , InfoText , NavigationBar} from "../../components"
 import {inject, observer} from 'mobx-react/native'
 import { Constants, Permissions, Notifications , Facebook} from 'expo';
 import { SocialIcon } from 'react-native-elements'
 import {default as registerPush} from '../../api/registerForPushNotificationsAsync'
+
 const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
 
 
@@ -52,18 +53,18 @@ export default class MainScreen extends React.Component {
       title: 'Edit',
       onPress : () =>{console.log('pressed')}
     }
-    const header = <View style={styles.userRow}>
-                      <View style={styles.userImage}>
-                          <Avatar   rounded  source={{ uri: user.picture.thumbnail }}  size={36}/>
-                      </View>
-                        <View style={{flex : 3}}>
-                          <Text style={{ fontSize: 16 , color : 'black' }}>@{user.login.username}</Text>
-                          <Text  style={{   color: 'black', fontSize: 16,  }}>  {user.id} </Text>
-                        </View>
-                   </View>
-    const body = 
-              <View>
+      return (
+        <View style={{flex : 1 , backgroundColor : 'white'}} >
+           <NavigationBar title="Settings" />
+          <ScrollView style={{flex:1}}>
+         
+            <View  style={{flex: 1 , alignItems : 'center' , alignContent: 'center' , backgroundColor: 'white'}}>
+              <Avatar rounded  source={{ uri: user.picture.thumbnail }} width={90} />  
+            </View>
                 <List containerStyle={styles.listContainer}>
+                  <ListItem title="Edit info"  onPress={() => this.onPressOptions('edit')}  containerStyle={styles.listItemContainer}
+                      leftIcon={ <Icon containerStyle={{ backgroundColor: '#A4C8F0' }}  icon={{type: 'ionicon',name: 'md-information-circle',}} /> }
+                    />
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon  containerStyle={{ backgroundColor: 'transparent',}}  icon={{type: 'material',  name: 'notifications', }}  />  }
                   />
@@ -86,21 +87,15 @@ export default class MainScreen extends React.Component {
                   leftIcon={ <Icon containerStyle={{ backgroundColor: '#00C001', }} icon={{type: 'materialicon', name: 'feedback', }} />  }
                   />
                 </List>
+              </ScrollView>  
               </View>
-       
-      return (
-        <EmptyShell 
-          body={body}
-          header={header}
-          {...{navigation , title ,  rightAction}}
-        />
       )
     }
    
   }
 const styles = StyleSheet.create({
     scroll: {
-        backgroundColor: 'white',
+       // backgroundColor: 'white',
       },
       userRow: {
         alignItems: 'center',

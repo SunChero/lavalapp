@@ -15,13 +15,6 @@ import moment from 'moment'
 @observer
 class User extends React.Component{
     @observable user = null;
-    constructor(props){
-        super(props)
-        const {stream} = this.props.navigation.state.params;
-        this.userRef = global.dsc.record.getRecord(stream);
-        this.userRef.subscribe(this.setUser.bind(this))
-        this.toggleLike = this.toggleLike.bind(this)
-    }
     setUser = (user)=>{
         this.user = user
     }
@@ -51,16 +44,13 @@ class User extends React.Component{
     }
 
     componentDidMount() {
-        console.log(this.props.navigation.state.params)
-        if (Platform.OS === "android") {
-            StatusBar.setHidden(true);
-        }
+        const {stream} = this.props.navigation.state.params;
+        this.userRef = global.dsc.record.getRecord(stream);
+        this.userRef.subscribe(this.setUser.bind(this))
+        this.toggleLike = this.toggleLike.bind(this)
     }
 
     componentWillUnmount() {
-        if (Platform.OS === "android") {
-            StatusBar.setHidden(false);
-        }
         this.userRef.discard();
     }
     toggleLike(action){

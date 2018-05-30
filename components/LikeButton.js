@@ -8,7 +8,7 @@ export default class LikeButton extends React.PureComponent{
     onPress = () =>   liked ? onLikeFunc(false) : onLikeFunc(true)
     const iconname = liked ? 'ios-heart' : 'ios-heart-outline'
     return (
-        <IconButton  name={iconname} type="ionicons" size="32" onPress={onPress} color={color}>
+        <IconButton  name={iconname} type="ionicons" size={32} onPress={onPress} color={color}>
              <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: color}}>{counter}</Text>
         </IconButton>
     );

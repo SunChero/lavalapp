@@ -27,9 +27,11 @@ export default class Story extends React.Component {
     render() {
         const {onPress} = this;
         const {user} = this.props;
+        const light = false;
+        const size = 40;
         return (
             <TouchableOpacity {...{onPress}}>
-                <Handle {...{user}} />
+                <Handle {...{user, light , size}} />
             </TouchableOpacity>
         );
     }

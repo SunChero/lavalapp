@@ -26,8 +26,8 @@ export default class Handle extends React.Component {
         const {user} = this;
         const tmp = user ? user.id : null
       //  console.log('tmp is ' + tmp)
-        const username = user && user.login ? user.login.username : 'undefined';
-        const id  = user && user.id ? user.id : 'undefined'
+        const username = user && user.name ? user.name.first + " " + user.name.last : 'undefined';
+        const id  = user && user.login ? user.login.username : 'undefined'
         const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
         return (
            user &&

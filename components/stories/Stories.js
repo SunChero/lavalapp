@@ -28,7 +28,7 @@ export default class Stories extends React.Component {
 
 const styles = StyleSheet.create({
     stories: {
-        backgroundColor: '#283355',
+        backgroundColor: 'white',
         flex: 1,
         flexDirection: "row",
         alignItems: "center",

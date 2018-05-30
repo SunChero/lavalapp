@@ -56,12 +56,13 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     await bootStrap.SignUp()
+    await store.loadSite();
     onlinestore.SetupPresence();
     onlinestore.SetupChannels();
  //   onlinestore.subscribe();
     StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
-    await store.loadSite();
+    
   }
   render() {
     const theme = createTheme();

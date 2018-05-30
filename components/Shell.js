@@ -81,7 +81,7 @@ class Shell extends React.Component {
                             <View style={{   flexDirection:'row' }}>
                                 <VueButton  color="black" count={vues}/>
                                 <LikeButton liked={likes.includes(global.user.name)} color="black" onLikeFunc={this.toggleLike} counter={likes.length}/>
-                                <IconButton secondary name="ios-chatbubbles-outline" type="ionicons" size="32"  >
+                                <IconButton secondary name="ios-chatbubbles-outline" type="ionicons" size={32}  >
                                     <Text type="title2" style={{fontSize: 20, marginLeft:5 , color: theme.palette.secondary}}>{posts.length}</Text>
                                 </IconButton>
                             </View>

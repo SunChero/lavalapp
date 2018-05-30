@@ -7,6 +7,7 @@ import Policies from './PoliciesScreen';
 import About from './AboutUsScreen';
 import Language from './LanguageScreen';
 import Location_ from './LocationScreen';
+import EditScreen from './EditScreen'
 
 const screenStack = StackNavigator({
     main: {
@@ -26,6 +27,9 @@ const screenStack = StackNavigator({
     },
     policies: {
       screen: Policies
+    },
+    edit : {
+      screen : EditScreen
     }
   }, {headerMode: 'none'})
 

@@ -29,7 +29,8 @@ class NewsList extends React.Component{
     renderItem = (item) => {
         const {theme} = this.props;
         const news = item.item;
-        const image = 'http://www.laval.ca' + news.ImageUrl
+        const image = 'http://www.laval.ca/' + news.ImageUrl
+        //const image = news.ImageUrl.startsWith('http') ? news.ImageUrl :  'http://www.laval.ca' + news.ImageUrl
         console.log(image)
         const _onPress = () => {
             this.props.store.loadNewsPage(news.link);
