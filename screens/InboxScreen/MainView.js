@@ -1,7 +1,8 @@
 import React from "react"
 import { View ,TouchableOpacity ,Text, StyleSheet} from 'react-native';
-import {Feed , Avatar, StyleGuide, PresenceDot , Handle , hasChannels , withTheme} from '../../components'
+import {Feed , Avatar, StyleGuide, PresenceDot , Handle , hasChannels , withTheme , NotificationCounter} from '../../components'
 import {observer, inject} from 'mobx-react/native'
+import {observable} from 'mobx'
 import moment from 'moment'
 
 @inject('onlinestore')
@@ -11,18 +12,12 @@ class MainView extends React.Component{
         super(props) 
         this.handleColor = "black"
     }
-    onPress = (user) => {
-       // this.props.onlinestore.createChannel(user)
-        this.props.navigation.navigate("chat" , {user})
+   
+    renderItem = ({item}) => {
+       const {navigation} = this.props;
+       const counter = this.props.onlinestore.unreadMessages[item]
+       return  <NotificationCounter {...{item , navigation , counter}} />
     }
-    renderItem = ({item}) => (
-        <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
-                <View style={styles.user} >
-                    <Handle {...{user : item}} />
-                </View>
-                <Text type="footnote">{moment(150000000, "X").fromNow()}</Text>
-        </TouchableOpacity>
-    )
     render(){
         const {onPress, renderItem} = this;
         const title = "Conversations"

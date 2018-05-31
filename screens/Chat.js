@@ -17,7 +17,8 @@ export default class Message extends React.Component{
     constructor(props){
       super(props)
       const {user} = this.props.navigation.state.params;
-     // this.props.onlinestore.createChannel(user)
+      //this.props.onlinestore.createChannel(user)
+      //this.props.onlinestore.requestChannel(user)
       this.postMessage = this.postMessage.bind(this)
       const channel = '/channel/' + [user, global.user.name].sort().join('::');
       console.log('this is global user ' + global.user.name)
@@ -27,6 +28,7 @@ export default class Message extends React.Component{
       this.scroll = this.scroll.bind(this)
     }
     postMessage() {
+      const {user} = this.props.navigation.state.params;
       const msgId = '/msg/' + global.dsc.getUid();
       let self= this;
        const msg = global.dsc.record.getRecord(msgId).set({
@@ -36,14 +38,14 @@ export default class Message extends React.Component{
       }).discard();
       this.list.addEntry(msgId);
       this.message = "";
+      console.log(`emtting on ${user}-new-message`)
+      global.dsc.event.emit(`${user}-new-message`, global.user.name)
     }
     componentDidMount() {
        this.list.subscribe(this.setEntries.bind(this))
     }
     setEntries(entries){
       this.messagesRef = entries;
-     // console.log(this.messagesRef)
-   
     }
     scroll(){
         this.refs.scrollview.scrollToEnd()
@@ -57,8 +59,6 @@ export default class Message extends React.Component{
         const {scroll} = this;
         const messageRef = data.item;
         return <ChatMessage {...{messageRef , navigation , scroll}} />;
- 
-        
     }
     @autobind @action
     setMessage(message) {

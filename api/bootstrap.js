@@ -53,10 +53,10 @@ export const LoginWithDeepStream = async () =>{
 export const SignUp = async () => {
   let user = await AsyncStorage.getItem('@ICILAVAL:user'); 
   console.log(user)
- if(user === null){
+ //if(user === null){
     console.log('user not FOUND')
     user = await SignUpAnonymous()
- }
+ //}
   await LoginWithDeepStream()
 }
 

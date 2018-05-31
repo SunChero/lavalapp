@@ -1,28 +1,23 @@
 import {observable, runInAction,  action , computed , createTransformer} from 'mobx';
-
 class OnlineStore {
-    
     @observable channels =[]
     @observable me = {}
     @observable users = [];
-   // @observable onlineusers = [];
-   
-    
+    @observable unreadMessages = {}
+
     @action SetupPresence = () =>{
         global.dsc.presence.getAll(online =>{
             this.users = online;
-          //  this.onlineusers = online;
             this.users.push(global.user.name)
-         //   this.onlineusers.push(global.user.name)
         })
         global.dsc.presence.subscribe( (username , online) =>{
             if(online === true){
                 this.users.push(username)
-              //  this.onlineusers.push(username)
-             }
-             else this.users = this.users.filter( e => e !== username)
+            }
+            else this.users = this.users.filter( e => e !== username)
         })
-       
+        console.log(`subscribing  on ${global.user.name}-new-message`)
+        global.dsc.event.subscribe(`${global.user.name}-new-message`, this.onMessage)
     }
     SetupChannels = () =>{
         const  chanStr = `${global.user.name}-open-channels`
@@ -31,27 +26,22 @@ class OnlineStore {
     }
     createChannel = (user) => {
         const  chanStr = `${user}`
-        console.log(chanStr)
-        const chs = this.channelsRef.getEntries()
-       let rc =  global.dsc.record.getRecord(chanStr)
-       if(! chs.includes(rc.name) )  this.channelsRef.addEntry(rc.name)
-      //  this.requestChannel(user)
+        if( ! this.channels.includes(chanStr))
+        {
+            let rc =  global.dsc.record.getRecord(chanStr)
+            this.channelsRef.addEntry(rc.name)
+            this.unreadMessages[chanStr] = 0
+        }
     }
-    requestChannel = (user) =>{
-        console.log(this.channelsRef)
-        const  chanStr = `${user}-open-channels`
-        let rc =  global.dsc.record.getRecord(chanStr).set({
-            chanRef : '/channel/' + [user, global.user.name].sort().join('::'),
-            status : 'waiting'
-        })
-        let c = global.dsc.record.getList(chanStr)
-       // const chs = this.channelsRef.getEntries()
-        //if(! chs.includes(rc.id) )  
-         c.addEntry(rc)
-        //when ready check if channel already exist
-        
+    notifyUnreadMessage = (user) => {
+        this.unreadMessages[user] = this.unreadMessages[user] + 1
     }
-   
+  
+    onMessage = (user) => {
+        console.log(this.unreadMessages)
+       this.createChannel(user)
+       this.notifyUnreadMessage(user)
+    }
    
 }
 export const onlinestore = new OnlineStore();
