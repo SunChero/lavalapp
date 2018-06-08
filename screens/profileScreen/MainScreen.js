@@ -57,12 +57,8 @@ export default class MainScreen extends React.Component {
         <View style={{flex : 1 , backgroundColor : 'white'}} >
            <NavigationBar title="Settings" />
           <ScrollView style={{flex:1}}>
-         
-            <View  style={{flex: 1 , alignItems : 'center' , alignContent: 'center' , backgroundColor: 'white'}}>
-              <Avatar rounded  source={{ uri: user.picture.thumbnail }} width={90} />  
-            </View>
                 <List containerStyle={styles.listContainer}>
-                  <ListItem title="Edit info"  onPress={() => this.onPressOptions('edit')}  containerStyle={styles.listItemContainer}
+                  <ListItem title="Edit info" rightTitle={` ${user.name.first} / ${user.name.last}`} onPress={() => this.onPressOptions('edit')}  containerStyle={styles.listItemContainer}
                       leftIcon={ <Icon containerStyle={{ backgroundColor: '#A4C8F0' }}  icon={{type: 'ionicon',name: 'md-information-circle',}} /> }
                     />
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}

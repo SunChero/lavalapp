@@ -19,9 +19,8 @@ import Activity  from './screens/Activity';
 import User from './screens/User'
 import Chat from './screens/Chat'
 import * as bootStrap from './api/bootstrap';
-
+import IconBadge from 'react-native-icon-badge'
 @observer
-
 export default class App extends React.Component {
   
   state = {
@@ -62,7 +61,7 @@ export default class App extends React.Component {
  //   onlinestore.subscribe();
     StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
-    
+    global.waitingMessages = 0;
   }
   render() {
     const theme = createTheme();
@@ -76,77 +75,32 @@ export default class App extends React.Component {
       <Provider store={store} theme={theme} onlinestore={onlinestore}> 
         <ModalHost>   
           <RootNavigator />
+         
         </ModalHost>
       </Provider>
       );
     }
-r  }
+  }
 }
 const RootTabNavigator = TabNavigator({
   news : {screen : NewsScreen},
   explore : {screen : EventsScreen},
-  people : {screen : Neighbourhood},
-  inbox : {screen : InboxScreen},
+  calendar : {screen : Neighbourhood},
+  inbox : {
+            screen : InboxScreen,
+            navigationOptions: ({ screenProps , focused }) => ({
+              tabBarIcon: ({tintColor , focused}) =>
+                <IconBadge
+                  MainElement={<Icon  containerStyle={{ backgroundColor: 'transparent'}}  type="ionicons" name={focused ? 'ios-chatbubbles' :'ios-chatbubbles-outline' } size={28}  color={focused ? "black" : "#B0BEC5"}  />}
+                  BadgeElement={<Text style={{ color: 'white' }}>{global.waitingMessages}</Text>}
+                  Hidden={global.waitingMessages ? false : true}
+                />
+            })
+          },
   profile : {screen : ProfileScreen}
 }, {
-  navigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused }) => {
-      const { routeName } = navigation.state;
-      let iconName;
-      let iconClass;
-      switch (routeName) {
-        case 'news':
-          iconName = Platform.OS === 'ios' ? `ios-flame${focused ? '' : '-outline'}` : 'md-flame';
-          iconClass ='ionicons'
-          break;
-        case 'explore':
-          iconName = Platform.OS === 'ios' ? `ios-compass${focused ? '' : '-outline'}` : 'md-link';
-          iconClass ='ionicons'
-          break;
-        case 'Signalement':
-          iconName = Platform.OS === 'ios' ? `ios-megaphone${focused ? '' : '-outline'}` : 'md-options';
-          iconClass ='ionicons'
-            break;
-        case 'profile':
-            iconName = Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
-            iconClass = 'ionicons'
-            break;
-        case 'people':
-            iconName = Platform.OS === 'ios' ? `ios-people${focused ? '' : '-outline'}` : 'md-options';
-            iconClass ='ionicons'
-            break;
-        case 'inbox':
-            iconName = Platform.OS === 'ios' ? `ios-chatbubbles${focused ? '' : '-outline'}` : 'md-flame';
-            iconClass ='ionicons'
-            break;
-        case 'Filter':
-           iconName = Platform.OS === 'ios' ? `ios-funnel${focused ? '' : '-outline'}` : 'md-options';
-           iconClass ='ionicons'
-      }
-      return (
-        <Icon  containerStyle={{ backgroundColor: 'transparent'}}  type={iconClass} name={iconName} size={28}  color={focused ? "black" : "#B0BEC5"}  />
-      );
-    }
-  }),
-  tabBarOptions: {
-    tabBarPosition: 'bottom',
-    animationEnabled: true,
-    swipeEnabled: false,
-    headerEnabled : false,
-    showLabel: true,
-    activeTintColor: "black",
-    inactiveTintColor : '#B0BEC5',
-		labelStyle: {
-      fontSize: 12,
-      fontWeight: '100'
-		},
-		style: {
-			borderTopWidth: 1,
-      borderTopColor: 'white' ,
-      backgroundColor : "white",
-     
-		},
-	}
+  navigationOptions: bootStrap.NavigationOptions,
+  tabBarOptions: bootStrap.tabBarOptions
 })
 
 const RootNavigator = StackNavigator({

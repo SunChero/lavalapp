@@ -44,7 +44,7 @@ export {default as NewMessage} from "./NewMessage";
 export {default as UserHandle} from "./UserHandle";
 export {default as ReservationSheat} from "./ReservationSheat";
 export {default as TransparentHeader} from "./TransparentHeader";
-export {NavigationHelpers} from "./Navigation";
+export {NavigationHelpers,TabNavigatorOptions} from "./Navigation";
 export {createTheme, Colors, StyleGuide, withTheme, withStyles } from "./theme";
 export {notImplementedYet} from "./notImplementedYet";
 export {hasPosts , hasLikes , hasVues , hasChannels} from "./streams";

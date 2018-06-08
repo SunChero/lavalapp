@@ -24,7 +24,7 @@ class TextComp extends React.PureComponent<TypographyProps> {
     };
 
     render(): React.Node {
-        const {theme, type, style, children, primary, numberOfLines, align: textAlign} = this.props;
+        const {theme, type, style, children, primary, numberOfLines, align: textAlign , onPress} = this.props;
         const typography = StyleGuide.typography[type];
         const color = (() => {
             if (primary) {
@@ -36,7 +36,7 @@ class TextComp extends React.PureComponent<TypographyProps> {
         })();
         const computedStyle = [typography, { textAlign, color }];
         computedStyle.push(style);
-        return <Text style={computedStyle} {...{numberOfLines}}>{children}</Text>;
+        return <Text style={computedStyle} {...{numberOfLines , onPress}}>{children}</Text>;
     }
 }
 

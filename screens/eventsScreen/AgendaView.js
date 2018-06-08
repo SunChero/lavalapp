@@ -50,7 +50,7 @@ export default class EventsScreen extends Component {
       const {navigation} = this.props;
       const back = "Events";
       const title = "Full Calendar"
-      const expanded = true
+      const expanded = false
       return (
         <View style={{
           flex: 1

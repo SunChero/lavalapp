@@ -69,9 +69,10 @@ export default class EditScreen extends Component {
     const title = "User details"
     const back = "Settings"
     const rightAction = {icon : "md-checkmark-circle-outline" , type:"ionicons" ,  onPress : () => { this.setState("showCamera" , false)}}
+    const saveRightAction = {text : "save"  ,onPress : this.onPress}
     return (
       <View style={styles.container}>
-        <NavigationBar {...{navigation , title , back}}/>
+        <NavigationBar {...{navigation , title , back , rightAction : saveRightAction}}/>
         {
             this.state.message &&  
             <View style={styles.header}>
@@ -115,13 +116,6 @@ export default class EditScreen extends Component {
             onChangeText={email => this.setState({email})}
             placeholder="email@example.com"
             />
-            <Button raised medium
-                        icon={{name: 'ios-send', type: 'ionicon'}}
-                        title='Save'
-                        backgroundColor="#283355"
-                        onPress={this.onPress}
-                        />
-            
         </View>
         
        

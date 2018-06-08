@@ -67,7 +67,7 @@ class NewsList extends React.Component{
                 header={<Alerts {...{alerts : Alertes}} />}
                     {...{data : news, renderItem, title, navigation,rightAction }} />
                     <ActionSheet title="Aviser la ville" ref={this.newPostRef} rightAction={postAction}>
-                        <NewMessage onChange={this.onChangeHandler}/>
+                        <NewMessage onChange={this.onChangeHandler} voila/>
                     </ActionSheet>
         </View>
         )

@@ -33,7 +33,7 @@ class Feed extends React.Component {
     }
     render(): React.Node {
         const {renderItem, scrollAnimation} = this;
-        const {data, title, navigation, theme, back, rightAction, header, numColumns, style} = this.props;
+        const {data, title, navigation, theme, back, rightAction, header, numColumns, style , extraData} = this.props;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],
             outputRange: [55, 0, 0]
@@ -78,7 +78,7 @@ class Feed extends React.Component {
                     )}
                     scrollEventThrottle={16}
                     columnWrapperStyle={(numColumns && numColumns > 0) ? styles.columnWrapperStyle : undefined}
-                    {...{data, keyExtractor, renderItem, onScroll, numColumns} }
+                    {...{data, keyExtractor, renderItem, onScroll, numColumns , extraData} }
                 />
             </View>
         );

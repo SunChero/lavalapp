@@ -12,7 +12,9 @@ class MainView extends React.Component{
         super(props) 
         this.handleColor = "black"
     }
-   
+    componentDidMount = () => {
+        global.waitingMessages = 0;
+    } 
     renderItem = ({item}) => {
        const {navigation} = this.props;
        const counter = this.props.onlinestore.unreadMessages[item]

@@ -74,7 +74,12 @@ export default class NewMessage extends React.Component<{}> {
                 <TextInput  style={styles.textInput}  placeholder="Description"  underlineColorAndroid="transparent"  textAlignVertical="top" multiline  autoFocus
                     onChangeText={(text) => this.props.onChange(text)}
                 />
-                <SegmentedControl transparent values={["Description", "Photo" , "Position"]} {...{selectedIndex, onChange}} />
+                {
+                    this.props.voila && (
+                        <SegmentedControl transparent values={["Description", "Photo" , "Position"]} {...{selectedIndex, onChange}} />
+                    )
+                }
+                
                 <KeyboardSpacer />
             </View>
         );

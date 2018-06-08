@@ -3,7 +3,7 @@ class OnlineStore {
     @observable channels =[]
     @observable me = {}
     @observable users = [];
-    @observable unreadMessages = {}
+    @observable unreadMessages = []
 
     @action SetupPresence = () =>{
         global.dsc.presence.getAll(online =>{
@@ -38,7 +38,8 @@ class OnlineStore {
     }
   
     onMessage = (user) => {
-        console.log(this.unreadMessages)
+    console.log(this.unreadMessages)
+      
        this.createChannel(user)
        this.notifyUnreadMessage(user)
     }

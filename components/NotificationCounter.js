@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import {  View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {observer, inject} from 'mobx-react/native'
+import {Observer , observer,  inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 import {Handle} from './index';
+
 @inject('onlinestore')
-@observer
 export default class NotificationCounter extends Component {
    state = {
        counter : 0
    }
-   componentDidMount = () =>{
+   componentDidMount = () => {
+       console.log('mounted')
        this.setState({
            counter : this.props.onlinestore.unreadMessages[this.props.item]
        })
@@ -19,16 +20,18 @@ export default class NotificationCounter extends Component {
         this.props.onlinestore.unreadMessages[this.props.item] = 0
     }
     render() {
-        const {item , counter} = this.props;
-        console.log(counter)
-        return (
-            <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
-                <View style={styles.user} >
-                    <Handle {...{user : item}} />
-                </View>
-                <Text type="footnote">{this.state.counter}</Text>
-            </TouchableOpacity>
-        );
+        const {item} = this.props;
+        return <Observer>{
+            () => <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
+                    <View style={styles.user} >
+                        <Handle {...{user : item}} />
+                    </View>
+                    <Text type="footnote">{this.props.onlinestore.unreadMessages[item]}</Text>
+                </TouchableOpacity>
+                }
+        </Observer>;
+            
+        
   }
 }
 

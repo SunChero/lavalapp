@@ -40,6 +40,7 @@ export default class Message extends React.Component{
       this.message = "";
       console.log(`emtting on ${user}-new-message`)
       global.dsc.event.emit(`${user}-new-message`, global.user.name)
+      global.waitingMessages++;
     }
     componentDidMount() {
        this.list.subscribe(this.setEntries.bind(this))

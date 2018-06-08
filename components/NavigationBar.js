@@ -90,13 +90,21 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                     }
                     <View style={styles.rightBlock}>
                         {
-                            rightAction && (
+                            rightAction &&  rightAction.icon && (
                                 <IconButton secondary
                                     onPress={rightAction.onPress}
                                     name={rightAction.icon}
                                     type={rightAction.type}
                                     style={styles.rightAction}
                                 />
+                            )
+                            
+                        }
+                         {
+                            rightAction && !rightAction.icon && (
+                               <Text style={{fontSize: 20, fontWeight: 'normal', color : 'black'}}
+                                onPress={rightAction.onPress}
+                               >{rightAction.text} </Text>
                             )
                         }
                     </View>
