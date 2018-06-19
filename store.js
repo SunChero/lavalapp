@@ -1,8 +1,8 @@
 import {observable, runInAction,  action , computed} from 'mobx';
 import moment from 'moment';
 
-const GET_SITE_URL = 'http://192.168.183.145:3000/_web/export/api'
-const NEWS_PAGE_URL = 'http://192.168.183.145:3000/_web/newsPage?link='
+const GET_SITE_URL = 'http://192.168.183.121:3000/_web/export/api'
+const NEWS_PAGE_URL = 'http://192.168.183.121:3000/_web/newsPage?link='
 const GET_USER_URL = 'https://randomuser.me/api/?nat=CA'
 
 class Store {

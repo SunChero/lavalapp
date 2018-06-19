@@ -4,8 +4,8 @@ import {AsyncStorage} from 'react-native'
 import createDeepstream from 'deepstream.io-client-js';
 import { NavigationActions } from 'react-navigation';
 import {Icon} from '../components/index'
-const GET_USER_URL = 'http://192.168.183.145:3000/register'
-const DS_URL = "ws://192.168.183.145:6020/deepstream";
+const GET_USER_URL = 'http://192.168.183.121:3000/register'
+const DS_URL = "ws://192.168.183.121:6020/deepstream";
 
 export const SignUpWithFacebook = async() => {
         const { type, token } = await Facebook.logInWithReadPermissionsAsync('200996303851059', {

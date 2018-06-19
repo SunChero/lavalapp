@@ -38,8 +38,7 @@ class OnlineStore {
     }
   
     onMessage = (user) => {
-    console.log(this.unreadMessages)
-      
+       console.log(this.unreadMessages)
        this.createChannel(user)
        this.notifyUnreadMessage(user)
     }
