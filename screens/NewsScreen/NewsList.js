@@ -30,10 +30,8 @@ class NewsList extends React.Component{
         const {theme} = this.props;
         const news = item.item;
         const image = 'http://www.laval.ca/' + news.ImageUrl
-        //const image = news.ImageUrl.startsWith('http') ? news.ImageUrl :  'http://www.laval.ca' + news.ImageUrl
-        console.log(image)
         const _onPress = () => {
-            this.props.store.loadNewsPage(news.link);
+            this.props.store.site.loadNewsPage(news.link);
             this.props.navigation.navigate('page' , {stream : news.id})}
         return (
             <TouchableOpacity style={{  flex: 1 , paddingBottom: 50 }}  onPress={_onPress}>
@@ -56,7 +54,7 @@ class NewsList extends React.Component{
     }
     render(){
         const {onPress, renderItem} = this;
-        const {news , Alertes} = this.props.store.site; 
+        const {news , Alertes} = this.props.store.site.info; 
         const title = "News"
         const {navigation} = this.props;
         const rightAction = {          icon: "md-paper-plane", type: "ionicons"  ,         onPress        };

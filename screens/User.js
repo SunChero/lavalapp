@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements'
 import moment from 'moment'
 
 @hasPosts
-@inject('onlinestore')
+@inject('store')
 @observer
 class User extends React.Component{
     @observable user = null;
@@ -60,7 +60,7 @@ class User extends React.Component{
         this.newMessage = data
     }
     gotoChat = () =>{
-        this.props.onlinestore.createChannel(this.user.id)
+        this.props.store.chat.createConversation(this.user.id)
         this.props.navigation.navigate('chat' , {user: this.user.id})
     }
     AddPost = () =>{

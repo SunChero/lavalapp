@@ -4,7 +4,7 @@ import {StyleSheet, View} from "react-native";
 import {Text, StyleGuide, Avatar, PresenceDot} from "./index";
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
-@inject('onlinestore')
+@inject('store')
 @observer
 export default class Handle extends React.Component {
     @observable user = null;
@@ -28,7 +28,7 @@ export default class Handle extends React.Component {
       //  console.log('tmp is ' + tmp)
         const username = user && user.name ? user.name.first + " " + user.name.last : 'undefined';
         const id  = user && user.login ? user.login.username : 'undefined'
-        const backgroundColor = this.props.onlinestore.users.includes(tmp) ? 'green' : 'gray';
+        const backgroundColor = this.props.store.presence.users.includes(tmp) ? 'green' : 'gray';
         return (
            user &&
             <View style={styles.user} >

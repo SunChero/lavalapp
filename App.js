@@ -8,8 +8,7 @@ import  EventsScreen from './screens/eventsScreen'
 import  InboxScreen from './screens/InboxScreen'
 import  ProfileScreen from './screens/profileScreen'
 import  Neighbourhood from './screens/neighbourhood'
-import {store} from './store'
-import {onlinestore} from './onlineStore'
+import {store} from './store/index'
 import {Provider , observer} from 'mobx-react/native'
 import {observable , action} from 'mobx'
 import {Asset , Font, AppLoading} from "expo";
@@ -55,9 +54,9 @@ export default class App extends React.Component {
   async componentDidMount() {
     console.disableYellowBox = true;
     await bootStrap.SignUp()
-    await store.loadSite();
-    onlinestore.SetupPresence();
-    onlinestore.SetupChannels();
+    await store.site.loadSite();
+    store.chat.loadConversations();
+    store.init()
  //   onlinestore.subscribe();
     StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
@@ -72,7 +71,7 @@ export default class App extends React.Component {
       );
     } else {
       return (
-      <Provider store={store} theme={theme} onlinestore={onlinestore}> 
+      <Provider store={store} theme={theme} > 
         <ModalHost>   
           <RootNavigator />
          
@@ -92,8 +91,8 @@ const RootTabNavigator = TabNavigator({
               tabBarIcon: ({tintColor , focused}) =>
                 <IconBadge
                   MainElement={<Icon  containerStyle={{ backgroundColor: 'transparent'}}  type="ionicons" name={focused ? 'ios-chatbubbles' :'ios-chatbubbles-outline' } size={28}  color={focused ? "black" : "#B0BEC5"}  />}
-                  BadgeElement={<Text style={{ color: 'white' }}>{global.waitingMessages}</Text>}
-                  Hidden={global.waitingMessages ? false : true}
+                  BadgeElement={<Text style={{ color: 'white' }}>{store.totalNotifications}</Text>}
+                  Hidden={store.totalNotifications > 0 ? false : true}
                 />
             })
           },

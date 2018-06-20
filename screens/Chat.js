@@ -8,7 +8,7 @@ import {observer , inject} from "mobx-react/native";
 import {Feed, Container, IconButton, KeyboardSpacer, StyleGuide , ChatMessage, NavigationBar} from "../components";
 
 
-@inject('onlinestore')
+@inject('store')
 @observer
 export default class Message extends React.Component{
 
@@ -17,13 +17,10 @@ export default class Message extends React.Component{
     constructor(props){
       super(props)
       const {user} = this.props.navigation.state.params;
-      //this.props.onlinestore.createChannel(user)
-      //this.props.onlinestore.requestChannel(user)
+   
       this.postMessage = this.postMessage.bind(this)
       const channel = '/channel/' + [user, global.user.name].sort().join('::');
-      console.log('this is global user ' + global.user.name)
-      console.log('this is user ' + user)
-      console.log('this is channel ' + channel)
+   
       this.list = global.dsc.record.getList(channel);
       this.scroll = this.scroll.bind(this)
     }
@@ -40,7 +37,7 @@ export default class Message extends React.Component{
       this.message = "";
       console.log(`emtting on ${user}-new-message`)
       global.dsc.event.emit(`${user}-new-message`, global.user.name)
-      global.waitingMessages++;
+      
     }
     componentDidMount() {
        this.list.subscribe(this.setEntries.bind(this))

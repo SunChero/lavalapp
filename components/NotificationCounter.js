@@ -4,7 +4,7 @@ import {Observer , observer,  inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 import {Handle} from './index';
 
-@inject('onlinestore')
+@inject('store')
 export default class NotificationCounter extends Component {
    state = {
        counter : 0
@@ -12,12 +12,12 @@ export default class NotificationCounter extends Component {
    componentDidMount = () => {
        console.log('mounted')
        this.setState({
-           counter : this.props.onlinestore.unreadMessages[this.props.item]
+           counter : this.props.store.notifications.get(this.props.item)
        })
    }
     onPress = (user) => {
         this.props.navigation.navigate("chat" , {user})
-        this.props.onlinestore.unreadMessages[this.props.item] = 0
+        this.props.store.notifications.set(this.props.item, 0)
     }
     render() {
         const {item} = this.props;
@@ -26,7 +26,7 @@ export default class NotificationCounter extends Component {
                     <View style={styles.user} >
                         <Handle {...{user : item}} />
                     </View>
-                    <Text type="footnote">{this.props.onlinestore.unreadMessages[item]}</Text>
+                    <Text type="footnote">{this.props.store.notifications.get(item)}</Text>
                 </TouchableOpacity>
                 }
         </Observer>;

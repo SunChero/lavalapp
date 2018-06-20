@@ -8,8 +8,8 @@ import moment from 'moment'
 @observer
 export default class NewsPage extends React.Component{
     render(){
-        const {Title , Content , timestamp} = this.props.store.newsPage; 
-        const image = this.props.store.newsPage.Image
+        const {Title , Content , timestamp} = this.props.store.site.newsPage; 
+        const image = this.props.store.site.newsPage.Image
         const title = Title
         const picture = {uri: image}
         const {navigation } = this.props;

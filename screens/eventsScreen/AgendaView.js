@@ -16,7 +16,7 @@ export default class EventsScreen extends Component {
      // this.props.navigation.state.routeName == 'full' && this.props.EventsStore.loadEvents()
     }
     loadItems(data) {
-      let events = this.props.store._fullEvents
+      let events = this.props.store.site._fullEvents
       return events
     }
     renderItem(item) {

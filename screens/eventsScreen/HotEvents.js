@@ -45,7 +45,7 @@ export default class HotEvents extends Component {
     }}>{event.item.value}</Text>
   }
   render() {
-    const {_hotEvents , _weekEvents} = this.props.store;
+    const {_hotEvents , _weekEvents} = this.props.store.site;
     const {onPress, renderItem} = this;
     let arr = [
       ...{}, {
