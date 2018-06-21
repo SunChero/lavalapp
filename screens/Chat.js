@@ -48,6 +48,12 @@ export default class Message extends React.Component{
     scroll(){
         this.refs.scrollview.scrollToEnd()
     }
+    componentDidUpdate(){
+        // setTimeout(function(){
+        //    // const {scroll} = this.props;
+        //     this.scroll()
+        // }.bind(this) , 100)
+     }
     componentWillUnmount(){
       this.list.discard()
     }

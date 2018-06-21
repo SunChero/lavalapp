@@ -4,6 +4,7 @@ import {StyleSheet, View} from "react-native";
 import {Text, StyleGuide, Avatar, PresenceDot} from "./index";
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
+
 @inject('store')
 @observer
 export default class Handle extends React.Component {

@@ -28,7 +28,7 @@ export default class Alert extends React.Component {
     render(){
         const renderItem = this.renderItem
         const {alerts} = this.props;
-        return  <FlatList data={alerts} renderItem={renderItem} />
+        return  <FlatList data={alerts} renderItem={renderItem} keyExtractor={(item, index) => index}/>
         
     }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { createTheme, Icon}  from './components'
-import { Text, View ,Platform, StatusBar } from 'react-native';
+import { createTheme, Icon , IconBadge}  from './components'
+import { Text, View ,Platform, StatusBar , StyleSheet } from 'react-native';
 import {Colors} from './constants'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import  NewsScreen from './screens/NewsScreen'
 import  EventsScreen from './screens/eventsScreen'
 import  InboxScreen from './screens/InboxScreen'
 import  ProfileScreen from './screens/profileScreen'
-import  Neighbourhood from './screens/neighbourhood'
+import  Neighbourhood from './screens/eventsScreen/AgendaView'
 import {store} from './store/index'
 import {Provider , observer} from 'mobx-react/native'
 import {observable , action} from 'mobx'
@@ -18,7 +18,7 @@ import Activity  from './screens/Activity';
 import User from './screens/User'
 import Chat from './screens/Chat'
 import * as bootStrap from './api/bootstrap';
-import IconBadge from 'react-native-icon-badge'
+
 @observer
 export default class App extends React.Component {
   
@@ -56,6 +56,7 @@ export default class App extends React.Component {
     await bootStrap.SignUp()
     await store.site.loadSite();
     store.chat.loadConversations();
+    store.presence.SetupPresence()
     store.init()
  //   onlinestore.subscribe();
     StatusBar.setBarStyle("dark-content");
@@ -88,12 +89,7 @@ const RootTabNavigator = TabNavigator({
   inbox : {
             screen : InboxScreen,
             navigationOptions: ({ screenProps , focused }) => ({
-              tabBarIcon: ({tintColor , focused}) =>
-                <IconBadge
-                  MainElement={<Icon  containerStyle={{ backgroundColor: 'transparent'}}  type="ionicons" name={focused ? 'ios-chatbubbles' :'ios-chatbubbles-outline' } size={28}  color={focused ? "black" : "#B0BEC5"}  />}
-                  BadgeElement={<Text style={{ color: 'white' }}>{store.totalNotifications}</Text>}
-                  Hidden={store.totalNotifications > 0 ? false : true}
-                />
+              tabBarIcon: ({tintColor , focused}) => <IconBadge focused={focused} show={store.totalNotifications} />
             })
           },
   profile : {screen : ProfileScreen}
@@ -110,3 +106,4 @@ const RootNavigator = StackNavigator({
 },{
   headerMode: 'none'
 })
+

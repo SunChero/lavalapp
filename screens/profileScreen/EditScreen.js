@@ -6,8 +6,8 @@ import {Button , Avatar , Badge} from 'react-native-elements'
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import {observable} from "mobx";
 import {observer} from "mobx-react/native";
-const UPLOAD_URL = "http://192.168.183.145:3000/upload"
-const AVATAR_URL = "http://192.168.183.145:3000/"
+const UPLOAD_URL = "http://192.168.2.22:3000/upload"
+const AVATAR_URL = "http://192.168.2.22:3000/"
 @observer
 export default class EditScreen extends Component {
 @observable avatar = ""

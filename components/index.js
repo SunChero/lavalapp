@@ -17,6 +17,7 @@ export {default as Button} from "./Button";
 export {default as IconButton} from "./IconButton";
 export {default as PayButton} from "./PayButton";
 export {default as Content} from "./Content";
+export {default as IconBadge} from "./IconBadge";
 export {default as List} from "./List";
 export {default as ActionSheet} from "./ActionSheet";
 export {default as Sheet} from "./Sheet";

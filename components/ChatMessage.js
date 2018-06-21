@@ -31,7 +31,7 @@ export default class ChatMessage extends React.Component{
        setTimeout(function(){
            const {scroll} = this.props;
            scroll()
-       }.bind(this) , 200)
+       }.bind(this) , 100)
     }
     render(){
         const {navigation } = this.props;

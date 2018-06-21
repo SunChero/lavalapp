@@ -21,12 +21,13 @@ export default class NotificationCounter extends Component {
     }
     render() {
         const {item} = this.props;
+        const show = this.props.store.notifications.get(item) > 0 ? true : false 
         return <Observer>{
             () => <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
                     <View style={styles.user} >
                         <Handle {...{user : item}} />
                     </View>
-                    <Text type="footnote">{this.props.store.notifications.get(item)}</Text>
+                    {this.props.store.notifications.get(item) > 0 && <View style={styles.IconBadge}><Text style={{color: 'white'}}>{this.props.store.notifications.get(item)}</Text></View>}
                 </TouchableOpacity>
                 }
         </Observer>;
@@ -55,5 +56,17 @@ const styles = StyleSheet.create({
     },
     footnote: {
         lineHeight: 13
-    }
+    },
+    IconBadge: {
+      
+        position: 'absolute',
+        right: 10,
+
+        minWidth:20,
+        height:20,
+        borderRadius:15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FF0000'
+      }
 });
