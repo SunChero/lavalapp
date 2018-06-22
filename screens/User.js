@@ -42,25 +42,23 @@ class User extends React.Component{
     toggleComments() {
         this.comments.toggle();
     }
-
     componentDidMount() {
         const {stream} = this.props.navigation.state.params;
         this.userRef = global.dsc.record.getRecord(stream);
         this.userRef.subscribe(this.setUser.bind(this))
-        this.toggleLike = this.toggleLike.bind(this)
     }
 
     componentWillUnmount() {
         this.userRef.discard();
     }
-    toggleLike(action){
+    toggleLike = (action)=>{
         this.props.toggleLike(action)
     }
     onChangeHandler = (data) => {
         this.newMessage = data
     }
     gotoChat = () =>{
-        this.props.store.chat.createConversation(this.user.id)
+        this.props.store.chat.addPeer(this.user.id)
         this.props.navigation.navigate('chat' , {user: this.user.id})
     }
     AddPost = () =>{

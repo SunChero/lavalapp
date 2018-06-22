@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {  View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {Observer , observer,  inject} from 'mobx-react/native'
-import {observable} from 'mobx'
+import {Observer ,  inject} from 'mobx-react/native'
 import {Handle} from './index';
 
 @inject('store')

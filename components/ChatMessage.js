@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
 import {StyleSheet , View, TouchableOpacity} from "react-native";
-import {StyleGuide, Text, BaseCard, Avatar} from "./index";
+import { Text,  Avatar} from "./index";
 import moment from 'moment'
-import {observer , inject} from 'mobx-react/native'
+import {observer } from 'mobx-react/native'
 import {observable} from 'mobx'
 @observer
 export default class ChatMessage extends React.Component{
@@ -12,20 +12,10 @@ export default class ChatMessage extends React.Component{
    
     constructor(props){
         super(props)
-        const {messageRef} = this.props;
-        const id = messageRef ? messageRef : this.props.navigation.state.params.messageRef;
-        this.messageRef = global.dsc.record.getRecord(id);
-        this.messageRef.subscribe(this.setMessage.bind(this))
-    }
-    componentWillUnmount(){
-        this.messageRef.discard()
-    }
-    setMessage(data){
-        console.log(data)
-        this.message = data
-         global.dsc.record.snapshot(data.user , (error, data)=> {
-            this.user = data
-         })
+        const {message} = this.props;
+        global.dsc.record.snapshot(message.user , (error, data)=> {
+               this.user = data
+        })
     }
     componentDidUpdate(){
        setTimeout(function(){
@@ -35,7 +25,8 @@ export default class ChatMessage extends React.Component{
     }
     render(){
         const {navigation } = this.props;
-        const {message , user } = this;
+        const { user } = this;
+        const {message} = this.props;
         const timestamp = message ? message.timestamp : null;
         return (
            user &&

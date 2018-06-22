@@ -16,7 +16,6 @@ export default class Handle extends React.Component {
     }
     constructor(props){
         super(props)
-      //  console.log(this.props.user)
         global.dsc.record.snapshot(this.props.user , (error, data)=> {
             this.user = data
             console.log(this.user)

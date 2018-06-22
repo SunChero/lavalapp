@@ -18,17 +18,15 @@ class MainView extends React.Component{
     renderItem = ({item}) => {
        const {navigation} = this.props;
        const counter = this.props.store.notifications.get(item)
-       return  <NotificationCounter {...{item , navigation , counter}} />
+       return  <NotificationCounter {...{item , navigation }} />
     }
     render(){
         const {onPress, renderItem} = this;
         const title = "Conversations"
         const {navigation} = this.props;
-       // console.log(this.props.onlinestore.conversations)
         return (
         <View style={{flex : 1}}>
-            <Feed  {...{data : this.props.store.chat.conversations , renderItem, title, navigation }} />
-           
+            <Feed  {...{data : this.props.store.chat.peers , renderItem, title, navigation }} />
         </View>
         )
     }

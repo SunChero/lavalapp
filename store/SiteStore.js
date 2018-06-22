@@ -1,8 +1,6 @@
 import {observable, runInAction,  action , computed} from 'mobx';
 import moment from 'moment';
-const GET_SITE_URL = 'http://192.168.2.22:3000/_web/export/api'
-const NEWS_PAGE_URL = 'http://192.168.2.22:3000/_web/newsPage?link='
-const GET_USER_URL = 'https://randomuser.me/api/?nat=CA'
+import {SITE_URL , NEWS_PAGE_URL} from '../api/constants'
 
 export class SiteStore {
     @observable newsPage = {};
@@ -17,7 +15,7 @@ export class SiteStore {
             })
     }
     @action loadSite = () =>{
-        return fetch(GET_SITE_URL).then(response => response.json())
+        return fetch(SITE_URL).then(response => response.json())
                .then(data =>{
                   runInAction(()=>{
                       this.info = data;

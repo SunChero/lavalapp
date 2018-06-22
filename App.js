@@ -1,7 +1,7 @@
 import React from 'react';
-import { createTheme, Icon , IconBadge}  from './components'
-import { Text, View ,Platform, StatusBar , StyleSheet } from 'react-native';
-import {Colors} from './constants'
+import { createTheme, IconBadge}  from './components'
+import { Platform, StatusBar  } from 'react-native';
+import {NavigationOptions, tabBarOptions} from './api/constants'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import  NewsScreen from './screens/NewsScreen'
 import  EventsScreen from './screens/eventsScreen'
@@ -10,14 +10,12 @@ import  ProfileScreen from './screens/profileScreen'
 import  Neighbourhood from './screens/eventsScreen/AgendaView'
 import {store} from './store/index'
 import {Provider , observer} from 'mobx-react/native'
-import {observable , action} from 'mobx'
 import {Asset , Font, AppLoading} from "expo";
 import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import ModalHost from "expo/src/modal/ModalHost";
 import Activity  from './screens/Activity';
 import User from './screens/User'
 import Chat from './screens/Chat'
-import * as bootStrap from './api/bootstrap';
 
 @observer
 export default class App extends React.Component {
@@ -53,15 +51,9 @@ export default class App extends React.Component {
   };
   async componentDidMount() {
     console.disableYellowBox = true;
-    await bootStrap.SignUp()
-    await store.site.loadSite();
-    store.chat.loadConversations();
-    store.presence.SetupPresence()
-    store.init()
- //   onlinestore.subscribe();
+    await store.init()
     StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
-    global.waitingMessages = 0;
   }
   render() {
     const theme = createTheme();
@@ -94,8 +86,8 @@ const RootTabNavigator = TabNavigator({
           },
   profile : {screen : ProfileScreen}
 }, {
-  navigationOptions: bootStrap.NavigationOptions,
-  tabBarOptions: bootStrap.tabBarOptions
+  navigationOptions: NavigationOptions,
+  tabBarOptions: tabBarOptions
 })
 
 const RootNavigator = StackNavigator({
