@@ -6,14 +6,36 @@ import {inject, observer} from 'mobx-react/native'
 import { Constants, Permissions, Notifications , Facebook} from 'expo';
 import { SocialIcon } from 'react-native-elements'
 import {default as registerPush} from '../../api/registerForPushNotificationsAsync'
-
 const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
-
-
 
 @inject('store')
 @observer
 export default class MainScreen extends React.Component {
+  static defaultProps = {
+    user : {
+      "gender": "female",
+      "name": {
+      "title": "mrs",
+      "first": "yael",
+      "last": "obdam"
+      },
+      "location": {
+      "street": "826 bokstraat",
+      "city": "nieuwkoop",
+      "state": "friesland",
+      }
+      },
+      "email": "yael.obdam@example.com",
+      "login": {
+      "username": "whiteduck842",
+      },
+      "id": "",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/54.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/54.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/54.jpg"
+      }
+  }
     constructor(props){
       super(props)
       this.state =  {
@@ -35,7 +57,6 @@ export default class MainScreen extends React.Component {
       this.props.navigation.navigate(route)
     }
     onChangePushNotifications = () => {
-      console.log(this.state.token)
       if(! this.state.token) {
        let token = registerPush()
        this.setState({
@@ -45,7 +66,7 @@ export default class MainScreen extends React.Component {
       }
     }
     render() {
-    const user = global.user.get()
+    const user = global.user ? global.user.get() : this.props.user
     const {navigation} = this.props
     const title = "Profile"
     const rightAction = {
@@ -57,8 +78,9 @@ export default class MainScreen extends React.Component {
         <View style={{flex : 1 , backgroundColor : 'white'}} >
            <NavigationBar title="Settings" />
           <ScrollView style={{flex:1}}>
+              <InfoText text="Edit" />
                 <List containerStyle={styles.listContainer}>
-                  <ListItem title="Edit info" rightTitle={` ${user.name.first} / ${user.name.last}`} onPress={() => this.onPressOptions('edit')}  containerStyle={styles.listItemContainer}
+                  <ListItem title="Profile" rightTitle={` ${user.name.first} / ${user.name.last}`} onPress={() => this.onPressOptions('edit')}  containerStyle={styles.listItemContainer}
                       leftIcon={ <Icon containerStyle={{ backgroundColor: '#A4C8F0' }}  icon={{type: 'ionicon',name: 'md-information-circle',}} /> }
                     />
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}

@@ -24,11 +24,23 @@ export class SiteStore {
     }
     @computed get _fullEvents(){
         let objs = {}
+        let filter = []
+        let counter = 0
         this.info.events.map( item => {
+            
            if(! objs[item.eventDate]){ 
              objs[item.eventDate] = []
            }
-           objs[item.eventDate].push(item);
+           let arr = objs[item.eventDate]
+           let exist = false;
+           
+           arr.map( (ev ) =>{
+               if(ev.Title === item.Title && ev._eventData === item._eventData){
+                   console.log(`event Exist already skipping ` + counter++)
+                   exist = true;
+               }
+           })
+           exist ? null  : objs[item.eventDate].push(item);
            return item;
         });
         return objs;

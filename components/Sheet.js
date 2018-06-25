@@ -65,8 +65,8 @@ const {height} = Dimensions.get("window");
 const styles = StyleSheet.create({
     content: {
         backgroundColor: StyleGuide.palette.white,
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
         maxHeight: height - Constants.statusBarHeight
     },
     header: {

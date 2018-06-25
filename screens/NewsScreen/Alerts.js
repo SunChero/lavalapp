@@ -8,7 +8,7 @@ export default class Alert extends React.Component {
     renderItem(obj){
         const alert = obj.item 
         return (
-            <View style={{backgroundColor: '#263238'}}>
+            <View style={{backgroundColor: 'black'}}>
                 
                 <View style={{padding : 20,     flex :1}}>
                     <Text  color="white" style={{fontSize: 20}}>{alert.Descr}</Text>

@@ -23,6 +23,7 @@ export const SignUpWithFacebook = async() => {
       
 }
 export const SignUpAnonymous = async () =>{
+  console.log(USER_URL)
     const response =  await fetch(USER_URL,{
       method: 'post',
       body: null
@@ -36,12 +37,21 @@ export const SignUpAnonymous = async () =>{
 export const LoginWithDeepStream = async () =>{
   const user = await AsyncStorage.getItem('@ICILAVAL:user');
   const token = await AsyncStorage.getItem('@ICILAVAL:token');  
-  global.dsc = createDeepstream(DS_URL).login({
+  global.dsc = createDeepstream(DS_URL , {
+    reconnectIntervalIncrement: 10000,
+    // Try reconnecting every thirty seconds
+    maxReconnectInterval: 30000,
+    // We never want to stop trying to reconnect
+    maxReconnectAttempts: Infinity,
+    heartbeatInterval: 60000
+  }).login({
     username : user ,
     password :  token
   });
   global.dsc.on('error' , (error) => {})
-  global.dsc.on('connectionStateChanged' , (error , event , topic) => {})
+  global.dsc.on('connectionStateChanged' , (error , event , topic) => {
+
+  })
   global.user = global.dsc.record.getRecord(user);
   global.user.whenReady(record => global.userObj = record.get())
 }
@@ -51,7 +61,8 @@ export const SignUp = async () => {
  if(user === null){
     console.log('user not FOUND')
     user = await SignUpAnonymous()
- }
+
+}
   await LoginWithDeepStream()
 }
 

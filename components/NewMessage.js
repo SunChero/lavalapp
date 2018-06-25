@@ -1,70 +1,58 @@
 import * as React from "react";
 import {observable, action} from "mobx";
 import {observer} from "mobx-react/native";
-import {StyleSheet, TextInput, View , Text , Modal , Image} from "react-native";
-import SegmentedControl from './SegmentedControl'
+import {StyleSheet, TextInput, View , Text , Modal , Image, ScrollView} from "react-native";
+
 import {StyleGuide} from './theme'
-import KeyboardSpacer from './KeyboardSpacer';
+
 import CameraRollPicker from 'react-native-camera-roll-picker';
-import {NavigationBar} from "./index";
+import {NavigationBar, Footer, KeyboardSpacer , Comments} from "./index";
+import {Icon, Avatar} from 'react-native-elements'
 @observer
 export default class NewMessage extends React.Component<{}> {
 
-    @observable selectedIndex = 0;
     @observable images = [];
     @observable location = null;
-    @observable showCamera = false;
+    @observable Camera = false;
     constructor(props){
         super(props)
-        this.onChange = this.onChange.bind(this)
         this.state = {
             location : {
                 latitude : null,
                 longitude : null
             },
         }
-        this.selectImages = this.selectImages.bind(this)
     }
-    @action
-    onChange(index) {
-        this.selectedIndex = index;
-        const options = ['Choose From Library', 'Send Location', 'Cancel'];
-        switch (index) {
-              case 1:
-               this.showCamera = true;
-                break;
-              case 2:
-                navigator.geolocation.getCurrentPosition(
-                  (position) => {
-                        this.location =  {
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude,
-                            }
-                      },
-                  (error) => alert(error.message),
-                  {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-                );
-                break;
-              default:
-        }
-    }
-    selectImages(images) {
+    selectImages = (images) => {
         this.images = images
     }
-    
+    showCamera = () =>{
+        this.Camera = true;
+    }
+    hideCamera = () =>{
+        this.Camera = false;
+    }
+    setPosition = () =>{
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                console.log(position)
+                  this.location =  {
+                          latitude: position.coords.latitude,
+                          longitude: position.coords.longitude,
+                      }
+                },
+            (error) => alert(error.message),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+          );
+    }
     render() {
-        const {selectedIndex, onChange} = this;
         const title = "Select Image"
-        const rightAction = {icon : "md-checkmark-circle-outline" , type:"ionicons" ,  onPress : () => { this.showCamera = false;}
-        }
+        const rightAction = {icon : "md-checkmark-circle-outline" , type:"ionicons" ,  onPress : this.hideCamera  }
         return (
             <View style={styles.container}>
-                {this.location && <View style={{ height :20, color: 'black'}}> <Text>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
-                
-                {
-                     this.images.map((i)=><Image style={styles.image}  source={{ uri:i.uri }}  />) 
-                }
-                <Modal   animationType={'slide'}     transparent={false}  visible={this.showCamera}  onRequestClose={() => {
+                {this.location && <View style={{ backgroundColor:"black" ,padding: 20 }}> <Text style={{color: 'white'}}>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
+               
+                <Modal   animationType={'slide'}     transparent={false}  visible={this.Camera}  onRequestClose={() => {
                         this.showCamera = false;
                         }}
                 >
@@ -76,7 +64,15 @@ export default class NewMessage extends React.Component<{}> {
                 />
                 {
                     this.props.voila && (
-                        <SegmentedControl transparent values={["Description", "Photo" , "Position"]} {...{selectedIndex, onChange}} />
+                        <Footer>
+                            <Icon color="black" reverse reverseColor="white" name="map-pin" raised={true} size={24} type="feather"  onPress={this.setPosition}/>
+                            <ScrollView horizontal style={{alignItems:'center', justifyContent:'center'}}>
+                                { this.images.map(i => <Avatar  rounded  medium   source={{uri: i.uri}}/>) }
+                            </ScrollView>
+                             
+                            <Icon color="black" reverse reverseColor="white" name="ios-camera" raised={true} size={24} type="ionicon"  onPress={this.showCamera}/>
+                        </Footer>
+                        
                     )
                 }
                 
@@ -88,7 +84,7 @@ export default class NewMessage extends React.Component<{}> {
 
 const styles = StyleSheet.create({
     container: {
-        padding: StyleGuide.spacing.base
+        //padding: StyleGuide.spacing.base
     },
     textInput: {
         height: 143,

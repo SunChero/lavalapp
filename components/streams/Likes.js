@@ -8,7 +8,7 @@ export default function Posts(WrappedComponent) {
         const id = stream ?  stream : this.props.navigation.state.params.stream;
         this.state = {   likes : []  }
         this.toggleLike = this.toggleLike.bind(this)
-        this.list = global.dsc.record.getList('/likes/' + id);
+        this.list = global.dsc.record.getList('/likes/' + id.toString());
         this.list.subscribe(this._setEntries.bind(this))
       }
       componentWillUnmount(){

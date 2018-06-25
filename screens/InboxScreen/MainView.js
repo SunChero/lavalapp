@@ -1,6 +1,6 @@
 import React from "react"
-import { View ,TouchableOpacity ,Text, StyleSheet} from 'react-native';
-import {Feed , Avatar, StyleGuide, PresenceDot , Handle , hasconversations , withTheme , NotificationCounter} from '../../components'
+import { View ,TouchableOpacity ,Text, StyleSheet , ScrollView} from 'react-native';
+import {Feed , Avatar, StyleGuide, PresenceDot , Handle , hasconversations , withTheme , NotificationCounter, EmptyShell} from '../../components'
 import {observer, inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 import moment from 'moment'
@@ -8,53 +8,55 @@ import moment from 'moment'
 @inject('store')
 @observer
 class MainView extends React.Component{
-    constructor(props){
-        super(props) 
-        this.handleColor = "black"
-    }
-    componentDidMount = () => {
-        global.waitingMessages = 0;
-    } 
-    renderItem = ({item}) => {
-       const {navigation} = this.props;
-       const counter = this.props.store.notifications.get(item)
-       return  <NotificationCounter {...{item , navigation }} />
-    }
+   
     render(){
-        const {onPress, renderItem} = this;
+     
         const title = "Conversations"
         const {navigation} = this.props;
+        const back =false
         return (
-        <View style={{flex : 1}}>
-            <Feed  {...{data : this.props.store.chat.peers , renderItem, title, navigation }} />
-        </View>
+           
+            <EmptyShell {...{title , navigation ,back}}>
+                <View style={{flex :1}}>
+                    {this.props.store.chat.peers.map(item => <NotificationCounter {...{item , navigation }} />)}
+                </View>
+            </EmptyShell>
+            
+       
+        
         )
     }
 }
 
 
-const styles = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: StyleGuide.spacing.tiny
-    },
-    user: {
-        flexDirection: "row",
-        alignItems: "stretch"
-    },
-    username: {
-        justifyContent: "space-between",
-        marginLeft: StyleGuide.spacing.tiny
-    },
-    headline: {
-        lineHeight: 17
-    },
-    footnote: {
-        lineHeight: 13
-    }
-});
+    const styles = StyleSheet.create({
+        flex: {
+            flex: 1
+        },
+        halfFlex: {
+            flex: 0.5
+        },
+        container: {
+            flexGrow: 1,
+            paddingBottom: StyleGuide.spacing.small,
+            backgroundColor: StyleGuide.palette.primary
+        },
+        header: {
+            padding: StyleGuide.spacing.small
+        },
+        headerText: {
+            color: StyleGuide.palette.secondary
+        },
+        extraHeader: {
+            backgroundColor: StyleGuide.palette.secondary,
+            ...StyleGuide.styles.shadow
+        },
+        columnWrapperStyle: {
+            marginRight: StyleGuide.spacing.small,
+            marginTop: StyleGuide.spacing.small
+        }
+    })
+
 
 
 export default withTheme(MainView)

@@ -52,15 +52,12 @@ const styles = StyleSheet.create({
     item: {
         flex: 1,
         padding: StyleGuide.spacing.small,
-        color: "white",
         alignItems: 'flex-start',
        
     },
     icon: {
         height: 30,
         justifyContent: "center",
-        color: "white",
-        
     },
     caption: {
         marginTop: StyleGuide.spacing.tiny,

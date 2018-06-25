@@ -50,11 +50,13 @@ export default class HotEvents extends Component {
     let arr = [
       ...{}, {
         type: 'Header',
-        value: 'En Vedette'
+        value: 'En Vedette',
+        key : 'vedette'
       },
       ..._hotEvents, {
         type: 'Header',
-        value: 'This week'
+        value: 'This week',
+        key : 'hot'
       },
       ..._weekEvents
     ]

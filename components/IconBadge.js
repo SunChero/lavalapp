@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import {View , Text , StyleSheet} from 'react-native'
 import {Icon} from './index'
-export default class IconBadge extends React.PureComponent{
+import {observer , inject} from "mobx-react/native";
+import {observable} from "mobx";
+@inject('store')
+@observer
+export default class IconBadge extends Component{
+  @observable show = this.props.show
   render() {
     const {show , focused} = this.props;
     return (
         <View >
             <Icon  containerStyle={{ backgroundColor: 'transparent'}}  type="ionicons" name={focused ? 'ios-chatbubbles' :'ios-chatbubbles-outline' } size={28}  color={focused ? "black" : "#B0BEC5"}  />
-                {show && <View style={styles.IconBadge}><Text style={{color: 'white'}}>!</Text></View>}
+                {this.props.store.totalNotifications && <View style={styles.IconBadge}><Text style={{color: 'white', fontSize: 9}}>{this.props.store.totalNotifications}</Text></View>}
         </View>
     );
   }

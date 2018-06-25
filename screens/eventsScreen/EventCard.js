@@ -1,7 +1,7 @@
 import React from 'react';
 import { View , Text } from 'react-native';
 //import {getLocations, getClientele, getTags, getActivityPage} from '../../utils'
-class EventCard extends React.Component {
+class EventCard extends React.PureComponent {
   gotoActivity(){
     const {navigation, item} = this.props;
     navigation.navigate('activity' , {...item , ...{stream : item.id}})
@@ -9,7 +9,7 @@ class EventCard extends React.Component {
   
 
   render() {
-     const {navigation, item} = this.props;
+   
                     return (
                       <View style={{flex : 1}}>
                         <Text  style={{ flex : 1 , backgroundColor: "white" , padding: 20 , margin : 10}} 

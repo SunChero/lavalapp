@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Observer ,  inject} from 'mobx-react/native'
 import {Handle} from './index';
+import {Icon} from 'react-native-elements'
 
 @inject('store')
 export default class NotificationCounter extends Component {
@@ -9,10 +10,13 @@ export default class NotificationCounter extends Component {
        counter : 0
    }
    componentDidMount = () => {
-       console.log('mounted')
        this.setState({
            counter : this.props.store.notifications.get(this.props.item)
        })
+   }
+   delete = () => {
+       this.props.store.chat.delPeer(this.props.item)
+
    }
     onPress = (user) => {
         this.props.navigation.navigate("chat" , {user})
@@ -26,7 +30,14 @@ export default class NotificationCounter extends Component {
                     <View style={styles.user} >
                         <Handle {...{user : item}} />
                     </View>
-                    {this.props.store.notifications.get(item) > 0 && <View style={styles.IconBadge}><Text style={{color: 'white'}}>{this.props.store.notifications.get(item)}</Text></View>}
+                    <Icon color="white" reverse reverseColor="black" name="ios-trash-outline" raised={true} size={16} type="ionicon"  onPress={this.delete}/>
+                    {
+                        this.props.store.notifications.get(item) > 0 && 
+                      
+                        <View style={styles.IconBadge}>
+                            <Text style={{color: 'white'}}>{this.props.store.notifications.get(item)}</Text>
+                        </View>
+                    }
                 </TouchableOpacity>
                 }
         </Observer>;
@@ -59,8 +70,8 @@ const styles = StyleSheet.create({
     IconBadge: {
       
         position: 'absolute',
-        right: 10,
-
+        right: 5,
+        top: 5,
         minWidth:20,
         height:20,
         borderRadius:15,

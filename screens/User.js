@@ -68,44 +68,43 @@ class User extends React.Component{
             'user_id' : global.user.name
         })
         this.newPost.toggle();
-      }
+    }
     render() {
         const {user , AddPost} = this;
         const {navigation, theme, vues, likes, posts} = this.props;
         const {stream} = navigation.state.params;
-        
-       
         const postAction = {
             label: "Post",
             onPress:  AddPost
         };
-        
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
        
         return (
            user && <View style={styles.story}>
                 <View style={styles.content}>
-                    <Image style={styles.image} uri={user.picture.large} />  
+                    <Image style={styles.image} uri={user.picture.thumbnail} />  
                     <View style={{position: 'absolute' , top: 0, left: 0, right: 0 }}>
-                        <LinearGradient colors={bottomGradient} style={{height:100,position: 'absolute' , top: 100 , left:0 , right: 0}}>
-                        </LinearGradient>
+                        <LinearGradient colors={bottomGradient} style={{height:100,position: 'absolute' , top: 100 , left:0 , right: 0}}></LinearGradient>
                     </View>
                     <View style={{ flex: 1 ,padding:20}}>
-                         <Text type="title2" color="white" style={{flex:1}}>{user.login.username}</Text>
-                         <View style={{  flexDirection:'row' }}>
-                         <View style={{  flexDirection:'row' , flex: 4}}>
-                            <VueButton  color="white" count={vues} />
-                            <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
-                         </View>
-                         <TouchableOpacity onPress={this.toggleComments}>
-                            { <Comments  comments={posts.map(comment => comment.user)}  showLabel={false}   /> }
-                         </TouchableOpacity>
-                        </View>
-                        
+                         <Text type="title1" color="white" >{`${user.name.first} / ${user.name.last}`}</Text>
+                         <Text type="subhead" color="white"  >{user.description ? user.description : 'this user has not updated their profile yet!'} </Text>
                     </View>
                     <Footer>
-                        <Icon color="white" name="ios-create-outline" size="32" type="ionicon"  onPress={this.toggleNewMessage} />
-                        <Icon  color="white"  name="ios-chatbubbles-outline" type="ionicon" size="32" onPress={this.gotoChat} /> 
+                            
+                            
+                    </Footer>
+                    <Footer>
+                        
+                        <Icon color="#263238" reverse reverseColor="white" name="ios-create" raised={true} size={32} type="ionicon"  onPress={this.toggleNewMessage} />
+                        <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
+                                { <Comments  comments={posts.map(comment => comment.user)}  showLabel={false}   /> }
+                                <View style={{  flexDirection:'row'}}>
+                                    <VueButton  color="white" count={vues} />
+                                    <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
+                                </View>
+                        </TouchableOpacity>
+                        <Icon  color="#263238" reverse  reverseColor="white"    name="ios-chatbubbles" raised={true} type="ionicon" size={32} onPress={this.gotoChat} /> 
                     </Footer>
                     <ActionSheet title="Comments" ref={this.commentsRef}>
                         <Content style={styles.comments}>

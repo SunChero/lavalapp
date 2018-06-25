@@ -11,7 +11,7 @@ export default function Posts(WrappedComponent) {
         const {stream} = this.props;
         const id = stream ? stream : this.props.navigation.state.params.stream;
         this.AddPost = this.AddPost.bind(this)
-        this.list = global.dsc.record.getList('/posts/' + id);
+        this.list = global.dsc.record.getList('/posts/' + id.toString());
         this.list.subscribe(this._setEntries.bind(this))
       }
       componentWillUnmount(){
