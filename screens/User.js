@@ -15,37 +15,41 @@ import moment from 'moment'
 @observer
 class User extends React.Component{
     @observable user = null;
+  
     setUser = (user)=>{
         this.user = user
     }
-    @autobind
-    goBack() {
+   
+    goBack = () =>{
         this.props.navigation.goBack();
     }
-    @autobind
-    toggleNewMessage() {
+   
+    toggleNewMessage = () =>{
         this.newPost.toggle();
     }
-    @autobind
-    newPostRef(newPost) {
+  
+    newPostRef = (newPost) => {
         if (newPost) {
             this.newPost = newPost;
         }
     }
-    @autobind
-    commentsRef(comments) {
+
+    commentsRef =(comments) =>{
         if (comments) {
             this.comments = comments;
         }
     }
-    @autobind
-    toggleComments() {
+
+    toggleComments = () =>{
         this.comments.toggle();
     }
     componentDidMount() {
         const {stream} = this.props.navigation.state.params;
         this.userRef = global.dsc.record.getRecord(stream);
         this.userRef.subscribe(this.setUser.bind(this))
+        
+       
+       
     }
 
     componentWillUnmount() {
@@ -80,25 +84,24 @@ class User extends React.Component{
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
        
         return (
-           user && <View style={styles.story}>
+           user && 
+           <View style={styles.story}>
                 <View style={styles.content}>
                     <Image style={styles.image} uri={user.picture.thumbnail} />  
-                    <View style={{position: 'absolute' , top: 0, left: 0, right: 0 }}>
+                    <View style={{position: 'absolute' , bottom: 400, left: 0, right: 0 }}>
                         <LinearGradient colors={bottomGradient} style={{height:100,position: 'absolute' , top: 100 , left:0 , right: 0}}></LinearGradient>
                     </View>
-                    <View style={{ flex: 1 ,padding:20}}>
+                    <View style={styles.description}>
                          <Text type="title1" color="white" >{`${user.name.first} / ${user.name.last}`}</Text>
                          <Text type="subhead" color="white"  >{user.description ? user.description : 'this user has not updated their profile yet!'} </Text>
                     </View>
                     <Footer>
-                            
-                            
+                       
                     </Footer>
                     <Footer>
-                        
                         <Icon color="#263238" reverse reverseColor="white" name="ios-create" raised={true} size={32} type="ionicon"  onPress={this.toggleNewMessage} />
                         <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
-                                { <Comments  comments={posts.map(comment => comment.user)}  showLabel={false}   /> }
+                                { <Comments  posts={posts}  showLabel={false}   /> }
                                 <View style={{  flexDirection:'row'}}>
                                     <VueButton  color="white" count={vues} />
                                     <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
@@ -113,7 +116,7 @@ class User extends React.Component{
                                         <Post stream={msg} {...{navigation , key}} /> 
                                     ))
                                 }
-                            </Content>
+                        </Content>
                     </ActionSheet>
                     <ActionSheet title="New Post" ref={this.newPostRef} rightAction={postAction}>
                         <NewMessage onChange={this.onChangeHandler}/>
@@ -134,12 +137,18 @@ const styles = StyleSheet.create({
         top: 0,
        position: 'absolute',
        width: '100%',
-       height: 200
+       bottom: 200
+    },
+    description : {
+        flex :1,
+        padding : 20,
+        justifyContent:'flex-end'
+        
     },
     content: {
         ...StyleSheet.absoluteFillObject,
-        justifyContent: "space-between",
-        paddingTop: 220
+       // justifyContent: "space-between",
+      //  paddingTop: 220
 
     },
     topLeft: {

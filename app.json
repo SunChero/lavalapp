@@ -13,9 +13,9 @@
     "facebookAppId": "200996303851059",
     "facebookDisplayName": "ICILaval",
     "splash": {
-      "image": "./assets/images/app.png",
+      "image": "./assets/images/mylogo7.png",
       "resizeMode": "contain",
-      "backgroundColor": "#283355"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

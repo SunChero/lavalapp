@@ -66,7 +66,8 @@ export default class MainScreen extends React.Component {
       }
     }
     render() {
-    const user = global.user ? global.user.get() : this.props.user
+    const user = {...this.props.user , ...global.user.get()}
+    console.log(user)
     const {navigation} = this.props
     const title = "Profile"
     const rightAction = {

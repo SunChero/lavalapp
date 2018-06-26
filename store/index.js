@@ -14,8 +14,8 @@ class Store {
     async init(){
         await Auth.SignUp()
         await this.site.loadSite();
-        await this.chat.loadPeers();
-        await this.chat.loadMessages();
+       // await this.chat.loadPeers();
+       // await this.chat.loadMessages();
         this.presence.SetupPresence()
        
         global.user.subscribe(`messages` , msgs => {

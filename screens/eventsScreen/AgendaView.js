@@ -57,17 +57,19 @@ export default class EventsScreen extends Component {
         }}>
           <NavigationBar {...{navigation , title , expanded ,back}}/>
           <Agenda
+            markingType={'multi-dot'}
+            markedDates={this.props.store.site.markedDates}
             theme={{textSectionTitleColor: 'black',
             dotColor : '#4A148C' ,
-             selectedDotColor: '#ffffff',
-             selectedDayBackgroundColor: '#4A148C',
-             selectedDayTextColor: '#ffffff',
-             dayTextColor: 'black' ,
-             monthTextColor: 'black',
-             agendaDayTextColor: '#4A148C',
-             agendaDayNumColor: '#4A148C',
-             agendaTodayColor: '#4A148C',
-             agendaKnobColor: '#4A148C'}}
+            selectedDotColor: '#ffffff',
+            selectedDayBackgroundColor: '#4A148C',
+            selectedDayTextColor: '#ffffff',
+            dayTextColor: 'black' ,
+            monthTextColor: 'black',
+            agendaDayTextColor: '#4A148C',
+            agendaDayNumColor: '#4A148C',
+            agendaTodayColor: '#4A148C',
+            agendaKnobColor: '#4A148C'}}
             items={this.props.store.site._fullEvents}
             selected={moment().format("YYYY-MM-DD")}
             renderItem={this.renderItem.bind(this)}
