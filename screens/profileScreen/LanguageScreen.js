@@ -5,15 +5,11 @@ import { inject } from 'mobx-react/native';
 
 @inject('store')
 export default class Language extends Component {
-    constructor(props){
-        super(props)
-        this._onPress = this._onPress.bind(this)
-    }
-    _onPress(item){
+   
+    _onPress = (item) => {
         const {navigation} = this.props;
         console.log(item)
-        global.user.set("language" ,item.title)
-       // this.props.store.setUser({language : item.title})
+        this.props.store.user.set("language" ,item.title)
        navigation.navigate('main')
     }
     _renderItem = ({item}) => (

@@ -12,21 +12,25 @@ export default class Comments extends React.Component {
         showLabel: true
     }
    
-    componentDidMount =()=>{
-        let lt = this.props.posts.length
-        this.props.posts.slice(lt > 5 ? lt -5 : 0  , lt).map(post =>
+    componentDidUpdate =(prevProps)=>{
+        if(prevProps.comments  !== this.props.comments  && this.images.length === 0){
+            let lt = this.props.comments.length
+            this.images = []
+            this.props.comments.slice(Math.max(lt - 4, 1)).map(post =>
             {
                 console.log(post)
-                global.dsc.record.snapshot(post , (error , data) =>
+                global.dsc.record.snapshot(post , (error ,record) =>
                 {
-                 global.dsc.record.snapshot(data.user_id , (error , user) =>  this.images.push(user.picture.thumbnail))
+                 global.dsc.record.snapshot(record.user_id , (error , user) =>  this.images.push(user.picture.thumbnail))
                 })
             }
         )
+        }
+        
     }
     render(){
-        const {posts, showLabel} = this.props;
-        const left = posts.length === 0 ? 0 : ((-5 * (posts.length - 1)) + StyleGuide.spacing.tiny);
+        const {comments, showLabel} = this.props;
+        const left = comments.length === 0 ? 0 : ((-5 * (comments.length - 1)) + StyleGuide.spacing.tiny);
         return (
             <View style={styles.comments}>
                 {

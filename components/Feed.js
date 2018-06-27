@@ -32,7 +32,7 @@ class Feed extends React.Component {
         return renderItem(item);
     }
     render(): React.Node {
-        const {renderItem, scrollAnimation} = this;
+        const {renderItem, scrollAnimation , keyExtractor} = this;
         const {data, title, navigation, theme, back, rightAction, header, numColumns, style , extraData} = this.props;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],

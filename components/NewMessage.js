@@ -66,7 +66,7 @@ export default class NewMessage extends React.Component<{}> {
                     this.props.voila && (
                         <Footer>
                             <Icon color="black" reverse reverseColor="white" name="map-pin" raised={true} size={24} type="feather"  onPress={this.setPosition}/>
-                            <ScrollView horizontal style={{alignItems:'center', justifyContent:'center'}}>
+                            <ScrollView horizontal contentContainerstyle={{alignItems:'center', justifyContent:'center'}}>
                                 { this.images.map(i => <Avatar  rounded  medium   source={{uri: i.uri}}/>) }
                             </ScrollView>
                              

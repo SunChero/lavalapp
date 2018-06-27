@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, TouchableOpacity, Platform, StatusBar} from "react-native";
+import {StyleSheet, View, TouchableOpacity, Platform, StatusBar, ScrollView} from "react-native";
 import {VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasPosts} from "../components";
 import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
@@ -59,6 +59,7 @@ class User extends React.Component{
         this.props.toggleLike(action)
     }
     onChangeHandler = (data) => {
+        console.log( `handeling ${data}`)
         this.newMessage = data
     }
     gotoChat = () =>{
@@ -86,22 +87,21 @@ class User extends React.Component{
         return (
            user && 
            <View style={styles.story}>
-                <View style={styles.content}>
+                <ScrollView contentContainerStyle={styles.content}>
                     <Image style={styles.image} uri={user.picture.thumbnail} />  
-                    <View style={{position: 'absolute' , bottom: 400, left: 0, right: 0 }}>
+                    <View style={{position: 'absolute' , bottom: 200, left: 0, right: 0 }}>
                         <LinearGradient colors={bottomGradient} style={{height:100,position: 'absolute' , top: 100 , left:0 , right: 0}}></LinearGradient>
                     </View>
                     <View style={styles.description}>
                          <Text type="title1" color="white" >{`${user.name.first} / ${user.name.last}`}</Text>
                          <Text type="subhead" color="white"  >{user.description ? user.description : 'this user has not updated their profile yet!'} </Text>
                     </View>
-                    <Footer>
-                       
-                    </Footer>
+                   
+                </ScrollView>
                     <Footer>
                         <Icon color="#263238" reverse reverseColor="white" name="ios-create" raised={true} size={32} type="ionicon"  onPress={this.toggleNewMessage} />
                         <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
-                                { <Comments  posts={posts}  showLabel={false}   /> }
+                                { <Comments  comments={this.props.posts}  showLabel={false}   /> }
                                 <View style={{  flexDirection:'row'}}>
                                     <VueButton  color="white" count={vues} />
                                     <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
@@ -121,8 +121,6 @@ class User extends React.Component{
                     <ActionSheet title="New Post" ref={this.newPostRef} rightAction={postAction}>
                         <NewMessage onChange={this.onChangeHandler}/>
                     </ActionSheet>
-                   
-                </View>
             </View>
         );
     }
@@ -137,7 +135,7 @@ const styles = StyleSheet.create({
         top: 0,
        position: 'absolute',
        width: '100%',
-       bottom: 200
+       bottom: 0
     },
     description : {
         flex :1,

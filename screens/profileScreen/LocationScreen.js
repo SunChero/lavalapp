@@ -5,13 +5,10 @@ import { inject } from 'mobx-react/native';
 
 @inject('store')
 export default class Location extends Component {
-    constructor(props){
-        super(props)
-        this._onPress = this._onPress.bind(this)
-    }
-    _onPress(item){
+    
+    _onPress = (item) => {
         const {navigation} = this.props;
-        global.user.set("city" , item.title)
+        this.props.store.user.set("city" , item.title)
         navigation.navigate('main')
     }
     _renderItem = ({item}) => (

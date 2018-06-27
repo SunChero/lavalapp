@@ -1,6 +1,6 @@
 import React from 'react';
 import { createTheme, IconBadge}  from './components'
-import { Platform, StatusBar  } from 'react-native';
+import { Platform, StatusBar, View, Text  ,NetInfo , Image} from 'react-native';
 import {NavigationOptions, tabBarOptions} from './api/constants'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import  NewsScreen from './screens/NewsScreen'
@@ -22,12 +22,12 @@ export default class App extends React.Component {
   
   state = {
     isLoadingComplete: false,
+    isConnected : null
   };
   _loadResourcesAsync = async () => {
     return Promise.all([
        Asset.loadAsync([
-         require('./assets/images/app.png'),
-         require('./assets/images/add.png')
+         require('./assets/images/mylogo7.png'),
       
        ]),
       Font.loadAsync({
@@ -51,9 +51,24 @@ export default class App extends React.Component {
   };
   async componentDidMount() {
     console.disableYellowBox = true;
+    NetInfo.isConnected.fetch().then(isConnected => 
+      {
+        console.log(`connection status is ${isConnected}`)
+          this.setState({isConnected : isConnected})
+      });
+      NetInfo.isConnected.addEventListener(
+        'connectionChange',
+            this.handleFirstConnectivityChange.bind(this)
+       );
+      
     await store.init()
     StatusBar.setBarStyle("dark-content");
     if (Platform.OS === "android") {  StatusBar.setBackgroundColor("white");  }
+  }
+  handleFirstConnectivityChange(isConnected) {
+    this.setState({"isConnected" : isConnected})
+    console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+    
   }
   render() {
     const theme = createTheme();
@@ -62,12 +77,18 @@ export default class App extends React.Component {
       return (
         <AppLoading startAsync={this._loadResourcesAsync}  onError={this._handleLoadingError} onFinish={this._handleFinishLoading}        />
       );
-    } else {
+    }
+  //  else if(!this.state.isConnected ){
+          // return (<View style={{backgroundColor : "black" , flex:1 , justifyContent:"center" , alignItems : "center"}}>
+          //     <Image source={require('./assets/images/mylogo7.png')} style={{width : 400 , height: 300}}/>
+          //     <Text style={{color: "white" , fontWeight:'900'}}> No internet connection</Text>
+          //    </View>)
+   // } 
+    else {
       return (
       <Provider store={store} theme={theme} > 
         <ModalHost>   
           <RootNavigator />
-         
         </ModalHost>
       </Provider>
       );

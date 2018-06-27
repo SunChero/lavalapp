@@ -34,7 +34,7 @@ class EmptyShell extends React.Component {
                 <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: bottom }}>
                     {  !back && ( <View style={[styles.halfFlex, { backgroundColor: top}]} /> )   }
                 </View>
-                <NavigationBar {...{ navigation,titleStyle}}  />
+                <NavigationBar {...{ navigation,back , rightAction,titleStyle}}  />
                 <AnimatedScrollView   contentContainerStyle={[styles.container, style]}  
                      onScroll={onScroll}  showsVerticalScrollIndicator={false}  
                      scrollEventThrottle={16} >

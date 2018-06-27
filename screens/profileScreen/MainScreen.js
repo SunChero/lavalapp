@@ -36,15 +36,14 @@ export default class MainScreen extends React.Component {
         "thumbnail": "https://randomuser.me/api/portraits/thumb/women/54.jpg"
       }
   }
-    constructor(props){
+  constructor(props){
       super(props)
       this.state =  {
         pushNotifications: true,
         token : null,
         facebook :{}
       }
-      
-    }
+  }
     async componentDidMount(){
       const value = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
       console.log(value)
@@ -56,6 +55,7 @@ export default class MainScreen extends React.Component {
     onPressOptions = (route) => {
       this.props.navigation.navigate(route)
     }
+    
     onChangePushNotifications = () => {
       if(! this.state.token) {
        let token = registerPush()
@@ -66,8 +66,7 @@ export default class MainScreen extends React.Component {
       }
     }
     render() {
-    const user = {...this.props.user , ...global.user.get()}
-    console.log(user)
+    const user = this.props.store.user.data
     const {navigation} = this.props
     const title = "Profile"
     const rightAction = {
@@ -76,7 +75,7 @@ export default class MainScreen extends React.Component {
       onPress : () =>{console.log('pressed')}
     }
       return (
-        <View style={{flex : 1 , backgroundColor : 'white'}} >
+      <View style={{flex : 1 , backgroundColor : 'white'}} >
            <NavigationBar title="Settings" />
           <ScrollView style={{flex:1}}>
               <InfoText text="Edit" />
@@ -107,7 +106,7 @@ export default class MainScreen extends React.Component {
                   />
                 </List>
               </ScrollView>  
-              </View>
+        </View>
       )
     }
    

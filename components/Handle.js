@@ -26,13 +26,14 @@ export default class Handle extends React.Component {
         const {user} = this;
         const tmp = user ? user.id : null
       //  console.log('tmp is ' + tmp)
-        const username = user && user.name ? user.name.first + " " + user.name.last : 'undefined';
-        const id  = user && user.login ? user.login.username : 'undefined'
+        const username = user && user.login ? user.login.username : 'Guest';
+        const id  = user && user.login ? user.login.username : 'Guest'
+        const picture = user && user.picture ? user.picture.thumbnail : ""
         const backgroundColor = this.props.store.presence.users.includes(tmp) ? 'green' : 'gray';
         return (
-           user &&
-            <View style={styles.user} >
-                <Avatar uri={user.picture.thumbnail} size={size} />
+           
+          user &&  <View style={styles.user} >
+                <Avatar uri={picture} size={size} />
                 <PresenceDot backgroundColor={backgroundColor}/>
                { light && <View style={styles.username}>
                     <Text type="headline" style={styles.headline} color={handleColor}>{username}</Text>

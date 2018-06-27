@@ -30,7 +30,6 @@ class NewsList extends React.Component{
         const {theme} = this.props;
         const news = item.item;
         const image = news.ImageUrl.includes('http') ? news.ImageUrl : 'http://www.laval.ca' + news.ImageUrl
-        console.log(image)
         const _onPress = () => {
             this.props.store.site.loadNewsPage(news.link);
             this.props.navigation.navigate('page' , {stream : news.id})}
