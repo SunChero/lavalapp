@@ -1,6 +1,6 @@
 import * as React from "react";
 import {StyleSheet, View ,  TouchableOpacity, Platform, StatusBar , ScrollView} from "react-native";
-import { VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasPosts} from '../components';
+import { VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasComments} from '../components';
 import {Icon } from 'react-native-elements'
 import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
@@ -8,7 +8,7 @@ import { synchronizeCalendar} from '../api/functions'
 import { inject, observer } from "mobx-react/native";
 import moment from 'moment'
 
-@hasPosts
+@hasComments
 @inject('store')   
 @observer
 class Activity extends React.Component {
@@ -16,7 +16,7 @@ class Activity extends React.Component {
         synchronizeCalendar(this.props.navigation.state.params)
     }
     componentDidMount = () => {
-       console.log(this.props.navigation.state.params)
+       // console.log(this.props.navigation.state.params)
     }
     goBack = () =>{
         this.props.navigation.goBack();
@@ -45,8 +45,8 @@ class Activity extends React.Component {
     toggleComments = () =>{
         this.comments.toggle();
     }
-    AddPost = () =>{
-        this.props.AddPost({
+    AddComment = () =>{
+        this.props.AddComment({
             'postData' : this.newMessage,
             'timestamp' : moment().unix(),
             'user_id' : global.user.name
@@ -54,19 +54,19 @@ class Activity extends React.Component {
         this.newPost.toggle();
     }
     render() {
-        const {AddPost} = this;
-        const {navigation, theme, vues, likes, posts} = this.props;
+        const {AddComment} = this;
+        const {navigation, theme, vues, likes, comments} = this.props;
         const postAction = {
             label: "Post",
-            onPress:  AddPost
+            onPress:  AddComment
         };
-        console.log(`rendering posts ${posts}`)
+        
         const {Title , image , summary , locations , cost , _eventDate} = navigation.state.params;
         const back = "Events"
         const location = locations[0] ? locations[0].Label : null
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
         return (
-          posts &&  <View style={styles.story}>
+            <View style={styles.story}>
                 <View style={styles.content}>
                     
                     <ScrollView contentContainerStyle={styles.scroll}>
@@ -84,20 +84,20 @@ class Activity extends React.Component {
                     </View>
                    </ScrollView>
                     <Footer>
-                        <Icon color="#263238" reverse reverseColor="white" name="ios-alarm-outline" raised={true} size={32} type="ionicon"  onPress={this.addReminder} />
+                        <Icon color="#263238" reverse reverseColor="white" name="bell-plus" raised={true} size={32} type="material-community"  onPress={this.addReminder} />
                         <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
-                                { <Comments  comments={posts}  showLabel={false}   /> }
+                                { <Comments  comments={this.props.comments}  showLabel={false}   /> }
                                 <View style={{  flexDirection:'row'}}>
                                     <VueButton  color="white" count={vues} />
                                     <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
                                 </View>
                         </TouchableOpacity>
-                        <Icon  color="#263238" reverse  reverseColor="white"    name="ios-chatboxes-outline" raised={true} type="ionicon" size={32} onPress={this.toggleNewMessage} /> 
+                        <Icon  color="#263238" reverse  reverseColor="white"    name="comment-alert" raised={true} type="material-community" size={32} onPress={this.toggleNewMessage} /> 
                     </Footer>
                     <ActionSheet title="Comments" ref={this.commentsRef}>
                         <Content style={styles.comments}>
                                 {
-                                     posts.map((comment, key) => (
+                                     comments.map((comment, key) => (
                                         <Post stream={comment} {...{navigation , key}} /> 
                                     ))
                                 }
@@ -140,8 +140,7 @@ const styles = StyleSheet.create({
     },
     content: {
         ...StyleSheet.absoluteFillObject,
-       // justifyContent: "space-between",
-      //  paddingTop: 220
+     
 
     },
     topLeft: {

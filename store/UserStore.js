@@ -12,16 +12,16 @@ export class UserStore {
     @observable data = {}
 
     init = async() => {
-        let data  = await AsyncStorage.getItem('@ICILAVAL:user'); 
-        this.data = JSON.parse(data)
-        if(this.data === null  || this.data === 'undefined'){
+       let data  = await AsyncStorage.getItem('@ICILAVAL:user'); 
+       this.data = JSON.parse(data)
+       if(this.data === null  || this.data === 'undefined'){
             this.data = await this.createUser()
-        }
+       }
         await this.loginUser()
     }
     get = param => {
         return this.data[param]
-       // return global.user.get(param)
+       // return global.user.get(param) 
     }
     set = (param, value) => {
         this.data[param] = value
@@ -29,6 +29,7 @@ export class UserStore {
         global.user.set(param , value)
         console.log(global.user.get(param))
         this.saveUser()
+        
     }
     loginUser = async () =>{
         global.dsc = createDeepstream(DS_URL , {

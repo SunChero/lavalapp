@@ -3,7 +3,7 @@ import * as React from "react";
 import {StyleSheet, View} from "react-native";
 import {Text, StyleGuide, Avatar} from "./index";
 import {observer} from 'mobx-react/native'
-import {observable} from 'mobx'
+import {observable , runInAction} from 'mobx'
 
 @observer
 export default class Comments extends React.Component {
@@ -11,23 +11,40 @@ export default class Comments extends React.Component {
     static defaultProps = {
         showLabel: true
     }
-   
-    componentDidUpdate =(prevProps)=>{
-        if(prevProps.comments  !== this.props.comments  && this.images.length === 0){
+    // shouldComponentUpdate = (nextProp) =>{
+       
+    //     return   this.images.length > 0
+    // }
+    componentWillReceiveProps = () => {
+        console.log(`props are ${this.props.comments}`)
             let lt = this.props.comments.length
             this.images = []
             this.props.comments.slice(Math.max(lt - 4, 1)).map(post =>
             {
-                console.log(post)
+               
                 global.dsc.record.snapshot(post , (error ,record) =>
                 {
-                 global.dsc.record.snapshot(record.user_id , (error , user) =>  this.images.push(user.picture.thumbnail))
+                    let recordId = record.user_id
+                    global.dsc.record.snapshot(recordId , (error, user )=>{
+                        console.log(user.picture.thumbnail)
+                        let uri = user.picture.thumbnail
+                        this.images.includes(uri) ? null :this.images.push(uri)
+                    })
+                    
+                   
                 })
             }
+            
         )
-        }
+       
+    }
+    componentDidUpdate =(prevProps)=>{
+        // console.log(`updating`)
+       
+        
         
     }
+
     render(){
         const {comments, showLabel} = this.props;
         const left = comments.length === 0 ? 0 : ((-5 * (comments.length - 1)) + StyleGuide.spacing.tiny);

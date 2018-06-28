@@ -28,13 +28,13 @@ class IconButton extends React.PureComponent<IconButtonProps> {
         primary: false,
         secondary: false,
         rounded: false,
-        disabled: false
+        disabled: false,
+        direction : 'row'
     }
 
     render(): React.Node {
         const {
-           size, onPress, name, theme, backgroundPrimary, primary, secondary, rounded, color: defaultColor, disabled , type
-        } = this.props;
+           size, onPress, name, theme, backgroundPrimary, primary, secondary, rounded, color: defaultColor, disabled , type, direction   } = this.props;
         const style = [{ opacity: disabled ? 0.5 : 1 }];
         if (rounded) {
             style.push({
@@ -66,7 +66,7 @@ class IconButton extends React.PureComponent<IconButtonProps> {
         const Btn = disabled ? View : TouchableOpacity;
         return (
             <Btn {...{onPress}}>
-                <View style={{  alignItems: 'center' , flexDirection: 'row', justifyContent: 'center' , width: 50 , height: 50 , marginLeft: 10,}}>
+                <View style={{  alignItems: 'center' , flexDirection: direction, justifyContent: 'center' , width: 50 , height: 50 , marginLeft: 10,}}>
                     <Icon {...{name, color ,size, type}} />
                     {this.props.children}
                 </View>

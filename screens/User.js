@@ -90,18 +90,24 @@ class User extends React.Component{
                 <ScrollView contentContainerStyle={styles.content}>
                     <Image style={styles.image} uri={user.picture.thumbnail} />  
                     <View style={{position: 'absolute' , bottom: 200, left: 0, right: 0 }}>
-                        <LinearGradient colors={bottomGradient} style={{height:100,position: 'absolute' , top: 100 , left:0 , right: 0}}></LinearGradient>
+                        <LinearGradient colors={bottomGradient} style={{height:200,position: 'absolute' , top: 0 , left:0 , right: 0}}></LinearGradient>
                     </View>
                     <View style={styles.description}>
                          <Text type="title1" color="white" >{`${user.name.first} / ${user.name.last}`}</Text>
                          <Text type="subhead" color="white"  >{user.description ? user.description : 'this user has not updated their profile yet!'} </Text>
                     </View>
-                   
-                </ScrollView>
-                    <Footer>
-                        <Icon color="#263238" reverse reverseColor="white" name="ios-create" raised={true} size={32} type="ionicon"  onPress={this.toggleNewMessage} />
-                        <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
+                    <View  style={{height: 40}}>
+                        <TouchableOpacity onPress={this.toggleComments} style={{ position: 'absolute' , right: 25, top : -5}}>
                                 { <Comments  comments={this.props.posts}  showLabel={false}   /> }
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+                   
+                    
+                    <Footer>
+                        <Icon color="#263238" reverse reverseColor="white" name="ios-create-outline" raised={true} size={32} type="ionicon"  onPress={this.toggleNewMessage} />
+                        <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
+                               
                                 <View style={{  flexDirection:'row'}}>
                                     <VueButton  color="white" count={vues} />
                                     <LikeButton liked={likes.includes(global.user.name)} color="white" onLikeFunc={this.toggleLike} counter={likes.length}/>
