@@ -1,5 +1,5 @@
 import * as React from "react";
-import {StyleSheet, View ,  TouchableOpacity, Platform, StatusBar , ScrollView} from "react-native";
+import {StyleSheet, View ,  TouchableOpacity, Platform, Button , ScrollView} from "react-native";
 import { VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasPosts} from '../components';
 import {Icon } from 'react-native-elements'
 import {LinearGradient} from 'expo'
@@ -23,6 +23,14 @@ class Activity extends React.Component {
     }
     toggleNewMessage = () =>{
         this.newPost.toggle();
+    }
+    toggleSyncCal = () =>{
+        this.syncCal.toggle();
+    }
+    syncCalRef = (syncCal) => {
+        if (syncCal) {
+            this.syncCal = syncCal;
+        }
     }
     newPostRef = (newPost) => {
         if (newPost) {
@@ -60,6 +68,7 @@ class Activity extends React.Component {
             label: "Post",
             onPress:  AddPost
         };
+        
         console.log(`rendering posts ${posts}`)
         const {Title , image , summary , locations , cost , _eventDate} = navigation.state.params;
         const back = "Events"
@@ -84,7 +93,7 @@ class Activity extends React.Component {
                     </View>
                    </ScrollView>
                     <Footer>
-                        <Icon color="#263238" reverse reverseColor="white" name="ios-alarm-outline" raised={true} size={32} type="ionicon"  onPress={this.addReminder} />
+                        <Icon color="#263238" reverse reverseColor="white" name="ios-alarm-outline" raised={true} size={32} type="ionicon"  onPress={this.toggleSyncCal} />
                         <TouchableOpacity onPress={this.toggleComments} style={{alignItems: 'center', justifyContent : 'center'}}>
                                 { <Comments  comments={posts}  showLabel={false}   /> }
                                 <View style={{  flexDirection:'row'}}>
@@ -105,6 +114,15 @@ class Activity extends React.Component {
                     </ActionSheet>
                     <ActionSheet title="New Post" ref={this.newPostRef} rightAction={postAction}>
                         <NewMessage onChange={this.onChangeHandler}/>
+                    </ActionSheet>
+                    <ActionSheet title="Alarm Setup" ref={this.syncCalRef} >
+                            <View style={{height: 180, padding : 20}}>
+                                <Text>this will setup an alarm, by adding this event to your phone's calendar</Text>
+                                <TouchableOpacity style={{backgroundColor: "#4A148C", padding:15, marginTop: 20}}>
+                                    <Button title="Remind Me" color="white" onPress={this.addReminder} > </Button>
+                                </TouchableOpacity>
+                            </View>
+                        
                     </ActionSheet>
                    
                 </View>

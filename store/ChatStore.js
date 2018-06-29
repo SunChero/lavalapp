@@ -1,13 +1,25 @@
-import {observable, runInAction,  action , computed} from 'mobx';
+import {observable,reaction} from 'mobx';
 import { AsyncStorage } from 'react-native';
 export class ChatStore {
     @observable peers = []
+    @observable peersData = []
     @observable messages = new Map()
+    constructor(){
+       let reaction1 = reaction(
+            () => this.peers,
+            peers => peers.map(peer => global.dsc.record.snapshot(peer, (error , data)=> {
+                this.peersData.push(data)
+                console.log(`reacting`)
+            }))
+        );
+    }
     loadMessages = async() => {
         let val = await AsyncStorage.getItem('@ICILAVAL:messages'); 
         val = JSON.parse(val)
         this.messages = new Map(val)
+        this.peers.map(peer => this.messages.get(peer) ? null : this.messages.set(peer , []))
     }
+    
     addMessage = (peer , msg) => {
         this.peers.includes(peer) ? null : this.addPeer(peer)
         let msgs =  this.messages.get(peer)
@@ -19,6 +31,8 @@ export class ChatStore {
         let len = msgs.length
         return msgs.slice(len - round , len)
     }
+   
+    
     saveMessages = async () => {
         return await AsyncStorage.setItem('@ICILAVAL:messages' , JSON.stringify(Array.from(this.messages.entries()))); 
     }
@@ -37,9 +51,12 @@ export class ChatStore {
     }
     addPeer = peer => {
         console.log(`adding peer ${peer}`)
-        this.peers.includes(peer) ? null : this.peers.push(peer)
-        this.messages.set(peer , [])
-        return this.savePeers()
+        if(! this.peers.includes(peer)){
+            this.peers.push(peer)
+            this.messages.set(peer , [])
+            this.savePeers()
+        } 
+        
     }
     delPeer = peer => {
         this.peers = this.peers.filter( e => e !== peer)

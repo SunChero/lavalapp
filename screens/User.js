@@ -44,16 +44,20 @@ class User extends React.Component{
         this.comments.toggle();
     }
     componentDidMount() {
+    
         const {stream} = this.props.navigation.state.params;
-        this.userRef = global.dsc.record.getRecord(stream);
-        this.userRef.subscribe(this.setUser.bind(this))
-        
-       
-       
+        if(stream === global.user.name){
+            console.log(`loading same user`)
+            this.user = global.user.get()
+        }
+        else{
+            this.userRef = global.dsc.record.getRecord(stream);
+            this.userRef.subscribe(this.setUser.bind(this))
+        }
     }
 
     componentWillUnmount() {
-        this.userRef.discard();
+        this.userRef ? this.userRef.discard() : null
     }
     toggleLike = (action)=>{
         this.props.toggleLike(action)
@@ -74,6 +78,9 @@ class User extends React.Component{
         })
         this.newPost.toggle();
     }
+    loadComments = ()=>{
+        return <Comments  comments={this.props.posts}  showLabel={false}   />
+    }
     render() {
         const {user , AddPost} = this;
         const {navigation, theme, vues, likes, posts} = this.props;
@@ -83,7 +90,7 @@ class User extends React.Component{
             onPress:  AddPost
         };
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
-       
+        
         return (
            user && 
            <View style={styles.story}>
@@ -98,7 +105,9 @@ class User extends React.Component{
                     </View>
                     <View  style={{height: 40}}>
                         <TouchableOpacity onPress={this.toggleComments} style={{ position: 'absolute' , right: 25, top : -5}}>
-                                { <Comments  comments={this.props.posts}  showLabel={false}   /> }
+                                { 
+                                    this.loadComments()
+                                 }
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

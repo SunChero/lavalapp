@@ -30,6 +30,13 @@ export default class Avatar extends React.Component<AvatarProps> {
     @computed get uri(): string { return this._uri; }
     set uri(uri: string) { this._uri = uri; }
 
+    async componentDidUpdate(): Promise<void> {
+        const {uri} = this.props;
+        const newURI = await CacheManager.get(uri).getPath();
+        if (newURI) {
+            this.uri = newURI;
+        }
+    }
     async componentDidMount(): Promise<void> {
         const {uri} = this.props;
         const newURI = await CacheManager.get(uri).getPath();
@@ -45,6 +52,7 @@ export default class Avatar extends React.Component<AvatarProps> {
         const height = size;
         if (!stacked) {
             const computedStyle = {
+                backgroundColor: "grey",
                 height,
                 width,
                 borderRadius: width / 2
@@ -82,6 +90,7 @@ export default class Avatar extends React.Component<AvatarProps> {
 
 const styles = StyleSheet.create({
     avatar: {
-        alignSelf: "center"
+        alignSelf: "center",
+       
     }
 });

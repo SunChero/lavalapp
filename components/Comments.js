@@ -15,11 +15,15 @@ export default class Comments extends React.Component {
        
     //     return   this.images.length > 0
     // }
+    constructor(props) {
+        super(props)
+        console.log(`props constructor ${this.props.comments}`)
+    }
     componentWillReceiveProps = () => {
         console.log(`props are ${this.props.comments}`)
             let lt = this.props.comments.length
             this.images = []
-            this.props.comments.slice(Math.max(lt - 4, 1)).map(post =>
+            this.props.comments.map(post =>
             {
                
                 global.dsc.record.snapshot(post , (error ,record) =>
@@ -28,7 +32,8 @@ export default class Comments extends React.Component {
                     global.dsc.record.snapshot(recordId , (error, user )=>{
                         console.log(user.picture.thumbnail)
                         let uri = user.picture.thumbnail
-                        this.images.includes(uri) ? null :this.images.push(uri)
+                        //this.images.includes(uri) ? null :
+                        this.images.push(uri)
                     })
                     
                    

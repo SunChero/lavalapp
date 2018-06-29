@@ -22,7 +22,7 @@ class Store {
         this.presence.SetupPresence()
        
         global.user.subscribe(`messages` , msgs => {
-            msgs.map(msg => {
+           Array.isArray(msgs) && msgs.map(msg => {
                 this.chat.addMessage(msg.from , msg)
                 let val = this.notifications.get(msg.from) 
                 val =  val ? val : 0

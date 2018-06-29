@@ -7,6 +7,7 @@ export default function Posts(WrappedComponent) {
     return class extends React.Component {
       constructor(props) {
         super(props);
+      
         this.state = {   posts : []  }
         const {stream} = this.props;
         const id = stream ? stream : this.props.navigation.state.params.stream;
@@ -30,6 +31,7 @@ export default function Posts(WrappedComponent) {
       render() {
         const {posts} = this.state;
         const {AddPost} = this;
+        console.log(`returning posts ${JSON.stringify(posts)}`)
         return <WrappedComponent {...{...this.props , AddPost , posts}} />;
       }
     };

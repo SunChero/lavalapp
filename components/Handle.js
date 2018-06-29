@@ -6,43 +6,39 @@ import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
 
 @inject('store')
-@observer
 export default class Handle extends React.Component {
-    @observable user = null;
+    state =  {
+        login: { username  : 'offline' },
+        picture : {thumbnail : ""},
+        id : null,
+        loaded : false
+    };
     static defaultProps = {
         handleColor: "black",
         light : true,
         size: 28
     }
-    constructor(props){
-        super(props)
+    componentDidMount(){
         global.dsc.record.snapshot(this.props.user , (error, data)=> {
-            this.user = data
-            console.log(this.user)
-        })
+            Object.keys(data).length && this.setState({login : data.login , picture : data.picture , id : data.id , loaded : true})
+         })
     }
     render() {
-        const {handleColor  , onPress , light , size} = this.props;
-        const {user} = this;
-        const tmp = user ? user.id : null
-      //  console.log('tmp is ' + tmp)
-        const username = user && user.login ? user.login.username : 'Guest';
-        const id  = user && user.login ? user.login.username : 'Guest'
-        const picture = user && user.picture ? user.picture.thumbnail : ""
-        const backgroundColor = this.props.store.presence.users.includes(tmp) ? 'green' : 'gray';
+        const {handleColor  ,  light , size} = this.props;
+        const backgroundColor = this.props.store.presence.users.includes(this.state.id) ? 'green' : 'gray';
+       console.log(`state from render ${JSON.stringify(this.state)}`)
         return (
-           
-          user &&  <View style={styles.user} >
-                <Avatar uri={picture} size={size} />
+         <View style={styles.user} >
+                <Avatar uri={this.state.picture.thumbnail} size={size} />
                 <PresenceDot backgroundColor={backgroundColor}/>
                { light && <View style={styles.username}>
-                    <Text type="headline" style={styles.headline} color={handleColor}>{username}</Text>
+                    <Text type="headline" style={styles.headline} color={handleColor}>{this.state.login.username}</Text>
                     <Text
                         type="footnote"
                         style={styles.footnote}
                         color={handleColor === "black" ? "#999999" : handleColor}
                     >
-                        {`@${id}`}
+                        {`@${this.state.login.username}`}
                     </Text>
                 </View>
                }
