@@ -46,7 +46,9 @@ export class UserStore {
            // global.ConnectionStatus = status
         })
         global.user = global.dsc.record.getRecord(this.data.id);
+        global.user.set(this.data)
     }
+
     saveUser = async () => {
          await AsyncStorage.setItem('@ICILAVAL:user' , JSON.stringify(this.data)); 
     }

@@ -19,8 +19,11 @@ export default class Handle extends React.Component {
         size: 28
     }
     componentDidMount(){
+        console.log(`user before getting data in handle ${this.props.user}`)
         global.dsc.record.snapshot(this.props.user , (error, data)=> {
-            Object.keys(data).length && this.setState({login : data.login , picture : data.picture , id : data.id , loaded : true})
+            console.log(`data is ${JSON.stringify(data)}`)
+           data &&  data.login && data.picture ? this.setState({login : data.login , picture : data.picture , id : data.id , loaded : true}) : null
+             
          })
     }
     render() {

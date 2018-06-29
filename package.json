@@ -25,6 +25,7 @@
     "deepstream.io-client-js": "^2.3.0",
     "expo": "^26.0.0",
     "mobx": "^4.1.1",
+    "mobx-persist": "^0.4.1",
     "mobx-react": "^5.0.0",
     "moment": "^2.22.0",
     "react": "^16.3.2",

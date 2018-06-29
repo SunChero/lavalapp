@@ -2,12 +2,12 @@ import { Dimensions , Platform} from 'react-native';
 import React from 'react';
 import {Icon} from '../components/index'
 const tintColor = '#283355';
-export const SITE_URL = 'http://192.168.183.125:3000/_web/export/api'
-export const NEWS_PAGE_URL = 'http://192.168.183.125:3000/_web/newsPage?link='
-export const USER_URL = 'http://192.168.183.125:3000/register'
-export const DS_URL = 'ws://192.168.183.125:6020/deepstream'
-export const UPLOAD_URL = "http://192.168.183.125:3000/upload"
-export const AVATAR_URL = "http://192.168.183.125:3000/"
+export const SITE_URL = 'http://192.168.2.22:3000/_web/export/api'
+export const NEWS_PAGE_URL = 'http://192.168.2.22:3000/_web/newsPage?link='
+export const USER_URL = 'http://192.168.2.22:3000/register'
+export const DS_URL = 'ws://192.168.2.22:6020/deepstream'
+export const UPLOAD_URL = "http://192.168.2.22:3000/upload"
+export const AVATAR_URL = "http://192.168.2.22:3000/"
 
 export const Colors =  {
   tintColor,
