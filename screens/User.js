@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, TouchableOpacity, Platform, StatusBar, ScrollView} from "react-native";
+import {StyleSheet, View, TouchableOpacity, Platform, Dimensions, ScrollView} from "react-native";
 import {VueButton, LikeButton ,Post, Comments, NewMessage, Image,  ActionSheet, Text, Content, Footer,withTheme, hasPosts} from "../components";
 import {LinearGradient} from 'expo'
 import {StyleGuide} from '../components/theme'
@@ -94,7 +94,8 @@ class User extends React.Component{
         return (
            user && 
            <View style={styles.story}>
-                <ScrollView contentContainerStyle={styles.content}>
+                <ScrollView >
+                    <View style={{flex : 1, height: Dimensions.get('window').height -200}}>
                     <Image style={styles.image} uri={user.picture.thumbnail} />  
                     <View style={{position: 'absolute' , bottom: 200, left: 0, right: 0 }}>
                         <LinearGradient colors={bottomGradient} style={{height:200,position: 'absolute' , top: 0 , left:0 , right: 0}}></LinearGradient>
@@ -103,12 +104,13 @@ class User extends React.Component{
                          <Text type="title1" color="white" >{`${user.name.first} / ${user.name.last}`}</Text>
                          <Text type="subhead" color="white"  >{user.description ? user.description : 'this user has not updated their profile yet!'} </Text>
                     </View>
-                    <View  style={{height: 40}}>
-                        <TouchableOpacity onPress={this.toggleComments} style={{ position: 'absolute' , right: 25, top : -5}}>
-                                { 
-                                    this.loadComments()
-                                 }
-                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex : 1 , top : 100}}>
+                    {
+                                    posts.map((msg, key) => (
+                                        <Post color="#41fe26" reverse stream={msg} {...{navigation , key}} /> 
+                                    ))
+                    }
                     </View>
                 </ScrollView>
                    

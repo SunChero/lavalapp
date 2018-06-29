@@ -28,16 +28,16 @@ export class SiteStore {
                   runInAction(()=>{
                       this.info = data;
                       this.filterEvents()
-                  //    this.saveSiteInfo()
-                  })
-              })
+                      this.saveSiteInfo()
+                })
+        })
     }
     saveSiteInfo =  () => {
        return  AsyncStorage.setItem('@ICILAVAL:info' , JSON.stringify(this.info));
     }
     @action init = async () =>{
-       // let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
-       // this.info = offline ? JSON.parse( offline) : {}
+        let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
+        this.info = offline ? JSON.parse( offline) : {}
         this.loadSite()
     }
     filterEvents = () =>{

@@ -12,11 +12,11 @@ import Handle from "./Handle";
 export default class PostHeader extends React.PureComponent{
 
     render() {
-        const {user, timestamp } = this.props;
+        const {user, timestamp , reverse } = this.props;
         return (
             <View style={styles.header}>
-                <Handle {...{user }} />
-                <Text type="footnote">{moment(timestamp, "X").fromNow()}</Text>
+                <Handle {...{user  ,  reverse}} />
+                <Text type="footnote" style={reverse ? {color : 'white'} : null}>{moment(timestamp, "X").fromNow()}</Text>
             </View>
         );
     }

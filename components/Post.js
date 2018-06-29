@@ -32,13 +32,13 @@ export default class Message extends React.Component<MessageProps> {
     }
     
     render(){
-        const {navigation } = this.props;
+        const {navigation , transparent, reverse } = this.props;
         const {post , user } = this;
         const timestamp = post ? post.timestamp : null;
         return (
-           user && <BaseCard onPress={() => navigation.navigate("user", {stream : user})}>
-                <PostHeader {...{user,timestamp}} />
-                <Text style={styles.text}>{post.postData}</Text>
+           user && <BaseCard style={reverse ? {backgroundColor: "rgba(122, 122, 122, 0.09)" } : null} onPress={() => navigation.navigate("user", {stream : user})}>
+                <PostHeader {...{user,timestamp, reverse}} />
+                <Text style={[styles.text, reverse? {color : "white"} : null]}>{post.postData}</Text>
             </BaseCard>
         );
     }

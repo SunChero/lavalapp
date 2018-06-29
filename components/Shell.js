@@ -89,7 +89,7 @@ class Shell extends React.Component {
                     </Animated.View>
                     <View style={{flex : 1}}>{body} </View>
                     <View style={{flex: 1 , padding:10}}>
-                        <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post stream={item} {...{navigation}}/>} />    
+                        <FlatList extraData={this.state} data={posts} renderItem={({item}) => <Post  stream={item} {...{navigation}}/>} />    
                     </View>
                 </AnimatedScrollView>
                 
