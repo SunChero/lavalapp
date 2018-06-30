@@ -26,8 +26,9 @@ export class SiteStore {
         return fetch(SITE_URL).then(response => response.json())
                .then(data =>{
                   runInAction(()=>{
+                      data.events = data.events.reduce((x, y) => x.findIndex(e=>e.id==y.id)<0 ? [...x, y]: x, [])
                       this.info = data;
-                      this.filterEvents()
+                  //    this.filterEvents()
                       this.saveSiteInfo()
                 })
         })
@@ -99,7 +100,7 @@ export class SiteStore {
     }
     @computed get _weekEvents(){
         const tmp = this.info.events.filter((item) => {
-            return moment(item.eventDate).isBetween(moment(), moment().add(1, 'week'))
+            return moment(item.eventDate).isBetween(moment(), moment().add(1, 'week')) && !item.hot
         })
         uniqueUrls = [];
         const weekEvents = tmp.filter((item) => {
