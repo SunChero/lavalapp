@@ -24,6 +24,7 @@ export default class NewMessage extends React.Component<{}> {
         }
     }
     selectImages = (images) => {
+        console.log(`from statup value ${images}`)
         this.images = images
     }
     showCamera = () =>{
@@ -50,14 +51,17 @@ export default class NewMessage extends React.Component<{}> {
         const rightAction = {icon : "md-checkmark-circle-outline" , type:"ionicons" ,  onPress : this.hideCamera  }
         return (
             <View style={styles.container}>
-                {this.location && <View style={{ backgroundColor:"black" ,padding: 20 }}> <Text style={{color: 'white'}}>{this.location.latitude +' \ '+ this.location.longitude} </Text></View> }
+                    {
+                        this.location && <View style={{ backgroundColor:"black" ,padding: 20 }}> 
+                                    <Text style={{color: 'white'}}>{this.location.latitude +' \ '+ this.location.longitude} </Text>
+                        </View> 
+                    }
                
                 <Modal   animationType={'slide'}     transparent={false}  visible={this.Camera}  onRequestClose={() => {
                         this.showCamera = false;
-                        }}
-                >
+                        }} >
                     <NavigationBar {...{rightAction, title }}/>
-                    <CameraRollPicker   maximum={10}  imagesPerRow={4}   callback={this.selectImages}   selected={this.images}   />
+                    <CameraRollPicker   maximum={10}  imagesPerRow={4}   callback={this.selectImages}   selected={[...[], ...this.images]}   />
                 </Modal>
                 <TextInput  style={styles.textInput}  placeholder="Description"  underlineColorAndroid="transparent"  textAlignVertical="top" multiline  autoFocus
                     onChangeText={(text) => this.props.onChange(text)}
@@ -67,7 +71,7 @@ export default class NewMessage extends React.Component<{}> {
                         <Footer>
                             <Icon color="black" reverse reverseColor="white" name="map-pin" raised={true} size={24} type="feather"  onPress={this.setPosition}/>
                             <ScrollView horizontal contentContainerstyle={{alignItems:'center', justifyContent:'center'}}>
-                                { this.images.map(i => <Avatar  rounded  medium   source={{uri: i.uri}}/>) }
+                                { this.images.map((i , index) => <Avatar key={index.toString()} rounded  medium   source={{uri: i.uri}}/>) }
                             </ScrollView>
                              
                             <Icon color="black" reverse reverseColor="white" name="ios-camera" raised={true} size={24} type="ionicon"  onPress={this.showCamera}/>

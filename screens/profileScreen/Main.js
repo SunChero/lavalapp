@@ -1,41 +1,18 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native'
+import { ScrollView, StyleSheet, Picker,Text, View, AsyncStorage , TextInput , TouchableOpacity, Button} from 'react-native'
 import {Avatar, List , ListItem} from 'react-native-elements'
-import {Icon , EmptyShell , InfoText , NavigationBar} from "../../components"
+import {Icon ,ActionSheet,InfoText , NavigationBar, StyleGuide , KeyboardSpacer} from "../../components"
 import {inject, observer} from 'mobx-react/native'
 import { Constants, Permissions, Notifications , Facebook} from 'expo';
 import { SocialIcon } from 'react-native-elements'
 import {default as registerPush} from '../../api/registerForPushNotificationsAsync'
+
 const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
 
 @inject('store')
 @observer
 export default class MainScreen extends React.Component {
-  static defaultProps = {
-    user : {
-      "gender": "female",
-      "name": {
-      "title": "mrs",
-      "first": "yael",
-      "last": "obdam"
-      },
-      "location": {
-      "street": "826 bokstraat",
-      "city": "nieuwkoop",
-      "state": "friesland",
-      }
-      },
-      "email": "yael.obdam@example.com",
-      "login": {
-      "username": "whiteduck842",
-      },
-      "id": "",
-      "picture": {
-        "large": "https://randomuser.me/api/portraits/women/54.jpg",
-        "medium": "https://randomuser.me/api/portraits/med/women/54.jpg",
-        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/54.jpg"
-      }
-  }
+  
   constructor(props){
       super(props)
       this.state =  {
@@ -46,7 +23,6 @@ export default class MainScreen extends React.Component {
   }
     async componentDidMount(){
       const value = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
-      console.log(value)
       this.setState({
         'token': value,
         'pushNotifications' : value ? true : false
@@ -65,7 +41,37 @@ export default class MainScreen extends React.Component {
        })
       }
     }
+    onLangPress = () => {
+      this.pickLang.toggle();
+    }
+    pickLangRef = (pickLang) => {
+        if (pickLang) {
+            this.pickLang = pickLang;
+        }
+    }
+    onFeedPress = () => {
+      this.pickFeed.toggle();
+     this.feedback && this.props.store.sendFeedback({msg : this.feedback})
+     
+    }
+    pickFeedRef = (pickFeed) => {
+        if (pickFeed) {
+            this.pickFeed = pickFeed;
+        }
+    }
+    onLocPress = () => {
+      this.pickLoc.toggle();
+    }
+    pickLocRef = (pickLoc) => {
+        if (pickLoc) {
+            this.pickLoc = pickLoc;
+        }
+    }
+    onChangefeedback = (text) => {
+      this.feedback = text
+    }
     render() {
+    
     const user = this.props.store.user.data
     const {navigation} = this.props
     const title = "Profile"
@@ -74,6 +80,7 @@ export default class MainScreen extends React.Component {
       title: 'Edit',
       onPress : () =>{console.log('pressed')}
     }
+    
       return (
       <View style={{flex : 1 , backgroundColor : 'white'}} >
            <NavigationBar title="Settings" />
@@ -86,10 +93,10 @@ export default class MainScreen extends React.Component {
                   <ListItem switchButton  hideChevron  title="Push Notifications"  switched={this.state.pushNotifications}  onSwitch={this.onChangePushNotifications}  containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon  containerStyle={{ backgroundColor: 'transparent',}}  icon={{type: 'material',  name: 'notifications', }}  />  }
                   />
-                  <ListItem title="Location" rightTitle={user.city}  onPress={() => this.onPressOptions('location')}   containerStyle={styles.listItemContainer}
+                  <ListItem title="Location" rightTitle={user.city}  onPress={this.onLocPress}   containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon   containerStyle={{ backgroundColor: '#57DCE7' }}   icon={{ type: 'material',  name: 'place', }} /> }
                   />
-                  <ListItem title="Language" rightTitle={user.language}  onPress={() => this.onPressOptions('language')}  containerStyle={styles.listItemContainer}
+                  <ListItem title="Language" rightTitle={user.language}  onPress={this.onLangPress}  containerStyle={styles.listItemContainer}
                     leftIcon={<Icon  containerStyle={{ backgroundColor: '#FEA8A1' }}  icon={{type: 'material', name: 'language', }} /> }
                   />
                 </List>
@@ -101,11 +108,53 @@ export default class MainScreen extends React.Component {
                   <ListItem  title="Terms and Policies"  onPress={() => this.onPressOptions('policies')} containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon  containerStyle={{ backgroundColor: '#C6C7C6' }} icon={{type: 'entypo',name: 'light-bulb', }} />   }
                   />
-                  <ListItem title="Send FeedBack"  onPress={() => this.onPressOptions('feedback')}  containerStyle={styles.listItemContainer} 
+                  <ListItem title="Send FeedBack"  onPress={this.onFeedPress}  containerStyle={styles.listItemContainer} 
                   leftIcon={ <Icon containerStyle={{ backgroundColor: '#00C001', }} icon={{type: 'materialicon', name: 'feedback', }} />  }
                   />
                 </List>
               </ScrollView>  
+              <ActionSheet title="Language Selection"  ref={this.pickLangRef}>
+                  <Picker
+                    selectedValue={user.language}
+                    onValueChange={itemValue => this.props.store.user.set("language" , itemValue)}>
+                    <Picker.Item label="Francais" value="francais" />
+                    <Picker.Item label="English" value="english" />
+                  </Picker>
+                  <TouchableOpacity style={{backgroundColor: "#4A148C", padding:10, margin: 10}}>
+                     <Button title="Save" color="white" onPress={this.onLangPress} > </Button>
+                  </TouchableOpacity>
+              </ActionSheet>
+              <ActionSheet title="Select your community"  ref={this.pickLocRef}>
+                <View>
+                  <Picker
+                    style={{  }}
+                    selectedValue={user.city}
+                    onValueChange={itemValue => this.props.store.user.set("city" , itemValue)}>
+                    {
+                     this.props.store.site.info.secteurs.map(city =>  <Picker.Item label={city.name} value={city.name}/>)
+                    }
+                    
+                  </Picker>
+                  <TouchableOpacity style={{backgroundColor: "#4A148C", padding:10, margin: 10}}>
+                     <Button title="Save" color="white" onPress={this.onLocPress} > </Button>
+                  </TouchableOpacity>
+                </View>
+              </ActionSheet>
+              <ActionSheet title="FeedBack / Questions"  ref={this.pickFeedRef} >
+                <View style={styles.container}>
+                  <TextInput  style={styles.textInput} 
+                    underlineColorAndroid="transparent" 
+                    textAlignVertical="top" 
+                    multiline  autoFocus
+                    onChangeText={(text) => this.onChangefeedback(text)}
+                  />
+                   <TouchableOpacity style={{backgroundColor: "#4A148C", padding:10, margin: 10}}>
+                     <Button title="Save" color="white" onPress={this.onFeedPress} > </Button>
+                  </TouchableOpacity>
+                  <KeyboardSpacer />
+              </View>
+              </ActionSheet>
+              
         </View>
       )
     }
@@ -137,4 +186,9 @@ const styles = StyleSheet.create({
       listItemContainer: {
         borderBottomColor: '#ECECEC',
       },
+      textInput: {
+        height: 143,
+        ...StyleGuide.typography.body
+        
+    }
   })

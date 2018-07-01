@@ -12,7 +12,7 @@ export default function Posts(WrappedComponent) {
         const {stream} = this.props;
         const id = stream ? stream : this.props.navigation.state.params.stream;
         this.AddPost = this.AddPost.bind(this)
-        this.list = global.dsc.record.getList('/posts/' + id.toString());
+        this.list = global.dsc.record.getList('/posts/' + id);
         this.list.subscribe(this._setEntries.bind(this))
       }
       componentWillUnmount(){
@@ -25,7 +25,8 @@ export default function Posts(WrappedComponent) {
       }
       AddPost(obj){
        var id = '/post/' + global.dsc.getUid();
-       global.dsc.record.getRecord( id ).set(obj).discard();
+       let o = {...{key : id} , ...obj}
+       global.dsc.record.getRecord( id ).set(o).discard();
        this.list.addEntry(id)
       }
       render() {

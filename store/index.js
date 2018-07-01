@@ -7,6 +7,7 @@ import * as Auth from '../api/Auth';
 
 class Store {
     @observable notifications = new Map()
+   
     constructor(){
         this.site = new SiteStore
         this.chat = new ChatStore
@@ -20,7 +21,8 @@ class Store {
         await this.chat.loadPeers();
         await this.chat.loadMessages();
         this.presence.SetupPresence()
-       
+        this.sigList = global.dsc.record.getList('all_signals');
+        this.feedList = global.dsc.record.getList('all_feedbacks');
         global.user.subscribe(`messages` , msgs => {
            Array.isArray(msgs) && msgs.map(msg => {
                 this.chat.addMessage(msg.from , msg)
@@ -52,7 +54,18 @@ class Store {
       return total
     }
    
-
+     sendSignal = (data) => {
+        var id = '/signal/' + global.dsc.getUid();
+        global.dsc.record.getRecord( id ).set(data).discard();
+        this.sigList.addEntry(id)
+        return;
+    }
+    sendFeedback = (data) => {
+        var id = '/feedback/' + global.dsc.getUid();
+        global.dsc.record.getRecord( id ).set(data).discard();
+        this.feedList.addEntry(id)
+        return ;
+    }
 }
 
 export const store = new Store();

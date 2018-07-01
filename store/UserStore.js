@@ -13,10 +13,11 @@ export class UserStore {
 
     init = async() => {
        let data  = await AsyncStorage.getItem('@ICILAVAL:user'); 
+      
        this.data = JSON.parse(data)
-       if(this.data === null  || this.data === 'undefined'){
+        if(this.data === null  || this.data === 'undefined'){
             this.data = await this.createUser()
-       }
+        }
         await this.loginUser()
     }
     get = param => {
@@ -32,6 +33,7 @@ export class UserStore {
         
     }
     loginUser = async () =>{
+        this.data.pushToken = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
         global.dsc = createDeepstream(DS_URL , {
             reconnectIntervalIncrement: 10000,
             maxReconnectInterval: 30000,

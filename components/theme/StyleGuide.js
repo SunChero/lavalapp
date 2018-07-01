@@ -92,7 +92,7 @@ const shadow = {
     shadowOpacity: 0.18,
     shadowRadius: 2,
     elevation: 1,
-    backgroundColor: "white"
+     backgroundColor: "white"
 };
 
 const styleGuide: StyleGuide = {

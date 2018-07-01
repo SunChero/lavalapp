@@ -26,7 +26,8 @@ export class SiteStore {
         return fetch(SITE_URL).then(response => response.json())
                .then(data =>{
                   runInAction(()=>{
-                      data.events = data.events.reduce((x, y) => x.findIndex(e=>e.id==y.id)<0 ? [...x, y]: x, [])
+                     // data.events = data.events.reduce((x, y) => x.findIndex(e=>e.id==y.id)<0 ? [...x, y]: x, [])
+                     // data.news = data.news.sort((a ,b) => a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0)
                       this.info = data;
                   //    this.filterEvents()
                       this.saveSiteInfo()
@@ -37,8 +38,8 @@ export class SiteStore {
        return  AsyncStorage.setItem('@ICILAVAL:info' , JSON.stringify(this.info));
     }
     @action init = async () =>{
-        let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
-        this.info = offline ? JSON.parse( offline) : {}
+        //let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
+        //this.info = offline ? JSON.parse( offline) : {}
         this.loadSite()
     }
     filterEvents = () =>{

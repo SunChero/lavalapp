@@ -12,7 +12,7 @@ export default function withVues(WrappedComponent) {
             counter: 0
         }
         self =this
-        this.record = global.dsc.record.getRecord(id.toString())
+        this.record = global.dsc.record.getRecord(id)
         this.record.whenReady( ( rc) =>{
           rc.set( "counter" , rc.get("counter") + 1 )
           self.setState({
