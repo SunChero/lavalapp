@@ -12,14 +12,16 @@ export class UserStore {
     @observable data = {}
 
     init = async() => {
-       let data  = await AsyncStorage.getItem('@ICILAVAL:user'); 
-      
+       
+        let data  = await AsyncStorage.getItem('@ICILAVAL:user'); 
+       //console.log(data)
        this.data = JSON.parse(data)
         if(this.data === null  || this.data === 'undefined'){
             this.data = await this.createUser()
         }
         await this.loginUser()
     }
+
     get = param => {
         return this.data[param]
        // return global.user.get(param) 

@@ -1,17 +1,14 @@
 {
   "expo": {
-    "name": "expo",
-    "description": "A very interesting project.",
-    "slug": "expo",
+    "name": "Bonjour Laval",
+    "description": "rester a jour avec tout ce qui se passe dans votre quartier",
+    "slug": "bonjourlaval",
     "privacy": "public",
     "sdkVersion": "26.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "facebookScheme": "fb438232683290557",
-    "facebookAppId": "200996303851059",
-    "facebookDisplayName": "ICILaval",
+    "icon": "./assets/images/icon7.png",
     "splash": {
       "image": "./assets/images/mylogo7.png",
       "resizeMode": "contain",
@@ -24,6 +21,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier" : "com.app.naga.bonjourlaval",
       "supportsTablet": true
     }
   }

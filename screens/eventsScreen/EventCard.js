@@ -18,6 +18,7 @@ class EventCard extends React.PureComponent {
                            onPress={() => {this.gotoActivity()}} >{this.props.item.Title}</Text>
                         <Text style={{ fontWeight : '900'}} >{moment(parseInt(this.props.item._eventDate)).format('h:mm a')}</Text>
                         <Text>{this.props.item.cost}</Text>
+                        <Text>{this.props.item.summary}</Text>
                       </View>
                      )
   }

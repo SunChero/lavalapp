@@ -70,7 +70,7 @@ class Activity extends React.Component {
         };
         
         console.log(`rendering posts ${posts}`)
-        const {Title , image , summary , locations , cost , _eventDate} = navigation.state.params;
+        const {Title , image , _summary , locations , cost , _eventDate} = navigation.state.params;
         const back = "Events"
         const location = locations[0] ? locations[0].Label : null
         const bottomGradient = ["transparent", "rgba(0,0,0,1)"];
@@ -89,7 +89,7 @@ class Activity extends React.Component {
                          <Text type="title3" color="white" >{`${location}`}</Text>
                          
                          <Text type="caption" color="white" >{`${cost}`}</Text>
-                         <Text type="footnote" color="white"  >{summary} </Text>
+                         <Text type="footnote" color="white"  >{_summary} </Text>
                     </View>
                    </ScrollView>
                     <Footer>

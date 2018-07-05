@@ -54,7 +54,7 @@ class NewsList extends React.Component{
     }
     render(){
         const {onPress, renderItem} = this;
-        const {news , Alertes} = this.props.store.site.info; 
+        const {news , alerts} = this.props.store.site.info; 
         const title = "News"
         const {navigation} = this.props;
         const rightAction = {          icon: "md-paper-plane", type: "ionicons"  ,         onPress        };
@@ -62,7 +62,7 @@ class NewsList extends React.Component{
         return (
         <View style={{flex : 1 ,backgroundColor:"white"}}>
             <Feed 
-                header={<Alerts {...{alerts : Alertes}} />}
+                header={<Alerts {...{alerts}} />}
                     {...{data : news, renderItem, title, navigation,rightAction }} />
                     <ActionSheet title="Aviser la ville" ref={this.newPostRef} rightAction={postAction}>
                         <NewMessage onChange={this.onChangeHandler} voila/>

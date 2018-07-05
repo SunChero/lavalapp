@@ -131,7 +131,7 @@ export default class MainScreen extends React.Component {
                     selectedValue={user.city}
                     onValueChange={itemValue => this.props.store.user.set("city" , itemValue)}>
                     {
-                     this.props.store.site.info.secteurs.map(city =>  <Picker.Item label={city.name} value={city.name}/>)
+                     this.props.store.site.info.secteurs.map((city , key) =>  <Picker.Item key={key} label={city.name} value={city.name}/>)
                     }
                     
                   </Picker>
