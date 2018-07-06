@@ -3,7 +3,8 @@ import {PresenceStore} from './PresenceStore'
 import {ChatStore} from './ChatStore'
 import {UserStore} from './UserStore'
 import {observable , computed } from 'mobx';
-import {reset , Sync} from '../api/functions'
+
+import moment from "moment"
 import * as Auth from '../api/Auth';
 
 class Store {
@@ -14,6 +15,7 @@ class Store {
         this.chat = new ChatStore
         this.user = new UserStore
         this.presence = new PresenceStore
+        global._user = this.user
     }
     async init(){
         await this.user.init()
@@ -23,7 +25,7 @@ class Store {
         this.presence.SetupPresence()
         this.sigList = global.dsc.record.getList('all_signals');
         this.feedList = global.dsc.record.getList('all_feedbacks');
-        this.SyncPreferedEvents()
+       
         global.user.subscribe(`messages` , msgs => {
            Array.isArray(msgs) && msgs.map(msg => {
                 this.chat.addMessage(msg.from , msg)
@@ -68,23 +70,7 @@ class Store {
         return ;
     }
 
-    SyncPreferedEvents = () => {
-        reset()
-        
-        let evts = []
-        let tmp = this.user.get('sync')
-        console.log(`user sync ids ${tmp}`)
-        this.getNextWeekEvents().map( e => {
-            cIds = e.categories.map(cat =>  cat.Id)
-            cIds.map( cid => {
-                tmp.includes(cid) ? evts.push(e) : null
-            })
-        })
-        return Sync(Evts)
-    }
-    getNextWeekEvents = () => {
-        return this.site.info.events.filter(ev => moment(parseInt(ev._eventDate)).isBetween(moment(), moment().add(1, 'week')))
-    }
+    
 }
 
 export const store = new Store();
