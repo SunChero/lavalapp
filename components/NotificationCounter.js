@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {  View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {  View, Text,  StyleSheet} from 'react-native';
 import {Observer ,  inject} from 'mobx-react/native'
 import {Handle} from './index';
 import {Icon} from 'react-native-elements'
-
+import Ripple from 'react-native-material-ripple'
 @inject('store')
 export default class NotificationCounter extends Component {
    state = {
@@ -26,19 +26,18 @@ export default class NotificationCounter extends Component {
         const {item} = this.props;
         const show = this.props.store.notifications.get(item) > 0 ? true : false 
         return <Observer>{
-            () => <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
+            () => <Ripple style={styles.header} onPress={() => this.onPress(item)}>
                     <View style={styles.user} >
                         <Handle {...{user : item}} />
                     </View>
                     <Icon color="white" reverse reverseColor="black" name="ios-trash-outline" raised={true} size={16} type="ionicon"  onPress={this.delete}/>
                     {
                         this.props.store.notifications.get(item) > 0 && 
-                      
                         <View style={styles.IconBadge}>
                             <Text style={{color: 'white'}}>{this.props.store.notifications.get(item)}</Text>
                         </View>
                     }
-                </TouchableOpacity>
+                </Ripple>
                 }
         </Observer>;
             

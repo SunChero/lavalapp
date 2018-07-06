@@ -58,6 +58,7 @@ export default class Message extends React.Component{
            <Container>
                <NavigationBar  {...{ navigation, title, back}} />
                 <FlatList 
+                 style={{backgroundColor: 'white'}}
                 onContentSizeChange={this.scroll}
                  onRefresh={this.onRefresh} 
                  refreshing={this.refreshing} 

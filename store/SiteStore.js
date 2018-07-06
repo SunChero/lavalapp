@@ -2,13 +2,14 @@ import {observable, runInAction,  action , computed} from 'mobx';
 import moment from 'moment';
 import {SITE_URL , NEWS_PAGE_URL , DOTS} from '../api/constants'
 import {AsyncStorage} from 'react-native'
+
+
 export const Dots =  {
     Sports : 'goldenrod',
     Dehors : 'fuchsia',
     "Centre de la nature" : 'green',
     "Expositions et spectacles" : 'lightblue',
     default : '#4A148C'
-    
   };
 export class SiteStore {
     @observable newsPage = {};
@@ -31,16 +32,20 @@ export class SiteStore {
                       this.info = data;
                   //    this.filterEvents()
                       this.saveSiteInfo()
+                     
                 })
         })
     }
+  
+    
+   
     saveSiteInfo =  () => {
        return  AsyncStorage.setItem('@ICILAVAL:info' , JSON.stringify(this.info));
     }
     @action init = async () =>{
         //let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
         //this.info = offline ? JSON.parse( offline) : {}
-        this.loadSite()
+        await this.loadSite()
     }
     filterEvents = () =>{
         console.log(this.info.events.length)

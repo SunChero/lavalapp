@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react";
 import {StyleSheet} from "react-native";
-import {StyleGuide, Text, BaseCard} from "./index";
+import {StyleGuide, Text} from "./index";
 import PostHeader from "./PostHeader";
 import {observer , inject} from 'mobx-react/native'
 import {observable} from 'mobx'
-
+import Ripple from "react-native-material-ripple"
 @observer
 export default class Message extends React.Component<MessageProps> {
     @observable user = null;
@@ -36,10 +36,10 @@ export default class Message extends React.Component<MessageProps> {
         const {post , user } = this;
         const timestamp = post ? post.timestamp : null;
         return (
-           user && <BaseCard style={reverse ? {backgroundColor: "rgba(122, 122, 122, 0.09)" } : null} onPress={() => navigation.navigate("user", {stream : user})}>
+           user && <Ripple style={reverse ? {backgroundColor: "rgba(122, 122, 122, 0.09)" } : null} onPress={() => navigation.navigate("user", {stream : user})}>
                 <PostHeader {...{user,timestamp, reverse}} />
                 <Text style={[styles.text, reverse? {color : "white"} : null]}>{post.postData}</Text>
-            </BaseCard>
+            </Ripple>
         );
     }
 }

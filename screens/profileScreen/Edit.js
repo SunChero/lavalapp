@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     margin: 5,
     marginBottom: 5,
     height: 45,
-    borderBottom: 1,
     fontSize: 22,
     fontWeight : '900',
     textAlign: 'center'

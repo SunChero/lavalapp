@@ -3,7 +3,7 @@ import * as React from "react";
 import autobind from "autobind-decorator";
 import {SafeAreaView, View, Animated, StyleSheet} from "react-native";
 import {LinearGradient} from "expo";
-
+import Ripple from 'react-native-material-ripple'
 import type {StyleObj as Style} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
 import LeftAction from "./LeftAction";
@@ -59,7 +59,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
             <SafeAreaView style={containerStyle}>
                 <View style={styles.content}>
                     <View style={[styles.leftBlock]}>
-                        {back && <LeftAction onPress={this.goBack} name="chevron-left" label={back} />}
+                        {back && <Ripple onPress={this.goBack} ><LeftAction name="chevron-left" label={back} style={{padding: 10}} /> </Ripple>}
                     </View>
                     {
                         (title !== "" && !expanded) && (
@@ -102,9 +102,9 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                         }
                          {
                             rightAction && !rightAction.icon && (
-                               <Text style={{fontSize: 20, fontWeight: 'normal', color : 'black'}}
-                                onPress={rightAction.onPress}
-                               >{rightAction.text} </Text>
+                                <Ripple onPress={rightAction.onPress}>
+                                    <Text style={{fontSize: 20, fontWeight: 'normal',padding:10, color : 'black'}}>{rightAction.text} </Text>
+                                </Ripple>
                             )
                         }
                     </View>

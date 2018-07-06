@@ -3,7 +3,7 @@ import * as React from "react";
 import {StyleSheet, View, TouchableWithoutFeedback, TouchableOpacity, Dimensions} from "react-native";
 import {Constants} from "expo";
 import {SafeAreaView} from "react-navigation";
-
+import Ripple from 'react-native-material-ripple'
 import {StyleGuide, type StyleProps} from "./theme";
 import Text from "./Text";
 import Icon from "./Icon";
@@ -33,9 +33,9 @@ export default class Sheet extends React.PureComponent<SheetProps> {
             <View style={[styles.content, style]}>
                 <TouchableWithoutFeedback >
                     <View style={styles.header}>
-                        <TouchableOpacity style={styles.left} onPress={toggle}>
+                        <Ripple style={styles.left} onPress={toggle}>
                             <Icon name="chevron-down" secondary />
-                        </TouchableOpacity>
+                        </Ripple>
                         <View style={styles.center}>
                             <Text type="headline" style={styles.title} numberOfLines={1} secondary>{title}</Text>
                             {subtitle && (
@@ -47,9 +47,9 @@ export default class Sheet extends React.PureComponent<SheetProps> {
                         <View style={styles.right}>
                             {
                                 rightAction && (
-                                    <TouchableOpacity onPress={rightAction.onPress}>
-                                        <Text type="headline" secondary>{rightAction.label}</Text>
-                                    </TouchableOpacity>
+                                    <Ripple onPress={rightAction.onPress}>
+                                        <Text type="headline" secondary style={{padding :10}}>{rightAction.label} </Text>
+                                    </Ripple>
                                 )
                             }
                         </View>

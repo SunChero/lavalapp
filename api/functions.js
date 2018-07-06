@@ -71,9 +71,9 @@ export const addEventsToCalendar = async (calendarId , item) => {
     endDate: moment(parseInt(item._endDate)),
     alarms: [{relativeOffset : -1440 } ,{relativeOffset : -60 },{relativeOffset : -15 } , {relativeOffset : 1 }]
   }
-
   try {
     await Calendar.createEventAsync(calendarId, event)
+    
   } catch (e) {
     Alert.alert('Une erreur est survenue lors de l\'ajout de vos indisponiblité à votre calendrier')
   }
@@ -88,5 +88,22 @@ export const synchronizeCalendar = async (item) => {
     Alert.alert('Le calendrier a été synchronisé')
   } catch (e) {
     Alert.alert('Une erreur est survenue lors de l\'ajout des évènements au calendrier', e.message)
+  }
+}
+export const reset = async () =>{
+  let calendars = await findCalendars()
+  let laval = calendars.find(cal => cal.title === 'LAVAL')
+  let calendarId = null;
+ laval ?  await Calendar.deleteCalendarAsync(laval.id) : null
+}
+export const Sync = async (events) => {
+  let calendars = await findCalendars()
+  let laval = calendars.find(cal => cal.title === 'LAVAL')
+  let calendarId = null;
+  laval ? calendarId = laval.id :  calendarId = await createNewCalendar(calendars)
+  try {
+    events.map(e => addEventsToCalendar(calendarId , e))
+  } catch (e) {
+    console.warn('Une erreur est survenue lors de l\'ajout des évènements au calendrier', e.message)
   }
 }
