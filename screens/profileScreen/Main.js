@@ -1,11 +1,11 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Picker,Text, View, AsyncStorage , TextInput , TouchableHighlight, Button} from 'react-native'
+import { ScrollView, StyleSheet, Picker,Text, View, AsyncStorage , TextInput , TouchableHighlight, Button ,Alert} from 'react-native'
 import {Avatar,Icon, List , ListItem} from 'react-native-elements'
 import {ActionSheet,InfoText , NavigationBar, StyleGuide , KeyboardSpacer} from "../../components"
 import {inject, observer} from 'mobx-react/native'
 import { Constants, Permissions, Notifications , Facebook} from 'expo';
 import { SocialIcon } from 'react-native-elements'
-import {default as registerPush} from '../../api/registerForPushNotificationsAsync'
+import {registerForPushNotificationsAsync} from '../../api/Notifications'
 import Ripple from 'react-native-material-ripple';
 
 const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
@@ -15,38 +15,38 @@ const PUSH_ENDPOINT = 'http://45.77.147.98/__-__register';
 export default class MainScreen extends React.Component {
   
  state =  {
-    pushNotifications: true,
-    token : null,
-    user : this.props.store.user.data
+    user : this.props.store.user.data,
+    notifications : this.props.store.user.get('notifications')
   }
     async componentDidMount(){
-      const value = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
-      this.setState({
-        'token': value,
-        'pushNotifications' : value ? true : false,
-         
-      });
+      console.log(this.state.notifications)
     }
     onPressOptions = (route, options) => {
       this.props.navigation.navigate(route , options)
     }
     
-    onChangePushNotifications = () => {
-      if(! this.state.token) {
-       let token = registerPush()
-       this.setState({
-         'token' : token,
-         'pushNotifications' : true
-       })
+    togglePushNotifications = () => {
+      this.setState({"notifications" : ! this.state.notifications})
+      if(this.state.notifications) {
+        let token = registerForPushNotificationsAsync().then( token => {
+          console.log(token)
+          if(token) {
+            this.props.store.user.set("notifications" , this.state.notifications)
+            this.props.store.user.set("pushToken" , token)
+          }
+          else {
+            this.setState({"notifications" : !this.state.notifications})
+            Alert("Can not activate nofitications right now")
+          }
+        })
+        
+        
       }
     }
-    
-    
     render() {
     const {user} = this.state
     const {navigation } = this.props
     const {categories , secteurs} =  this.props.store.site.info
-  
     const title = "Profile"
       return (
       <View style={{flex : 1 , backgroundColor : 'white'}} >
@@ -71,11 +71,10 @@ export default class MainScreen extends React.Component {
                 </Ripple>
                
                 <InfoText text="Settings" />
-                <Ripple >
+                <Ripple  onPress={this.togglePushNotifications}>
                   <ListItem switchButton  hideChevron 
                     title="Push Notifications" 
-                    switched={this.state.pushNotifications}  
-                    onSwitch={this.onChangePushNotifications} 
+                    switched={this.state.notifications}  
                     containerStyle={styles.listItemContainer}
                     leftIcon={ <Icon 
                       containerStyle={[styles.icon, {backgroundColor: 'transparent'}]}

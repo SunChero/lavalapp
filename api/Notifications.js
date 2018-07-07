@@ -1,5 +1,5 @@
 import { Notifications, Permissions } from 'expo';
-
+import {AsyncStorage} from 'react-native'
 getiOSNotificationPermission = async ()  => {
   const { status } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
@@ -13,6 +13,7 @@ export const ScheduleNotification = (events , options) => {
     getiOSNotificationPermission()
     Notifications.cancelAllScheduledNotificationsAsync()
     events.map(ev => {
+      console.log(ev.locations)
         const localnotification = {
             title: ev.locations[0] ? ev.locations[0].Label : "Bonjour Laval",
             body: ev.Title,
@@ -33,12 +34,21 @@ export const ScheduleNotification = (events , options) => {
     
     
 };
-//   listenForNotifications = () => {
-//     Notifications.addListener(notification => {
-//       if (notification.origin === 'received' && Platform.OS === 'ios') {
-//         Alert.alert(notification.title, notification.body);
-//       }
-//     });
-//   };
+export async function registerForPushNotificationsAsync() {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+   if (finalStatus !== 'granted') {
+    return;
+  }
+  let token = await Notifications.getExpoPushTokenAsync();
+  await AsyncStorage.setItem('@ICILAVAL:NotificationToken', token);
+  return token;
+}
 
 
