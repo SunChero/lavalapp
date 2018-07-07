@@ -15,7 +15,6 @@ export const askForReminderPermissions = async () => {
   const response = await Permissions.askAsync(Permissions.REMINDERS)
   return response.status === 'granted'
 }
-
 export const findCalendars = async () => {
   const calendarGranted = await askForCalendarPermissions()
   const reminderGranted = await askForReminderPermissions()
@@ -27,7 +26,6 @@ export const findCalendars = async () => {
 
   return calendars
 }
-
 export const createNewCalendar = async (calendars) => {
   const newCalendar = {
     title: 'LAVAL',
@@ -57,7 +55,7 @@ export const createNewCalendar = async (calendars) => {
   try {
     calendarId = await Calendar.createCalendarAsync(newCalendar)
   } catch (e) {
-    Alert.alert('Le calendrier n\'a pas été sauvegardé', e.message)
+    Alert.alert('Le calendrier n\'a pas Ã©tÃ© sauvegardÃ©', e.message)
   }
 
   return calendarId
@@ -75,7 +73,7 @@ export const addEventsToCalendar = async (calendarId , item) => {
     await Calendar.createEventAsync(calendarId, event)
     
   } catch (e) {
-    Alert.alert('Une erreur est survenue lors de l\'ajout de vos indisponiblité à votre calendrier')
+    Alert.alert('Une erreur est survenue lors de l\'ajout de vos indisponiblitÃ© Ã  votre calendrier')
   }
 }
 export const synchronizeCalendar = async (item) => {
@@ -85,10 +83,18 @@ export const synchronizeCalendar = async (item) => {
   laval ? calendarId = laval.id :  calendarId = await createNewCalendar(calendars)
   try {
     await addEventsToCalendar(calendarId , item)
-    Alert.alert('Le calendrier a été synchronisé')
+    Alert.alert('Le calendrier a Ã©tÃ© synchronisÃ©')
   } catch (e) {
-    Alert.alert('Une erreur est survenue lors de l\'ajout des évènements au calendrier', e.message)
+    Alert.alert('Une erreur est survenue lors de l\'ajout des Ã©vÃ¨nements au calendrier', e.message)
   }
+}
+getAllEvents = async  calendarId => {
+ let events =  await Calendar.getEventsAsync([calendarId] , new Date().setFullYear( new Date().getFullYear() -1)  ,  new Date().setFullYear( new Date().getFullYear() +1))
+ return events
+}
+clearAllEvents =  async  calendarId =>{
+  let events = await this.getAllEvents(calendarId)
+  events.map( ev => Calendar.deleteEventAsync(ev.id))
 }
 export const reset = async () =>{
   let calendars = await findCalendars()
@@ -102,8 +108,9 @@ export const Sync = async (events) => {
   let calendarId = null;
   laval ? calendarId = laval.id :  calendarId = await createNewCalendar(calendars)
   try {
+    this.clearAllEvents(calendarId)
     events.map(e => addEventsToCalendar(calendarId , e))
   } catch (e) {
-    console.warn('Une erreur est survenue lors de l\'ajout des évènements au calendrier', e.message)
+    console.warn('Une erreur est survenue lors de l\'ajout des Ã©vÃ¨nements au calendrier', e.message)
   }
 }

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import {  View, Text, ScrollView , StyleSheet } from 'react-native';
+import {  View, Text, ScrollView , StyleSheet , Switch} from 'react-native';
 import { NavigationBar, InfoText } from '../../components';
 import Ripple from 'react-native-material-ripple'
-import {ListItem} from 'react-native-elements'
+//import {reset,  Sync} from '../../api/functions'
+import {ScheduleNotification} from '../../api/Notifications'
+import moment from 'moment';
 
-
-export default class Calendar extends React.Component {
+export default class Calendar extends React.PureComponent {
   
 
     state ={
-        active : this.props.navigation.state.params.user.get('sync')
+        active : this.props.navigation.state.params.user.get('sync'),
+        events : this.props.navigation.state.params.events
     }
     toggle = category =>{
         let cats = this.state.active
@@ -26,6 +28,21 @@ export default class Calendar extends React.Component {
         this.props.navigation.state.params.user.set('sync' , this.state.active)
         this.props.navigation.goBack()
     }
+    SyncPreferedEvents = () => {
+        let evts = []
+        //reset()
+        let tmp = this.state.active
+        this.getNextWeekEvents().map( e => {
+            cIds = e.categories.map(cat =>  cat.Id)
+            cIds.map( cid => {
+                tmp.includes(cid) ? evts.push(e) : null
+            })
+        })
+        return ScheduleNotification(evts)
+    }
+    getNextWeekEvents = () => {
+        return this.state.events.filter(ev => moment(parseInt(ev._eventDate)).isBetween(moment(), moment().add(1, 'week')))
+    } 
   render() {
       const title = "Calendar Sync Options"
       const back = "settings"
@@ -36,20 +53,17 @@ export default class Calendar extends React.Component {
         <NavigationBar {...{navigation , title , back}} />
         <View style={{flex: 1}}>
             <ScrollView >
-                    {
-                   categories.map( cat =>(
-                    <ListItem switchButton  hideChevron 
-                    title={cat.Label}
-                    switched={this.state.active.includes(cat.Id)}   
-                    onSwitch={() =>{this.toggle(cat.Id)}} 
-                    containerStyle={styles.listItemContainer}
-                   
-                  />
-                ))
+                {
+                   categories.map( (cat , key) =>(
+                    <Ripple key={key} style={styles.listItem} onPress={() =>{this.toggle(cat.Id)}} >
+                         <Text>{cat.Label} </Text>
+                            <Switch    value={this.state.active.includes(cat.Id)}    />
+                   </Ripple>
+                    ))
                 } 
-                    <Ripple style={{backgroundColor: "black", padding:20, margin: 10, alignItems:'center', justifyContent: 'center'}}  onPress={this.sync}>
-                        <Text style={{color: 'white'}}>Save</Text> 
-                    </Ripple>
+                <Ripple style={{backgroundColor: "black", padding:20, margin: 10, alignItems:'center', justifyContent: 'center'}}  onPress={this.SyncPreferedEvents}>
+                    <Text style={{color: 'white'}}>Sync Now</Text> 
+                </Ripple>
             </ScrollView>
            
         </View>
@@ -66,11 +80,17 @@ const styles = StyleSheet.create({
           borderBottomWidth: 0,
           backgroundColor: '#fff'
         },
-        listItemContainer: {
-          fontWeight: '900' ,
-          color : 'black',
-          borderBottomWidth: 0,
-          backgroundColor:"#fcfcfc"
-        },
+        listItem: {
+        fontWeight: '900' ,
+        color : 'black',
+        backgroundColor:"#fcfcfc",
+        flexDirection : 'row',
+        alignItems: 'center',
+        alignContent : 'center',
+        justifyContent: 'space-between',
+        height: 40,
+        paddingLeft:  10,
+        paddingRight:  10,
+        }    
        
     })

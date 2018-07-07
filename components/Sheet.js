@@ -33,8 +33,8 @@ export default class Sheet extends React.PureComponent<SheetProps> {
             <View style={[styles.content, style]}>
                 <TouchableWithoutFeedback >
                     <View style={styles.header}>
-                        <Ripple style={styles.left} onPress={toggle}>
-                            <Icon name="chevron-down" secondary />
+                        <Ripple style={[styles.left, {padding: 10}]} onPress={toggle}>
+                            <Icon name="chevron-down" secondary/>
                         </Ripple>
                         <View style={styles.center}>
                             <Text type="headline" style={styles.title} numberOfLines={1} secondary>{title}</Text>

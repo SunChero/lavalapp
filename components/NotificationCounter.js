@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: 10
+        padding: 10,
+        backgroundColor: "rgba(122, 122, 122, 0.09)" 
     },
     user: {
         flexDirection: "row",

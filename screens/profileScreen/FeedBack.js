@@ -3,11 +3,18 @@ import {  View, Text, TextInput} from 'react-native';
 import { NavigationBar, InfoText,KeyboardSpacer } from '../../components';
 import Ripple from 'react-native-material-ripple'
 
-export default class FeedBack extends Component {
+export default class FeedBack extends React.PureComponent {
+  
   render() {
       const title = "Drop us a line"
       const back = "Settings"
       const {navigation} = this.props
+      message = null;
+      sendFeedback = () =>{
+        navigation.state.params.sendFeedback({'msg' : message})
+        navigation.navigate('main')
+      }
+      
     return (
         <View style={{flex :  1 }}>
         <NavigationBar {...{navigation , title , back}} />
@@ -16,10 +23,10 @@ export default class FeedBack extends Component {
                     underlineColorAndroid="transparent" 
                     textAlignVertical="top" 
                     multiline  autoFocus
-                    onChangeText={(text) => this.onChangefeedback(text)}
+                    onChangeText={text => message = text}
                   />
-                   <Ripple style={{backgroundColor: "#4A148C", padding:10, margin: 10}}  onPress={() =>navigation.goBack()}>
-                     <Text style={{color: "white"}}>Save</Text> 
+                   <Ripple style={{backgroundColor: "#4A148C", padding:10, margin: 10}}  onPress={() => sendFeedback()}>
+                     <Text style={{color: "white"}}> Save </Text> 
                   </Ripple>
                   <KeyboardSpacer />
            

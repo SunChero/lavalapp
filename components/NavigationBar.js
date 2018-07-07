@@ -59,7 +59,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
             <SafeAreaView style={containerStyle}>
                 <View style={styles.content}>
                     <View style={[styles.leftBlock]}>
-                        {back && <Ripple onPress={this.goBack} ><LeftAction name="chevron-left" label={back} style={{padding: 10}} /> </Ripple>}
+                        {back && <Ripple onPress={this.goBack} ><LeftAction name="chevron-left" label={back} /> </Ripple>}
                     </View>
                     {
                         (title !== "" && !expanded) && (
@@ -91,19 +91,20 @@ class NavigationBar extends React.Component<NavigationBarProps> {
                     <View style={styles.rightBlock}>
                         {
                             rightAction &&  rightAction.icon && (
+                             <Ripple onPress={rightAction.onPress}>
                                 <IconButton secondary
-                                    onPress={rightAction.onPress}
                                     name={rightAction.icon}
                                     type={rightAction.type}
                                     style={styles.rightAction}
                                 />
+                             </Ripple>
                             )
                             
                         }
                          {
                             rightAction && !rightAction.icon && (
                                 <Ripple onPress={rightAction.onPress}>
-                                    <Text style={{fontSize: 20, fontWeight: 'normal',padding:10, color : 'black'}}>{rightAction.text} </Text>
+                                    <Text style={{padding:10, color : 'black'}}>{rightAction.text} </Text>
                                 </Ripple>
                             )
                         }
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
         padding: StyleGuide.spacing.small
     },
     rightAction: {
-        marginRight: StyleGuide.spacing.small
+        marginRight: StyleGuide.spacing.small,
+        padding : 5
     }
 });
 

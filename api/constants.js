@@ -5,7 +5,7 @@ const tintColor = '#283355';
 export const SITE_URL = 'http://45.77.147.98/__get__api'
 export const NEWS_PAGE_URL = 'http://45.77.147.98/_web/newsPage?link='
 export const USER_URL = 'http://45.77.147.98/register'
-export const DS_URL = 'ws://45.77.147.98/deepstream'
+export const DS_URL = 'ws://192.168.183.126:6020/deepstream'
 export const UPLOAD_URL = "http://45.77.147.98/upload"
 export const AVATAR_URL = "http://45.77.147.98/"
 

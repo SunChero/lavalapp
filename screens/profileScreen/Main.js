@@ -17,7 +17,7 @@ export default class MainScreen extends React.Component {
  state =  {
     pushNotifications: true,
     token : null,
-    user : global.user.get()
+    user : this.props.store.user.data
   }
     async componentDidMount(){
       const value = await AsyncStorage.getItem('@ICILAVAL:NotificationToken');
@@ -26,8 +26,6 @@ export default class MainScreen extends React.Component {
         'pushNotifications' : value ? true : false,
          
       });
-      console.log(this.state)
-      
     }
     onPressOptions = (route, options) => {
       this.props.navigation.navigate(route , options)
@@ -45,10 +43,9 @@ export default class MainScreen extends React.Component {
     
     
     render() {
-    console.log(this.props.store.site.info.categories)
     const {user} = this.state
     const {navigation } = this.props
-    const {categories} =  this.props.store.site.info
+    const {categories , secteurs} =  this.props.store.site.info
   
     const title = "Profile"
       return (
@@ -57,7 +54,7 @@ export default class MainScreen extends React.Component {
           <ScrollView style={{flex:1}}>
               <InfoText text="Account" />
                 <List containerStyle={styles.listContainer}>
-                <Ripple  onPress={() => this.onPressOptions('edit')}>
+                <Ripple  onPress={() => this.onPressOptions('edit', {...{navigation , secteurs , user : this.props.store.user}})}>
                   <ListItem 
                     title="Profile" 
                     rightTitle={` ${user.name.first} / ${user.name.last}`}   
@@ -88,7 +85,7 @@ export default class MainScreen extends React.Component {
                       />  }
                   />
                   </Ripple>
-                  <Ripple  onPress={() => this.onPressOptions('calendar' , {...{navigation , categories , user : this.props.store.user}})}>
+                  <Ripple  onPress={() => this.onPressOptions('calendar' , {...{navigation , categories , user : this.props.store.user , events : this.props.store.site.info.events}})}>
                   <ListItem 
                     title="Calendar Sync"  
                     containerStyle={styles.listItemContainer} 
@@ -129,7 +126,7 @@ export default class MainScreen extends React.Component {
                       /> }
                     />
                 </Ripple>
-                <Ripple  onPress={() => this.onPressOptions('feedback')} >
+                <Ripple  onPress={() => this.onPressOptions('feedback' ,{...{navigation , sendFeedback : this.props.store.sendFeedback }})} >
                   <ListItem 
                     title="Send FeedBack"  
                     containerStyle={styles.listItemContainer} 
@@ -178,8 +175,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
       },
       listItemContainer: {
-        fontWeight: '900' ,
-        color : 'black',
         borderBottomWidth: 0,
         backgroundColor:"#fcfcfc"
       },

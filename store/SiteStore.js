@@ -2,7 +2,7 @@ import {observable, runInAction,  action , computed} from 'mobx';
 import moment from 'moment';
 import {SITE_URL , NEWS_PAGE_URL , DOTS} from '../api/constants'
 import {AsyncStorage} from 'react-native'
-import {reset , Sync} from '../api/functions'
+
 
 export const Dots =  {
     Sports : 'goldenrod',
@@ -30,7 +30,7 @@ export class SiteStore {
                      // data.events = data.events.reduce((x, y) => x.findIndex(e=>e.id==y.id)<0 ? [...x, y]: x, [])
                      // data.news = data.news.sort((a ,b) => a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0)
                       this.info = data;
-                      this.SyncPreferedEvents()
+                     // this.SyncPreferedEvents()
                   //    this.filterEvents()
                     return  this.saveSiteInfo()
                      
@@ -38,23 +38,7 @@ export class SiteStore {
         })
     }
   
-    SyncPreferedEvents = () => {
-        let evts = []
-        reset()
-        
-        let tmp = global._user.get('sync')
-        console.log(`user sync ids ${tmp}`)
-        this.getNextWeekEvents().map( e => {
-            cIds = e.categories.map(cat =>  cat.Id)
-            cIds.map( cid => {
-                tmp.includes(cid) ? evts.push(e) : null
-            })
-        })
-        return Sync(evts)
-    }
-    getNextWeekEvents = () => {
-        return this.info.events.filter(ev => moment(parseInt(ev._eventDate)).isBetween(moment(), moment().add(1, 'week')))
-    } 
+    
    
     saveSiteInfo =  () => {
        return  AsyncStorage.setItem('@ICILAVAL:info' , JSON.stringify(this.info));

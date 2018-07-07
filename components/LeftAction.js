@@ -29,6 +29,8 @@ export default class LeftAction extends React.PureComponent<LeftActionProps> {
 const styles = StyleSheet.create({
     backBtn: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop : 10,
+        paddingBottom: 10
     }
 });
