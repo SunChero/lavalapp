@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  View, Text,  StyleSheet} from 'react-native';
+import {  View, Text,  StyleSheet ,TouchableOpacity} from 'react-native';
 import {Observer ,  inject} from 'mobx-react/native'
 import {Handle} from './index';
 import {Icon} from 'react-native-elements'
@@ -26,7 +26,7 @@ export default class NotificationCounter extends Component {
         const {item} = this.props;
         const show = this.props.store.notifications.get(item) > 0 ? true : false 
         return <Observer>{
-            () => <Ripple style={styles.header} onPress={() => this.onPress(item)}>
+            () => <TouchableOpacity style={styles.header} onPress={() => this.onPress(item)}>
                     <View style={styles.user} >
                         <Handle {...{user : item}} />
                     </View>
@@ -37,7 +37,7 @@ export default class NotificationCounter extends Component {
                             <Text style={{color: 'white'}}>{this.props.store.notifications.get(item)}</Text>
                         </View>
                     }
-                </Ripple>
+                </TouchableOpacity>
                 }
         </Observer>;
             
@@ -51,7 +51,13 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         padding: 10,
-        backgroundColor: "rgba(122, 122, 122, 0.09)" 
+        backgroundColor: "#f5f5f5" ,
+        margin: 4,
+        // shadowOpacity: 0.3,
+        // shadowOffset: {
+        // width: 0,
+        // height: 2,
+        // }
     },
     user: {
         flexDirection: "row",

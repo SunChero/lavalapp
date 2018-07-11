@@ -59,6 +59,7 @@ export class ChatStore {
         
     }
     delPeer = peer => {
+        console.log(    `deleting this peer ${peer}`)
         this.peers = this.peers.filter( e => e !== peer)
         this.savePeers()
     }

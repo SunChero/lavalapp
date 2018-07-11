@@ -18,7 +18,7 @@ class MainView extends React.Component{
            
             <EmptyShell {...{title , navigation ,back}}>
                 <View style={{flex :1}}>
-                    {this.props.store.chat.peers.map(item => <NotificationCounter {...{item , navigation }} />)}
+                    {this.props.store.chat.peers.map((item , key ) => <NotificationCounter key={key} {...{item , navigation }} />)}
                 </View>
             </EmptyShell>
             
