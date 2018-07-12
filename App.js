@@ -53,7 +53,7 @@ export default class App extends React.Component {
     console.disableYellowBox = true;
     NetInfo.isConnected.fetch().then(isConnected => 
       {
-        console.log(`connection status is ${isConnected}`)
+      //  console.log(`connection status is ${isConnected}`)
           this.setState({isConnected : isConnected})
       });
       NetInfo.isConnected.addEventListener(
@@ -67,7 +67,8 @@ export default class App extends React.Component {
   }
   handleFirstConnectivityChange(isConnected) {
     this.setState({"isConnected" : isConnected})
-    console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+    global.isConnected = isConnected
+   // console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
     
   }
   render() {

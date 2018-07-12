@@ -63,7 +63,7 @@ export default class MainScreen extends React.Component {
                         <Icon 
                         containerStyle={[styles.icon, {backgroundColor: 'transparent'}]}
                         color="black"
-                        name="md-contact" 
+                        name="ios-contact-outline" 
                         type="ionicon" size={22}
                         />
                     }
@@ -79,7 +79,7 @@ export default class MainScreen extends React.Component {
                     leftIcon={ <Icon 
                       containerStyle={[styles.icon, {backgroundColor: 'transparent'}]}
                       color="black"
-                      name="ios-notifications" 
+                      name="ios-notifications-outline" 
                       type="ionicon" size={22}
                       />  }
                   />

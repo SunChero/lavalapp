@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import {  View, Text, ScrollView , StyleSheet , Switch} from 'react-native';
 import { NavigationBar, InfoText } from '../../components';
 import Ripple from 'react-native-material-ripple'
-//import {reset,  Sync} from '../../api/functions'
-import {ScheduleNotification} from '../../api/Notifications'
+import {Sync} from '../../api/Notifications'
 import moment from 'moment';
 
 export default class Calendar extends React.PureComponent {
-  
-
     state ={
         active : this.props.navigation.state.params.user.get('sync'),
         events : this.props.navigation.state.params.events
@@ -38,21 +35,37 @@ export default class Calendar extends React.PureComponent {
                 tmp.includes(cid) ? evts.push(e) : null
             })
         })
-        return ScheduleNotification(evts)
+        Sync(evts)
+        this.sync()
     }
     getNextWeekEvents = () => {
         return this.state.events.filter(ev => moment(parseInt(ev._eventDate)).isBetween(moment(), moment().add(1, 'week')))
     } 
   render() {
-      const title = "Calendar Sync Options"
+      const title = "Calendar"
+      const rightAction = {
+          text : 'Sync',
+          onPress : this.SyncPreferedEvents
+         
+      }
       const back = "settings"
       const {navigation} = this.props;
       const {categories }=  navigation.state.params;
     return (
         <View style={{flex :  1 , backgroundColor:'white'}}>
-        <NavigationBar {...{navigation , title , back}} />
+        <NavigationBar {...{navigation , title , back , rightAction}} />
         <View style={{flex: 1}}>
+            
             <ScrollView >
+                <View style={{margin : 5 ,padding :5 , backgroundColor: 'goldenrod'}}>
+                    <Text style={{fontSize: 12 ,color : 'white'}}>
+                    this option Allows you to import events to your calendar, for now only the current week events are imported,
+                    to disable this just unselect all categories 
+                    </Text>
+                    <Text style={{fontWeight: 'bold',fontSize: 12 ,color : 'white'}}>
+                    you need to logon at least once a week to receive the latest events.
+                    </Text>
+                </View>
                 {
                    categories.map( (cat , key) =>(
                     <Ripple key={key} style={styles.listItem} onPress={() =>{this.toggle(cat.Id)}} >
@@ -61,9 +74,7 @@ export default class Calendar extends React.PureComponent {
                    </Ripple>
                     ))
                 } 
-                <Ripple style={{backgroundColor: "black", padding:20, margin: 10, alignItems:'center', justifyContent: 'center'}}  onPress={this.SyncPreferedEvents}>
-                    <Text style={{color: 'white'}}>Sync Now</Text> 
-                </Ripple>
+                
             </ScrollView>
            
         </View>
@@ -81,8 +92,6 @@ const styles = StyleSheet.create({
           backgroundColor: '#fff'
         },
         listItem: {
-        fontWeight: '900' ,
-        color : 'black',
         backgroundColor:"#fcfcfc",
         flexDirection : 'row',
         alignItems: 'center',

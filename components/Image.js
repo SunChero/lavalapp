@@ -31,7 +31,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
         if (uri) {
             const entry = CacheManager.get(uri);
             const path = await entry.getPath();
-            if (path) {
+            if (path && this._mounted) {
                 this.setState({ uri: path });
             }
         }
@@ -39,6 +39,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
 
     componentDidMount() {
         this.load(this.props);
+        this._mounted = true;
     }
 
     componentDidUpdate(prevProps: ImageProps, prevState: ImageState) {
@@ -57,6 +58,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
         const {uri} = this.props;
         const entry = CacheManager.get(uri);
         entry.cancel();
+        this._mounted = false;
     }
 
     render(): React.Node {

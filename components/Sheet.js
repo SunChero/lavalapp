@@ -32,11 +32,11 @@ export default class Sheet extends React.PureComponent<SheetProps> {
         return (
             <View style={[styles.content, style]}>
                 <TouchableWithoutFeedback >
-                    <View style={styles.header}>
-                        <Ripple style={[styles.left, {padding: 10}]} onPress={toggle}>
-                            <Icon name="chevron-down" secondary/>
+                    <View style={[styles.header]}>
+                        <Ripple style={[{paddingTop : 5, paddingBottom: 5}]} onPress={toggle}>
+                            <Icon name="chevron-down"   secondary/>
                         </Ripple>
-                        <View style={styles.center}>
+                        <View style={[styles.center,{padding : 10}]}>
                             <Text type="headline" style={styles.title} numberOfLines={1} secondary>{title}</Text>
                             {subtitle && (
                                 <Text type="footnote" style={styles.title} numberOfLines={1} secondary>
@@ -47,8 +47,8 @@ export default class Sheet extends React.PureComponent<SheetProps> {
                         <View style={styles.right}>
                             {
                                 rightAction && (
-                                    <Ripple onPress={rightAction.onPress}>
-                                        <Text type="headline" secondary style={{padding :10}}>{rightAction.label} </Text>
+                                    <Ripple onPress={rightAction.onPress} style={{padding : 10}}>
+                                        <Text type="headline" secondary>{rightAction.label} </Text>
                                     </Ripple>
                                 )
                             }

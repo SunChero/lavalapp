@@ -19,6 +19,7 @@ export default class NewsPage extends React.Component{
         const body =  <View style={{  flex: 1 }} >
                             <Image source={{uri: image}} style={{height:250  , width: null}} />
                             <View style={{ padding: 10  }}>
+                            
                                 <Text style={{padding:10}}>@{moment(timestamp).fromNow()}</Text>
                                 <Text style={{ fontFamily: "SFProText-Semibold" , fontSize: 16 }}>  {Content} </Text>
                             </View>

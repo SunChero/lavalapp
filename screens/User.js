@@ -47,7 +47,7 @@ class User extends React.Component{
     
         const {stream} = this.props.navigation.state.params;
         if(stream === global.user.name){
-            console.log(`loading same user`)
+         //   console.log(`loading same user`)
             this.user = global.user.get()
         }
         else{
@@ -63,7 +63,7 @@ class User extends React.Component{
         this.props.toggleLike(action)
     }
     onChangeHandler = (data) => {
-        console.log( `handeling ${data}`)
+      //  console.log( `handeling ${data}`)
         this.newMessage = data
     }
     gotoChat = () =>{

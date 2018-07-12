@@ -13,7 +13,7 @@ export default class Message extends React.Component{
     @observable refreshing = false;
     postMessage = ()=> {
       const {user} = this.props.navigation.state.params;
-      console.log(`from ${global.user.name} to ${user}`)
+     // console.log(`from ${global.user.name} to ${user}`)
       let msg = {
         'message' : this.message,
         'timestamp' : parseInt(moment().format("X"), 10),

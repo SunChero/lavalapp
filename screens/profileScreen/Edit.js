@@ -68,7 +68,7 @@ export default class EditScreen extends Component {
                           <View style={{flex :4 }}>
                               <TextInput multiline value={user.get("description")} onChangeText={description =>  user.set("description" , description)}
                               placeHolder="About Me"
-                              style={{fontSize : 14, backgroundColor : '#f9f9f9' , height: 60, color : 'black', borderRadius: '2'}}
+                              style={{fontSize : 14, backgroundColor : '#f9f9f9' , height: 60, color : 'black', borderRadius: 2}}
                               
                               />
                           </View>
@@ -174,13 +174,12 @@ const styles = StyleSheet.create({
     paddingRight : 10,
     marginBottom: 5,
     height: 45,
-    textAlign: 'center',
-    borderWidth: 1,
+ //   textAlign: 'center',
+    borderWidth: 0,
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     backgroundColor: '#fcfcfc',
-    borderColor : '#f1f1f1',
     flex : 1 , flexDirection: 'row' , justifyContent: 'space-between' , alignItems:'center'
   },
 });

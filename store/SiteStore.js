@@ -2,8 +2,6 @@ import {observable, runInAction,  action , computed} from 'mobx';
 import moment from 'moment';
 import {SITE_URL , NEWS_PAGE_URL , DOTS} from '../api/constants'
 import {AsyncStorage} from 'react-native'
-
-
 export const Dots =  {
     Sports : 'goldenrod',
     Dehors : 'fuchsia',
@@ -14,6 +12,11 @@ export const Dots =  {
 export class SiteStore {
     @observable newsPage = {};
     @observable info = {};
+    @action init = async () =>{
+       // let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
+       // this.info = offline ? JSON.parse( offline) : {}
+        await this.loadSite()
+    }
     @action loadNewsPage = (link) =>{
         this.newsPage = {}
             fetch(NEWS_PAGE_URL + link).then(response => response.json())
@@ -27,29 +30,36 @@ export class SiteStore {
         return fetch(SITE_URL).then(response => response.json())
                .then(data =>{
                   runInAction(()=>{
+                    //   data.news.map(_ => this.info.news.includes(_) ? null : this.info.news.unshift(_))
+                    //   data.events.map(_ => this.info.events.includes(_) ? null : this.info.events.unshift(_))
+                    //   this.info.broadcasts = data.broadcasts;
+                    //   this.info.alerts = data.alerts;
+                    //   this.info.categories = data.categories;
+                    //   this.info.secteurs = data.secteurs;
+                    //   this.info.tags = data.tags;
+                    //   this.info.subcategories = data.subcategories;
+                    //   this.info.clients = data.clients;
                      // data.events = data.events.reduce((x, y) => x.findIndex(e=>e.id==y.id)<0 ? [...x, y]: x, [])
                      // data.news = data.news.sort((a ,b) => a.timestamp > b.timestamp ? -1 : a.timestamp < b.timestamp ? 1 : 0)
-                      this.info = data;
+                     this.info = data;
+                     console.log(data.news.length)
                      // this.SyncPreferedEvents()
-                  //    this.filterEvents()
+                     // this.filterEvents()
                     return  this.saveSiteInfo()
                      
                 })
+        }).catch( async error => {
+            console.log(`loading offline data ${error}`)
+            //load offline data
+            let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
+            this.info = offline ? JSON.parse( offline) : {}
         })
     }
-  
-    
-   
     saveSiteInfo =  () => {
        return  AsyncStorage.setItem('@ICILAVAL:info' , JSON.stringify(this.info));
     }
-    @action init = async () =>{
-        //let offline  =  await AsyncStorage.getItem('@ICILAVAL:info')
-        //this.info = offline ? JSON.parse( offline) : {}
-        await this.loadSite()
-    }
     filterEvents = () =>{
-        console.log(this.info.events.length)
+      //  console.log(this.info.events.length)
         let arr =[]
         let exist = false
         this.info.events.map((e , index) => {
@@ -77,7 +87,7 @@ export class SiteStore {
     }
     getDots = (event) =>{
         return event.categories.map(e =>{
-            console.log(e.Label)
+        //    console.log(e.Label)
             let color =  `${Dots[e.Label]}`  === 'undefined'  ? Dots.default : `${Dots[e.Label]}` 
             return {
                 key : e.Label,

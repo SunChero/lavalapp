@@ -14,10 +14,14 @@ export default class FeedBack extends React.PureComponent {
         navigation.state.params.sendFeedback({'msg' : message})
         navigation.navigate('main')
       }
+      const rightAction ={
+        text: 'Send',
+        onPress : sendFeedback
+      }
       
     return (
         <View style={{flex :  1 }}>
-        <NavigationBar {...{navigation , title , back}} />
+        <NavigationBar {...{navigation , title , back , rightAction}} />
             <View style={{flex: 1 , justifyContent:'center' , alignItems:'center'}}>
                   <TextInput    style={{flex:1 , backgroundColor: 'white' ,width:'100%', height: 70}}
                     underlineColorAndroid="transparent" 
@@ -25,9 +29,6 @@ export default class FeedBack extends React.PureComponent {
                     multiline  autoFocus
                     onChangeText={text => message = text}
                   />
-                   <Ripple style={{backgroundColor: "#4A148C", padding:10, margin: 10}}  onPress={() => sendFeedback()}>
-                     <Text style={{color: "white"}}> Save </Text> 
-                  </Ripple>
                   <KeyboardSpacer />
            
         </View>

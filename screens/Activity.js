@@ -16,7 +16,7 @@ class Activity extends React.Component {
         synchronizeCalendar(this.props.navigation.state.params)
     }
     componentDidMount = () => {
-       console.log(this.props.navigation.state.params)
+      // console.log(this.props.navigation.state.params)
     }
     goBack = () =>{
         this.props.navigation.goBack();

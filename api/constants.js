@@ -23,6 +23,7 @@ export const Colors =  {
 };
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
+
 export const window = {
   window: {
     width,
