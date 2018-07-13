@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
 import HotEvents from './HotEvents'
 import AgendaView from './AgendaView'
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 
-const screenStack = StackNavigator({
+const screenStack = createStackNavigator({
     hot: {
       screen: HotEvents
     },

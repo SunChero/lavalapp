@@ -4,7 +4,7 @@
     "description": "rester a jour avec tout ce qui se passe dans votre quartier",
     "slug": "bonjourlaval",
     "privacy": "public",
-    "sdkVersion": "26.0.0",
+    "sdkVersion": "28.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",

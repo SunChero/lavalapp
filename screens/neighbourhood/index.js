@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
 import SectorsListView from './SectorsListView'
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import SectorView from './SectorView';
 
-const screenStack = StackNavigator({
+const screenStack = createStackNavigator({
   sectors: {
     screen: SectorsListView
   },

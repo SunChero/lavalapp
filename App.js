@@ -2,7 +2,7 @@ import React from 'react';
 import { createTheme, IconBadge}  from './components'
 import { Platform, StatusBar, View, Text  ,NetInfo , Image} from 'react-native';
 import {NavigationOptions, tabBarOptions} from './api/constants'
-import {StackNavigator, TabNavigator} from 'react-navigation'
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation'
 import  NewsScreen from './screens/NewsScreen'
 import  EventsScreen from './screens/eventsScreen'
 import  InboxScreen from './screens/InboxScreen'
@@ -96,7 +96,7 @@ export default class App extends React.Component {
     }
   }
 }
-const RootTabNavigator = TabNavigator({
+const RootTabNavigator = createBottomTabNavigator({
   news : {screen : NewsScreen},
   explore : {screen : EventsScreen},
   calendar : {screen : Neighbourhood},
@@ -112,7 +112,7 @@ const RootTabNavigator = TabNavigator({
   tabBarOptions: tabBarOptions
 })
 
-const RootNavigator = StackNavigator({
+const RootNavigator = createStackNavigator({
   RootTabs : {screen : RootTabNavigator},
   activity : {screen : Activity},
   user : {screen : User},
